@@ -1,0 +1,1603 @@
+<!--
+Exam Note Distiller · 思维导图 HTML 模板（资产）
+
+用法：本模板是"内容 → 页面"的唯一呈现层。把 exam-notes.md（格式见 references/format-contract.md）
+的内容渲染进本模板，输出 index.html。交互脚本（折叠/主题/导出）原样保留，不要改动 JS。
+
+═══ Token 替换表 ═══
+@@PAGE_TITLE@@    页面 <title>，格式"课程名 · 考点笔记"
+@@H1@@            页头大标题 = 课程名
+@@STAT_CH@@       章数（数字）
+@@STAT_KP@@       考点总数（数字）
+@@SUBTITLE_STAT@@ 副标题统计区。有副标题时填：
+                  <div class="header-divider"></div><div class="header-stat"><strong>副标题文本</strong></div>
+                  无则删除此行占位
+@@BODY_CLASS@@    无 GitHub 按钮 → no-github；有 → 空字符串
+@@GITHUB@@        GitHub 仓库 URL（不展示按钮时保留占位即可，按钮已被 no-github 隐藏）
+@@CHAPTERS@@      所有章节 HTML（生成规则见下）
+@@EXPORT_NAME@@   导出 Markdown 文件名，如"数据结构考点笔记.md"
+
+═══ exam-notes.md → HTML 渲染规则 ═══
+## 章标题     → <div class="ch" style="--accent:暗色;--accent-light:亮色"> 卡片，章标题放 .ch-title 内，
+                考点数徽章：<span class="badge">N考点</span>（0 个考点则省略），折叠箭头 <span class="arrow">▼</span>
+章导语内容    → <div class="ch-intro">…</div>（章标题下、考点前）
+### 考点N：名 → .kp 行：
+                <span class="kp-num">考点N</span><span class="kp-name">名称</span>
+                meta: level=S → <span class="kp-level lv-S">S</span>（A/B/C/D 同理，仅 S/A/B/C/D 有样式）
+                meta: freq=… → <span class="kp-freq">…</span>
+                末尾 <span class="kp-arrow">▼</span>，详情容器 <div class="kp-detail">
+#### 子主题   → <span class="kp-sub">标题</span>
+普通行        → 转义 HTML 后整行输出，行尾加 <br>；**x** → <b>x</b>；==x== → <span class="em">x</span>
+```f 块      → <span class="formula">…（换行保留，多行直接放 
+）</span>
+```err/tip/ok → <span class="callout err|tip|ok">…</span>
+| 表格        → <table><tr><th>表头…</th></tr><tr><td>…</td></tr></table>（单元格内同样处理 **bold**）
+- 列表        → <ul><li>…</li></ul>
+
+═══ 章节配色 ═══
+按章节顺序取下表（暗色, 亮色），超过 12 章用黄金角扩展 hue=(217+n*137.5)%360：
+ 1 (#60a5fa,#2563eb)  2 (#34d399,#059669)  3 (#fbbf24,#d97706)  4 (#f472b6,#db2777)
+ 5 (#a78bfa,#7c3aed)  6 (#22d3ee,#0891b2)  7 (#fb923c,#ea580c)  8 (#a3e635,#65a30d)
+ 9 (#fb7185,#e11d48) 10 (#4ade80,#16a34a) 11 (#e879f9,#a21caf) 12 (#facc15,#a16207)
+-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>13003 数据结构与算法 · 考点笔记</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+(function(){
+  var t;
+  try{ t=localStorage.getItem('theme'); }catch(e){}
+  if(t!=='light'&&t!=='dark'){ t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'; }
+  document.documentElement.setAttribute('data-theme',t);
+})();
+
+/* 导出前临时展开全部内容并切亮色主题，导出后还原页面原状态 */
+function expandAllForExport(){var st={theme:document.documentElement.getAttribute('data-theme'),opens:[],disp:[]};document.documentElement.setAttribute('data-theme','light');[].forEach.call(document.querySelectorAll('.ch,.kp'),function(el){st.opens.push([el,el.classList.contains('open')]);el.classList.add('open')});[].forEach.call(document.querySelectorAll('.kp-detail'),function(d){st.disp.push([d,d.style.display]);d.style.display='block'});return st}
+function restoreAfterExport(st){if(!st)return;document.documentElement.setAttribute('data-theme',st.theme);st.opens.forEach(function(p){p[0].classList.toggle('open',p[1])});st.disp.forEach(function(p){p[0].style.display=p[1]})}
+function exportPDF(){var st=expandAllForExport();showToast('已展开全部内容。请在打印对话框中，将目标打印机选为「另存为 PDF」',8000);window.addEventListener('afterprint',function onDone(){window.removeEventListener('afterprint',onDone);restoreAfterExport(st);hideToast()});setTimeout(function(){window.print()},350)}
+/* 内嵌 SVG → PNG：SVG 里的 var(--x) 颜色在独立序列化后会失效，需用计算后的具体颜色值重写 */
+function svgToPngDataUrl(svg){return new Promise(function(resolve){try{var rect=svg.getBoundingClientRect();var w=Math.max(1,Math.ceil(rect.width)),h=Math.max(1,Math.ceil(rect.height));var clone=svg.cloneNode(true);clone.setAttribute('xmlns','http://www.w3.org/2000/svg');clone.setAttribute('width',w);clone.setAttribute('height',h);clone.removeAttribute('style');var src=[svg].concat([].slice.call(svg.querySelectorAll('*')));var dst=[clone].concat([].slice.call(clone.querySelectorAll('*')));for(var i=1;i<src.length;i++){var cs=getComputedStyle(src[i]),tag=src[i].tagName.toLowerCase(),st='fill:'+cs.fill+';stroke:'+cs.stroke+';';if(cs.stroke&&cs.stroke!=='none')st+='stroke-width:'+cs.strokeWidth+';';if(tag==='text')st+='font-family:'+cs.fontFamily+';font-size:'+cs.fontSize+';font-weight:'+cs.fontWeight+';';dst[i].setAttribute('style',st)}var str=new XMLSerializer().serializeToString(clone);var img=new Image();img.onload=function(){try{var s=2,cvs=document.createElement('canvas');cvs.width=w*s;cvs.height=h*s;var ctx=cvs.getContext('2d');ctx.scale(s,s);ctx.drawImage(img,0,0,w,h);resolve(cvs.toDataURL('image/png'))}catch(err){resolve(null)}};img.onerror=function(){resolve(null)};img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(str)}catch(e){resolve(null)}})}
+function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+/* 导出 Word：示意图全部栅格化为 PNG 内嵌（base64），生成 Word 兼容 HTML 存为 .doc */
+function exportWord(){var st=expandAllForExport();showToast('正在生成 Word 文档（含示意图），请稍候…');var svgs=[].slice.call(document.querySelectorAll('.kp-detail svg'));Promise.all(svgs.map(function(s){return svgToPngDataUrl(s)})).then(function(urls){var urlMap=new Map();svgs.forEach(function(s,i){if(urls[i])urlMap.set(s,urls[i])});var buf=[];var h1=document.querySelector('header h1');buf.push('<h1>'+escHtml(h1?h1.textContent.trim():'考点笔记')+'</h1>');var stats=[].map.call(document.querySelectorAll('.header-stat'),function(s){return s.textContent.replace(/\s+/g,' ').trim()});if(stats.length)buf.push('<p class="stats">'+escHtml(stats.join(' · '))+'</p>');[].forEach.call(document.querySelectorAll('.ch'),function(ch){var ts=ch.querySelector('.ch-title span');var title='';if(ts){var c=ts.cloneNode(true);[].forEach.call(c.querySelectorAll('.badge'),function(b){b.remove()});title=c.textContent.trim()}buf.push('<h2>'+escHtml(title)+'</h2>');[].forEach.call(ch.querySelectorAll('.kp'),function(kp){var num=kp.querySelector('.kp-num'),name=kp.querySelector('.kp-name');buf.push('<h3>'+escHtml(((num?num.textContent.trim():'')+' '+(name?name.textContent.trim():'')).trim())+'</h3>');var d=kp.querySelector('.kp-detail');if(!d)return;var dc=d.cloneNode(true);[].forEach.call(dc.querySelectorAll('.kp-sub'),function(s){var h=document.createElement('h4');h.innerHTML=s.innerHTML;s.parentNode.replaceChild(h,s)});[].forEach.call(dc.querySelectorAll('.formula'),function(s){var p=document.createElement('p');p.className='formula';p.innerHTML=s.innerHTML;s.parentNode.replaceChild(p,s)});var orig=[].slice.call(d.querySelectorAll('svg')),cl=[].slice.call(dc.querySelectorAll('svg'));cl.forEach(function(cs,i){var u=orig[i]&&urlMap.get(orig[i]);var img=document.createElement('img');if(u){img.setAttribute('src',u);var w=Math.ceil(orig[i].getBoundingClientRect().width)||300;img.setAttribute('width',String(Math.min(480,w)))}cs.parentNode.replaceChild(img,cs)});buf.push('<div class="det">'+dc.innerHTML+'</div>')})});buf.push('<p class="foot">导出于 '+new Date().toLocaleString('zh-CN',{hour12:false})+' · 由考点笔记页面导出</p>');var css="body{font-family:'Microsoft YaHei','微软雅黑',SimSun,serif;font-size:10.5pt;color:#242930;line-height:1.7}h1{font-size:19pt;color:#1f2429;margin:0 0 4pt}h2{font-size:14.5pt;color:#1f2429;border-bottom:1.5pt solid #c9c5ba;padding-bottom:3pt;margin:18pt 0 8pt}h3{font-size:12pt;color:#242930;margin:14pt 0 6pt}h4{font-size:10.5pt;color:#4c5868;margin:10pt 0 4pt}p{margin:4pt 0}p.stats{color:#626b7a;font-size:9.5pt}p.foot{color:#9aa1ab;font-size:9pt;margin-top:20pt;border-top:.5pt solid #c9c5ba;padding-top:6pt}p.formula{background:#eef2fa;color:#2c5cb0;padding:6pt 9pt;margin:6pt 0;border-left:2.25pt solid #2c5cb0}p.formula b{color:#1d4e97}ul{margin:4pt 0 6pt 20pt}li{margin:2pt 0}table{border-collapse:collapse;margin:6pt 0;font-size:9.5pt}td,th{border:.75pt solid #9aa1ab;padding:3.5pt 6pt;vertical-align:top}th{background:#eeede7;font-weight:bold}.det b{color:#1f2429}.tag{background:#e9e7e1;color:#5d6570;font-size:9pt;padding:0 3pt}.tip{color:#a16207}.ok{color:#047857}.err{color:#dc2626}.em{color:#a16207;font-weight:bold}img{margin:4pt 0}";var html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>13003 数据结构与算法</title><!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom></w:WordDocument></xml><![endif]--><style>'+css+'</style></head><body>'+buf.join('\n')+'</body></html>';downloadBlob(new Blob(['\ufeff'+html],{type:'application/msword;charset=utf-8'}),'13003数据结构与算法考点笔记.md'.replace(/\.md$/,'.doc'));restoreAfterExport(st);var n=urls.filter(Boolean).length;showToast('Word 文档已导出（内嵌 '+n+' 张示意图）',3200)}).catch(function(e){restoreAfterExport(st);showToast('Word 导出失败：'+e,4000)})}
+</script>
+<style>
+:root {
+  --bg:#0d1117; --surface:#161b22; --card:#1c2230;
+  --border:#2a3344; --border-strong:#3d4f66;
+  --text:#c9d2dd; --muted:#7d8fa8; --faint:#4a5568;
+  --heading:#e2eaf2;
+  --hover-bg:rgba(255,255,255,.03);
+  --detail-bg:rgba(0,0,0,.15);
+  --formula-bg:#111c2e; --formula-text:#8fb5e8;
+  --th-bg:rgba(255,255,255,.05);
+  --row-hover-bg:rgba(255,255,255,.02);
+  --tip:#fbbf24; --ok:#34d399; --err:#f87171; --em:#fbbf24;
+  --focus:#60a5fa;
+  --detail-text:var(--muted); --detail-size:13px;
+  color-scheme:dark;
+}
+:root[data-theme="light"] {
+  --bg:#f3f1ec; --surface:#faf9f5; --card:#faf9f5;
+  --border:#e2dfd7; --border-strong:#c9c5ba;
+  --text:#33393f; --muted:#626b7a; --faint:#9aa1ab;
+  --heading:#242930;
+  --hover-bg:rgba(45,45,55,.045);
+  --detail-bg:#f5f3ee;
+  --formula-bg:#eef2fa; --formula-text:#2c5cb0;
+  --th-bg:rgba(45,45,55,.05);
+  --row-hover-bg:rgba(45,45,55,.03);
+  --tip:#a16207; --ok:#047857; --err:#dc2626; --em:#a16207;
+  --focus:#2563eb;
+  --detail-text:#4c5868; --detail-size:14px;
+  color-scheme:light;
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+body {
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
+  font-size:15px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── Header ── */
+header {
+  padding:40px 20px 32px;
+  text-align:center;
+  border-bottom:1px solid var(--border);
+  margin-bottom:20px;
+}
+header h1 {
+  font-family:'Noto Serif SC',serif;
+  font-size:26px;
+  font-weight:700;
+  letter-spacing:2px;
+  color:var(--heading);
+  margin-bottom:10px;
+}
+.header-meta {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+.header-stat {
+  font-size:12px;
+  color:var(--muted);
+  letter-spacing:.5px;
+}
+.header-stat strong {
+  font-size:18px;
+  font-weight:600;
+  color:var(--text);
+  display:block;
+  font-family:'Noto Sans SC',sans-serif;
+  line-height:1.2;
+  margin-bottom:2px;
+}
+.header-divider {
+  width:1px; height:28px;
+  background:var(--border-strong);
+}
+
+/* ── Chapter list ── */
+.chapters { padding:0 16px 60px; display:flex; flex-direction:column; gap:8px; max-width:860px; margin:0 auto; }
+
+.ch {
+  border-radius:10px;
+  overflow:hidden;
+  border:1px solid var(--border);
+  background:var(--surface);
+  transition:border-color .2s;
+}
+.ch:hover { border-color:var(--border-strong); }
+
+.ch-title {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 18px 14px 20px;
+  cursor:pointer;
+  font-weight:600;
+  font-size:15px;
+  color:var(--text);
+  position:relative;
+  transition:background .15s;
+}
+.ch-title:hover { background:var(--hover-bg); }
+.ch-title::before {
+  content:'';
+  position:absolute;
+  left:0; top:0; bottom:0;
+  width:3px;
+  background:var(--accent);
+  transition:width .2s;
+}
+:root[data-theme="light"] .ch-title::before { background:var(--accent-light, var(--accent)); }
+.ch.open .ch-title { background:var(--hover-bg); }
+.ch.open .ch-title::before { width:5px; }
+
+.ch-title-text { flex:1; }
+.ch-title .badge {
+  font-size:11px;
+  font-weight:400;
+  color:var(--muted);
+  margin-left:8px;
+  font-family:'Noto Sans SC',sans-serif;
+}
+.ch-title .arrow {
+  font-size:10px;
+  color:var(--faint);
+  transition:transform .25s;
+  flex-shrink:0;
+  margin-left:12px;
+}
+.ch.open .arrow { transform:rotate(180deg); }
+
+.ch-body {
+  background:var(--card);
+  border-top:1px solid var(--border);
+  display:none;
+}
+.ch.open .ch-body { display:block; }
+
+/* 章导语 */
+.ch-intro {
+  padding:14px 20px 16px;
+  font-size:var(--detail-size);
+  color:var(--detail-text);
+  line-height:1.75;
+  border-bottom:1px solid var(--border);
+  background:var(--detail-bg);
+}
+.ch-intro b { color:var(--text); font-weight:600; }
+
+/* ── 考点 ── */
+.kp { border-bottom:1px solid var(--border); }
+.kp:last-child { border-bottom:none; }
+
+.kp-title {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:11px 18px 11px 20px;
+  cursor:pointer;
+  transition:background .15s;
+}
+.kp-title:hover { background:var(--hover-bg); }
+
+.kp-num {
+  font-size:10px;
+  font-weight:600;
+  color:var(--accent);
+  min-width:36px;
+  white-space:nowrap;
+  letter-spacing:.3px;
+  font-family:'Noto Sans SC',sans-serif;
+}
+:root[data-theme="light"] .kp-num { color:var(--accent-light, var(--accent)); }
+.kp-name {
+  flex:1;
+  font-size:14px;
+  font-weight:500;
+  color:var(--text);
+}
+.kp-level {
+  font-size:10px;
+  font-weight:700;
+  padding:0 8px;
+  line-height:18px;
+  border-radius:9px;
+  flex-shrink:0;
+  letter-spacing:.5px;
+}
+.kp-level.lv-S { color:#f87171; background:rgba(248,113,113,.12); border:1px solid rgba(248,113,113,.35); }
+.kp-level.lv-A { color:#fbbf24; background:rgba(251,191,36,.10); border:1px solid rgba(251,191,36,.32); }
+.kp-level.lv-B { color:#60a5fa; background:rgba(96,165,250,.10); border:1px solid rgba(96,165,250,.32); }
+.kp-level.lv-C { color:#9ab; background:rgba(153,170,187,.10); border:1px solid rgba(153,170,187,.30); }
+.kp-level.lv-D { color:var(--faint); background:rgba(74,85,104,.12); border:1px solid rgba(74,85,104,.30); }
+:root[data-theme="light"] .kp-level.lv-S { color:#dc2626; background:rgba(220,38,38,.07); }
+:root[data-theme="light"] .kp-level.lv-A { color:#b45309; background:rgba(180,83,9,.07); }
+:root[data-theme="light"] .kp-level.lv-B { color:#2563eb; background:rgba(37,99,235,.07); }
+.kp-freq {
+  font-size:10px;
+  color:var(--faint);
+  font-weight:400;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.kp-arrow {
+  font-size:9px;
+  color:var(--faint);
+  transition:transform .2s;
+  flex-shrink:0;
+}
+.kp.open .kp-arrow { transform:rotate(180deg); }
+
+.kp-detail {
+  display:none;
+  padding:14px 20px 18px 68px;
+  font-size:var(--detail-size);
+  color:var(--detail-text);
+  line-height:1.75;
+  border-top:1px solid var(--border);
+  background:var(--detail-bg);
+}
+.kp.open .kp-detail { display:block; }
+.kp-detail b { color:var(--text); font-weight:600; }
+
+/* 公式块 */
+.kp-detail .formula, .ch-intro .formula {
+  display:block;
+  background:var(--formula-bg);
+  border-left:2px solid var(--accent);
+  border-radius:0 6px 6px 0;
+  padding:8px 14px;
+  margin:8px 0;
+  font-size:13px;
+  color:var(--formula-text);
+  letter-spacing:.6px;
+  line-height:1.7;
+  overflow-x:auto;
+  white-space:pre-wrap;
+  font-family:'Consolas','Courier New',monospace;
+}
+:root[data-theme="light"] .kp-detail .formula,
+:root[data-theme="light"] .ch-intro .formula { border-left-color:var(--accent-light, var(--accent)); }
+
+/* 语义提示块 */
+.callout {
+  display:block;
+  border-left:2px solid;
+  border-radius:0 6px 6px 0;
+  padding:8px 14px;
+  margin:8px 0;
+  font-size:13px;
+  line-height:1.7;
+  white-space:pre-wrap;
+}
+.callout.err { color:var(--err); background:rgba(248,113,113,.07); border-color:var(--err); }
+.callout.tip { color:var(--tip); background:rgba(251,191,36,.06); border-color:var(--tip); }
+.callout.ok  { color:var(--ok);  background:rgba(52,211,153,.07); border-color:var(--ok); }
+.callout b { color:inherit; }
+
+/* 表格 */
+.kp-detail table, .ch-intro table {
+  width:100%;
+  border-collapse:collapse;
+  margin:10px 0;
+  font-size:12px;
+}
+.kp-detail td, .kp-detail th, .ch-intro td, .ch-intro th {
+  border:1px solid var(--border);
+  padding:6px 10px;
+  text-align:center;
+  vertical-align:middle;
+}
+.kp-detail th, .ch-intro th {
+  background:var(--th-bg);
+  color:var(--text);
+  font-weight:600;
+  font-size:11px;
+  letter-spacing:.3px;
+}
+.kp-detail tr:hover td, .ch-intro tr:hover td { background:var(--row-hover-bg); }
+.kp-detail ul, .ch-intro ul { padding-left:16px; }
+.kp-detail li, .ch-intro li { margin:3px 0; }
+
+/* 子标题 */
+.kp-sub {
+  display:block;
+  color:var(--text);
+  font-size:12px;
+  font-weight:600;
+  margin-top:14px;
+  margin-bottom:4px;
+  letter-spacing:.3px;
+  padding-bottom:4px;
+  border-bottom:1px solid var(--border);
+}
+.kp-sub:first-child { margin-top:2px; }
+
+/* ── 右上角功能按钮 ── */
+.theme-toggle, .github-link, .export-md {
+  position:fixed;
+  top:16px;
+  width:38px; height:38px;
+  border-radius:50%;
+  border:1px solid var(--border);
+  background:var(--surface);
+  color:var(--muted);
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+  z-index:100;
+  box-shadow:0 2px 8px rgba(0,0,0,.12);
+  transition:border-color .2s, color .2s, transform .15s;
+}
+.theme-toggle:hover, .github-link:hover, .export-md:hover {
+  border-color:var(--border-strong);
+  color:var(--text);
+  transform:scale(1.06);
+}
+.theme-toggle { right:64px; }
+.github-link { right:16px; }
+.export-md { right:112px; }
+body.no-github .github-link { display:none; }
+body.no-github .theme-toggle { right:16px; }
+body.no-github .export-md { right:64px; }
+body.no-github .export-menu { right:64px; }
+.theme-toggle .icon-sun { display:none; }
+:root[data-theme="light"] .theme-toggle .icon-sun { display:block; }
+:root[data-theme="light"] .theme-toggle .icon-moon { display:none; }
+
+/* 键盘焦点 */
+.ch-title:focus-visible, .kp-title:focus-visible { outline:2px solid var(--focus); outline-offset:-2px; }
+.theme-toggle:focus-visible, .github-link:focus-visible, .export-md:focus-visible { outline:2px solid var(--focus); outline-offset:2px; }
+
+/* ── 响应式 ── */
+@media (max-width:600px) {
+  header { padding:52px 16px 24px; }
+  header h1 { font-size:21px; }
+  .chapters { padding:0 10px 48px; }
+  .kp-detail { padding-left:20px; }
+  .header-divider { display:none; }
+  .theme-toggle, .github-link, .export-md { top:10px; width:36px; height:36px; }
+  .theme-toggle { right:52px; }
+  .github-link { right:10px; }
+  .export-md { right:94px; }
+  body.no-github .theme-toggle { right:10px; }
+  body.no-github .export-md { right:52px; }
+  body.no-github .export-menu { right:52px; }
+  .export-menu { top:52px; right:94px; }
+}
+/* ── 章节列表工具条：全部展开 / 收起 ── */
+.list-tools {
+  display:flex; justify-content:flex-end; gap:8px;
+  margin-bottom:2px;
+}
+.list-tools button {
+  display:flex; align-items:center; gap:5px;
+  height:30px; padding:0 12px;
+  border-radius:15px; border:1px solid var(--border);
+  background:var(--surface); color:var(--muted); cursor:pointer;
+  font-size:12.5px; font-family:inherit;
+  transition:color .15s, border-color .15s;
+}
+.list-tools button:hover { color:var(--heading); border-color:var(--border-strong); }
+.list-tools button:focus-visible { outline:2px solid var(--border-strong); outline-offset:2px; }
+.list-tools svg { flex:none; }
+/* 导出下拉菜单 */
+.export-menu {
+  position:fixed; top:60px; right:112px; z-index:101;
+  min-width:186px; padding:6px;
+  background:var(--surface); border:1px solid var(--border); border-radius:12px;
+  box-shadow:0 10px 30px rgba(0,0,0,.28);
+  display:flex; flex-direction:column; gap:2px;
+}
+.export-menu[hidden] { display:none; }
+.export-menu button {
+  display:flex; align-items:center; justify-content:space-between; gap:14px;
+  padding:9px 12px; border:0; border-radius:8px; background:none;
+  color:var(--text); font-size:13px; font-family:inherit; cursor:pointer; text-align:left;
+}
+.export-menu button:hover { background:var(--hover-bg); }
+.export-menu .em-ext {
+  font-size:11px; color:var(--muted);
+  border:1px solid var(--border); border-radius:5px; padding:1px 6px;
+}
+.export-menu button:hover .em-ext { border-color:var(--border-strong); color:var(--text); }
+.export-menu button:focus-visible { outline:2px solid var(--c1); outline-offset:-2px; }
+/* 导出状态提示 */
+.export-toast {
+  position:fixed; left:50%; bottom:28px; transform:translateX(-50%);
+  z-index:200; max-width:88vw;
+  background:var(--card); color:var(--text);
+  border:1px solid var(--border); border-radius:10px;
+  padding:10px 16px; font-size:13px;
+  box-shadow:0 8px 24px rgba(0,0,0,.25);
+}
+/* ── 悬浮工具（滚动后浮现）：整页搜索 + 回到顶部 ── */
+.float-tools {
+  position:fixed; right:16px; bottom:16px; z-index:110;
+  display:flex; flex-direction:column; gap:8px;
+  opacity:0; visibility:hidden; transform:translateY(10px);
+  transition:opacity .2s, transform .2s, visibility .2s;
+}
+.float-tools.show { opacity:1; visibility:visible; transform:none; }
+.float-btn {
+  width:40px; height:40px; border-radius:50%;
+  border:1px solid var(--border); background:var(--surface); color:var(--muted);
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  padding:0; box-shadow:0 4px 14px rgba(0,0,0,.22);
+  transition:border-color .2s, color .2s;
+}
+.float-btn:hover { border-color:var(--border-strong); color:var(--text); }
+.float-btn:focus-visible { outline:2px solid var(--border-strong); outline-offset:2px; }
+/* 搜索面板：悬浮按钮上方 */
+.search-panel {
+  position:fixed; right:16px; bottom:68px; z-index:120;
+  width:min(440px, calc(100vw - 24px));
+  max-height:min(64vh, 580px);
+  display:flex; flex-direction:column;
+  background:var(--surface); border:1px solid var(--border); border-radius:14px;
+  box-shadow:0 14px 40px rgba(0,0,0,.35);
+  overflow:hidden;
+}
+.search-panel[hidden] { display:none; }
+.sp-input-row {
+  display:flex; align-items:center; gap:8px;
+  padding:10px 12px; border-bottom:1px solid var(--border);
+}
+.sp-input-row input {
+  flex:1; min-width:0;
+  background:none; border:0; outline:none;
+  color:var(--text); font-size:14px; font-family:inherit;
+}
+.sp-input-row input::placeholder { color:var(--faint); }
+.sp-count { font-size:11.5px; color:var(--muted); white-space:nowrap; }
+.sp-close {
+  border:0; background:none; color:var(--muted); cursor:pointer;
+  font-size:13px; padding:4px 7px; border-radius:6px; font-family:inherit; line-height:1;
+}
+.sp-close:hover { color:var(--text); background:var(--hover-bg); }
+.sp-results { overflow-y:auto; padding:6px; }
+.sr-item { padding:8px 10px; border-radius:8px; cursor:pointer; }
+.sr-item:hover { background:var(--hover-bg); }
+.sr-path { font-size:11.5px; color:var(--muted); margin-bottom:3px; }
+.sr-snippet { font-size:12.5px; color:var(--text); line-height:1.55; word-break:break-word; }
+.sr-snippet mark, .kp-detail mark.search-hit {
+  background:rgba(251,191,36,.5); color:inherit; border-radius:2px; padding:0 1px;
+}
+.sp-empty { padding:18px 12px; font-size:12.5px; color:var(--muted); text-align:center; }
+@media (max-width:600px) {
+  .float-tools { right:12px; bottom:12px; }
+  .search-panel { left:8px; right:8px; width:auto; bottom:64px; }
+  .sp-input-row input { font-size:16px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .arrow, .kp-arrow, .ch-title::before, .theme-toggle, .github-link, .export-md, .list-tools button, .float-tools, .float-btn { transition:none; }
+}
+/* ── 导出 PDF（打印 → 另存为 PDF）：全部展开、隐藏控件、保留配色 ── */
+@media print {
+  @page { margin: 14mm 12mm; }
+  body { background:#fff; }
+  .corner-links, .export-md, .export-menu, .theme-toggle, .github-link,
+  .export-toast, .arrow, .kp-arrow, .list-tools, .float-tools, .search-panel { display:none !important; }
+  .ch-body, .kp-detail { display:block !important; }
+  * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  header { padding-top:8px; }
+  .ch { box-shadow:none; break-inside:auto; }
+  .ch-title { break-after:avoid; }
+  .kp { break-inside:auto; }
+  .kp-title { break-after:avoid; }
+  .kp-detail table { break-inside:auto; }
+  .kp-detail tr, .kp-detail .formula, .kp-detail svg { break-inside:avoid; }
+}
+</style>
+</head>
+<body class="">
+<button class="export-md" onclick="toggleExportMenu(event)" aria-label="导出笔记（Markdown / PDF / Word）" title="导出笔记（Markdown / PDF / Word）" aria-haspopup="menu" aria-expanded="false" aria-controls="exportMenu">
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+</button>
+<div class="export-menu" id="exportMenu" role="menu" hidden>
+  <button role="menuitem" onclick="onExportItem('md')"><span>Markdown 笔记</span><span class="em-ext">.md</span></button>
+  <button role="menuitem" onclick="onExportItem('pdf')"><span>PDF 文档</span><span class="em-ext">.pdf</span></button>
+  <button role="menuitem" onclick="onExportItem('word')"><span>Word 文档</span><span class="em-ext">.doc</span></button>
+</div>
+
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="切换亮色/暗色模式" title="切换亮色/暗色模式">
+  <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+</button>
+<a class="github-link" href="https://github.com/hanxiaodao/13003-mindmap" target="_blank" rel="noopener" aria-label="GitHub 项目源码" title="GitHub 项目源码">
+  <svg width="19" height="19" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+</a>
+<div class="float-tools" id="floatTools">
+  <button class="float-btn" onclick="toggleSearchPanel()" aria-label="搜索笔记内容" title="搜索笔记内容（Ctrl+K）">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
+  </button>
+  <button class="float-btn" id="backTopBtn" onclick="scrollTopSmooth()" aria-label="回到顶部" title="回到顶部">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+  </button>
+</div>
+<div class="search-panel" id="searchPanel" role="dialog" aria-label="搜索笔记内容" hidden>
+  <div class="sp-input-row">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted);flex:none"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
+    <input id="searchInput" type="text" placeholder="搜索全部章节与考点内容…" aria-label="搜索全部章节与考点内容">
+    <span class="sp-count" id="searchCount"></span>
+    <button class="sp-close" onclick="closeSearchPanel()" aria-label="关闭搜索">✕</button>
+  </div>
+  <div class="sp-results" id="searchResults"></div>
+</div>
+<header>
+  <h1>13003 数据结构与算法</h1>
+  <div class="header-meta">
+    <div class="header-stat"><strong>13</strong>章</div>
+    <div class="header-divider"></div>
+    <div class="header-stat"><strong>58</strong>考点</div>
+    <div class="header-divider"></div><div class="header-stat"><strong>考点笔记 × 历年真题（2024.10–2026.04）· 按教材章节编号</strong></div>
+  </div>
+</header>
+<div class="chapters">
+<div class="list-tools">
+  <button onclick="expandAllChapters()" aria-label="展开全部章节和考点" title="展开全部章节和考点">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="7 13 12 18 17 13"/><polyline points="7 6 12 11 17 6"/></svg>
+    展开全部
+  </button>
+  <button onclick="collapseAllChapters()" aria-label="收起全部章节和考点" title="收起全部章节和考点">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="7 11 12 6 17 11"/><polyline points="7 18 12 13 17 18"/></svg>
+    收起全部
+  </button>
+</div>
+<style>.corner-links{position:fixed;top:16px;right:160px;display:flex;gap:8px;z-index:100;}.corner-link{height:38px;border-radius:19px;border:1px solid var(--border);background:var(--surface);color:var(--muted);display:flex;align-items:center;gap:6px;padding:0 13px;font-size:12.5px;text-decoration:none;transition:color .15s,border-color .15s;}.corner-link:hover{color:var(--heading);border-color:var(--border-strong);}.corner-link:focus-visible{outline:2px solid var(--border-strong);outline-offset:2px;}@media (max-width:600px){.corner-links{top:10px;right:96px;}.corner-link{height:36px;padding:0 11px;}}</style><div class="corner-links"><a class="corner-link" href="mistakes.html" target="_blank" rel="noopener" aria-label="错题集" title="错题集"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>错题集</a></div><div class="ch" style="--accent:#60a5fa;--accent-light:#2563eb">
+<div class="ch-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleCh(this)"><span class="ch-title-text">考试地图</span><span class="arrow">▼</span></div>
+<div class="ch-body">
+<div class="ch-intro">本页内容以考点解析课笔记为主体、按教材章节顺序编号；历年真题（4 套）用于标注考频、补充笔记未覆盖的知识点。每个考点末尾均有「来源」行。<br>
+<table><tr><th>项目</th><th>说明</th></tr><tr><td>考试形式</td><td>闭卷笔试，满分 100，60 及格，150 分钟（大纲）</td></tr><tr><td>试卷结构</td><td>单选 15×2=30；填空 10×2=20；解答 4×5=20；算法阅读 4×5=20；算法设计 1×10=10</td></tr><tr><td>能力层次</td><td>识记 20% · 领会 30% · 简单应用 30% · 综合应用 20%（大纲）</td></tr></table>
+各章考频与主战场题型如下（S=核心高频、A=重要、B=常规）：<br>
+<table><tr><th>章</th><th>最高频考点</th><th>考频（4套）</th><th>主要题型</th><th>重要度</th></tr><tr><td>一 绪论</td><td>算法特性、逻辑/存储结构</td><td>每套 3–5 题</td><td>单选/填空/解答</td><td>A</td></tr><tr><td>二 线性表</td><td>出入栈序列之外的判空、指针操作、双指针算法</td><td>每套 4–7 题</td><td>单选/算法阅读/设计</td><td>S</td></tr><tr><td>三 栈和队列</td><td><b>出栈序列（7次，全场第一）</b>、循环队列</td><td>每套 3–4 题</td><td>单选/填空/解答</td><td>S</td></tr><tr><td>四 数组广义表串</td><td>数组地址计算、广义表表头表尾</td><td>每套 3–4 题</td><td>单选/填空/计算</td><td>S</td></tr><tr><td>五 树与二叉树</td><td>遍历序列互推、n0=n2+1、哈夫曼</td><td>每套 3–4 题</td><td>填空/解答/设计</td><td>S</td></tr><tr><td>六 图</td><td>度与边数、邻接矩阵、DFS</td><td>每套 2–4 题</td><td>单选/填空/设计</td><td>A</td></tr><tr><td>七 排序</td><td>稳定性、复杂度表、插入排序</td><td>2026.04 单卷 6 题</td><td>单选/填空</td><td>S</td></tr><tr><td>八 查找</td><td><b>折半查找（6次）</b>、哈希</td><td>每套 3–5 题</td><td>单选/填空/解答</td><td>S</td></tr></table>
+综合大题（算法阅读/设计）四大常客：线性表双指针划分、二叉树递归、图的邻接矩阵/DFS、折半与排序读程序。<br></div>
+</div>
+</div>
+
+<div class="ch" style="--accent:#34d399;--accent-light:#059669">
+<div class="ch-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleCh(this)"><span class="ch-title-text">第一章 绪论<span class="badge">5考点</span></span><span class="arrow">▼</span></div>
+<div class="ch-body">
+<div class="ch-intro">本章为概念与复杂度基础题，每套真题 3–5 道小题；算法五特性考过解答题。<br></div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点1</span><span class="kp-name">数据、数据元素与数据项</span><span class="kp-level lv-S">S</span><span class="kp-freq">2024.10、2025.10、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">1.1 是什么<br>
+数据：能被计算机处理的符号的集合（广义：数字、文字、图片、音频、视频）。<br>
+数据元素：数据的<b>基本单位</b>，一个元素表达一条完整信息（如成绩表中的一行）。<br>
+数据项：构成数据元素的、<b>不可再分的最小单位</b>（如一行中的"语文120分"）。<br>
+<span class="callout ok">层级：数据 ⊃ 数据元素 ⊃ 数据项（整栋楼 ⊃ 一套房 ⊃ 一个房间）</span>
+1.2 怎么判断<br>
+<ul><li>"基本单位"→数据元素；"最小/不可再分"→数据项</li><li>数据项不限于数值——广义数据包括一切可处理符号</li><li>数据项之间有关联，不能叫"集合"（集合内元素无关联）</li></ul>
+1.3 真题<br>
+2024.10 第16题（填空）：数据元素间存在先后次序的结构→线性结构（关联考点2）<br>
+2025.10 第16题（填空）：数据的最小不可分割单位→数据项<br>
+2025.10 第26题（解答，5分）：简述数据与数据元素的概念及关系（集合与元素的关系）<br>
+2026.04 第25题（填空）：能输入计算机并被处理的符号集合→数据<br>
+<b>来源</b>：考点解析课笔记·第一章考点一；真题 2024.10-16、2025.10-16/26、2026.04-25<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点2</span><span class="kp-name">逻辑结构与存储结构</span><span class="kp-level lv-S">S</span><span class="kp-freq">2024.10、2025.04、2025.10、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">2.1 四种基本逻辑结构<br>
+<ul><li>集合：任意两元素间<b>无任何关系</b>（最简单）</li><li>线性结构：一对一（链条状）</li><li>树形结构：一对多（层次化，同层结点间不关联）</li><li>图结构：多对多（网状，最复杂）</li><li>两大类：线性结构 vs 非线性结构（集合、树、图统称非线性）</li></ul>
+<span class="callout tip">【记忆】限制越多结构越简单：集合（禁连）＜线性（单链）＜树（分叉）＜图（无限制）。</span>
+2.2 四种基本存储结构<br>
+<ul><li>顺序存储：物理位置依次相邻（工具：数组）</li><li>链式存储：物理可不连续，靠指针连接</li><li>索引存储：像书的目录，先查索引缩小范围（非重点，了解）</li><li>散列（哈希）存储：函数映射 h(key) 直接定地址</li></ul>
+2.3 逻辑与存储的关系<br>
+<ul><li>逻辑结构描述元素间关系，<b>独立于存储方式</b>，不涉及计算机实现</li><li>基本操作的具体实现依赖存储结构（2025.04-18 填空原句）</li></ul>
+<span class="callout err">链式存储"不要求连续"≠"一定不连续"——物理地址可连续也可不连续。</span>
+2.4 真题<br>
+2024.10 第1题：任意两结点无逻辑关系→集合结构<br>
+2025.04 第1题：逻辑结构独立于存储方式的辨析（选不正确项）<br>
+2025.04 第18题（填空）：基本操作的实现依赖线性表的→存储结构<br>
+2025.10 第1题：顺序存储用连续空间、链式靠指针不要求连续<br>
+2026.04 第1题：从逻辑上分→线性结构和非线性结构<br>
+<b>来源</b>：考点解析课笔记·第一章考点二、三；真题 2024.10-1、2025.04-1/18、2025.10-1、2026.04-1<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点3</span><span class="kp-name">抽象数据类型 ADT</span><span class="kp-level lv-B">B</span><span class="kp-freq">2024.10</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">3.1 是什么<br>
+抽象数据类型（ADT）：自定义的类型 + 该类型上的操作；只描述逻辑特性，<b>不涉及具体实现</b>。<br>
+三要素：数据对象、数据关系、基本操作。<br>
+3.2 核心规则<br>
+<ul><li>定义 ADT 只需：给类型名字、定义操作、描述元素——<b>不需要实现操作</b></li><li>ADT 与物理存储方式无关</li></ul>
+3.3 真题<br>
+2024.10 第2题：定义 ADT 不需要做的事→实现类型上的操作<br>
+<b>来源</b>：考点解析课笔记·第一章考点五；真题 2024.10-2<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点4</span><span class="kp-name">算法的特性与时间/空间复杂度</span><span class="kp-level lv-S">S</span><span class="kp-freq">2024.10、2025.04、2025.10、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">4.1 算法五特性（必背，考过解答题）<br>
+<ul><li>输入：0 个或多个</li><li>输出：<b>至少 1 个</b></li><li>有穷性：有限步骤后终止</li><li>确定性：每步含义确切、无二义性</li><li>可行性：每步都是基本运算、能精确实现</li></ul>
+<span class="callout err">"把大象装冰箱"三步法不可行——缺可行性；指令有歧义——缺确定性。</span>
+4.2 时间复杂度<br>
+<ul><li>度量的是<b>语句执行次数（频度）</b>，不是运行时间——运行时间受软硬件影响，不可比</li><li>大 O 规则：只取增长最快的主项，忽略系数与低阶项</li></ul>
+<span class="formula">执行总数 = n²/2 + n + 3  →  O(n²)
+常见阶（效率高→低）：O(1) ＞ O(log₂n) ＞ O(n) ＞ O(n log₂n) ＞ O(n²) ＞ O(2ⁿ)
+比较阶数：设 n=10 代入求值（log₂10≈3.3 ＜ 10 ＜ 100 ＜ 1024）</span>
+<ul><li>O(1) 表示常数条语句（3 条、100 条都是 O(1)），不是"只有 1 条语句"</li><li>时间复杂度只与问题规模 n 有关，与硬件、语言、编译器无关</li><li>分析程序段：找循环（while/for），循环 n 次→O(n)</li></ul>
+4.3 空间复杂度<br>
+算法运行中临时占用的辅助空间；与时间复杂度并列为算法分析的两大方面。<br>
+4.4 真题<br>
+2024.10 第27题（解答，5分）：简述算法的五个特性<br>
+2025.04 第2题：算法分析评估两方面→时间复杂度和空间复杂度<br>
+2025.04 第17题（填空）：运算基本、可精确实现→可行性<br>
+2025.10 第2题：算法叙述辨析（确定性=指令不能有二义性）<br>
+2026.04 第2题：时间复杂度与问题规模有关，与运行环境无关<br>
+2026.04 第24题（填空）：每步有确切含义→确定性<br>
+<b>来源</b>：考点解析课笔记·第一章考点六；真题 2024.10-27、2025.04-2/17、2025.10-2、2026.04-2/24<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点5</span><span class="kp-name">算法设计策略</span><span class="kp-level lv-A">A</span><span class="kp-freq">2025.04、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">5.1 六种基本策略（大纲要求"领会"）<br>
+<ul><li>递推法：由规模 1…i-1 的一系列解构造规模 i 的解（典型：斐波那契数列存数组）</li><li>迭代法：反复用新值更新旧值逼近解</li><li>递归法：函数直接或间接调用自身（底层靠栈）</li><li>贪心法：每步选当前最优（典型：Prim、Kruskal、哈夫曼、迪杰斯特拉）</li><li>分治法：分—治—合（典型：归并排序、快速排序、折半查找）</li><li>动态规划法：最优子结构 + 重叠子问题</li></ul>
+5.2 真题<br>
+2025.04 第3题：斐波那契数列前 n 项存数组→递推法<br>
+2026.04 第16题（问答）：简述递推法的思想<br>
+2026.04 第31题（填空）：归并排序是一个＿＿算法→分治<br>
+<b>来源</b>：【真题补充】考点笔记未覆盖；依据真题 2025.04-3、2026.04-16/31 与大纲第一章"领会"条目补齐<br></div>
+</div>
+</div>
+</div>
+
+<div class="ch" style="--accent:#fbbf24;--accent-light:#d97706">
+<div class="ch-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleCh(this)"><span class="ch-title-text">第二章 线性表<span class="badge">9考点</span></span><span class="arrow">▼</span></div>
+<div class="ch-body">
+<div class="ch-intro">本章真题集中在顺序/链式存储对比、单链表指针操作与"双指针"算法设计；单链表插入"先接后断"是全场第一易错点。<br></div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点6</span><span class="kp-name">线性表的定义与特点</span><span class="kp-level lv-B">B</span><span class="kp-freq">2025.10、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">6.1 是什么<br>
+线性表：n(n≥0) 个数据元素的<b>有限序列</b>，元素间一对一。<br>
+<ul><li>空表：n=0；首元素无前驱；除首元素外每个元素仅一个直接前驱</li><li>元素个数必须有限；"元素个数无限的序列"不是线性表</li><li>有序表/无序表：按元素值是否随位置递增（减）划分</li></ul>
+6.2 真题<br>
+2025.10 第17题（填空）：值不满足递增（减）关系的线性表→无序表<br>
+2026.04 第26题（填空）：线性表由 n 个＿＿组成→（数据）元素<br>
+<b>来源</b>：考点解析课笔记·第二章考点一；真题 2025.10-17、2026.04-26<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点7</span><span class="kp-name">顺序表——地址计算与随机存取</span><span class="kp-level lv-S">S</span><span class="kp-freq">2024.10、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">7.1 是什么<br>
+顺序表 = 线性表 + 顺序存储：数组实现，逻辑相邻物理相邻，下标 0~n-1，可<b>随机存取</b>（直接算地址）。<br>
+7.2 地址公式<br>
+<span class="formula">LOC(aᵢ) = LOC(a₀) + i × d        （d = 每个元素占的存储单元数）
+第 i 个与第 j 个元素相隔 |i−j| 个元素——间隔直接序号相减，不用逐个数</span>
+7.3 怎么算<br>
+<ul><li>2026.04 真题：a[8] 地址 100、每元素 4 单元 → a[11] = 100+(11−8)×4 = <b>112</b></li><li>2024.10 真题：第 1 个元素地址 100、每元素占 8 单元 → 第 6 个元素（a₅）末单元 = 100+5×8+8−1 = <b>147</b></li></ul>
+<span class="callout err">下标从 0 开始：第 6 个元素是 a₅ 不是 a₆；问"最后一个存储单元"要 加长度−1，不是首地址。</span>
+<ul><li>O(1) 的操作：按地址访问第 i 个元素、求第 i 个元素直接前驱；插入、删除都不是 O(1)</li></ul>
+7.4 真题<br>
+2024.10 第17题（填空）：顺序表末单元地址→147<br>
+2026.04 第3题：O(1) 操作组→访问第 i 个结点、求第 i 个结点直接前驱<br>
+2026.04 第27题（填空）：a[11] 起始地址→112<br>
+<b>来源</b>：考点解析课笔记·第二章考点二；真题 2024.10-17、2026.04-3/27<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点8</span><span class="kp-name">顺序表插入/删除与平均移动次数</span><span class="kp-level lv-A">A</span><span class="kp-freq">2025.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">8.1 操作规则<br>
+<ul><li>插入：插入点起的元素<b>全部后移一位</b>，空出位置再放新元素；n 个元素有 n+1 个可插位置</li><li>删除：被删元素之后的元素<b>全部前移一位</b>，保持连续不留空位</li></ul>
+8.2 必背结论<br>
+<span class="formula">任意位置插入，平均移动 n/2 次
+任意位置删除，平均移动 (n−1)/2 次
+删除第 i 个元素，需移动 n−i 个元素</span>
+推导（插入）：各位置等概率 1/(n+1)，移动次数 n, n−1, …, 0，总和 n(n+1)/2，平均 = n/2。考试忘了可现场推。<br>
+8.3 真题<br>
+2025.04 第4题：删除第 i 个元素需移动→n−i 个元素<br>
+<b>来源</b>：考点解析课笔记·第二章考点三、四；真题 2025.04-4<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点9</span><span class="kp-name">单链表结构与判空</span><span class="kp-level lv-S">S</span><span class="kp-freq">2024.10、2025.10、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">9.1 是什么<br>
+单链表 = 线性表 + 链式存储。结点 = 数据域 + 指针域；尾结点指针域为空（∧）。<br>
+<ul><li>头结点：链表最前、<b>不存实际数据</b>的辅助结点；首结点：第一个存数据的结点</li><li>头指针 head：指向头结点（不带头结点时指向首结点）；单链表由头指针标识（不能只用尾指针）</li><li>尾结点判定：p-&gt;next == NULL</li></ul>
+9.2 必背判定<br>
+<span class="formula">带头结点判空：head-&gt;next == NULL
+不带头结点判空：head == NULL
+p 是尾结点 ⇔ p-&gt;next == NULL</span>
+9.3 真题<br>
+2024.10 第9题：带头结点判空→head-&gt;next==NULL<br>
+2025.10 第18题（填空）：不带头结点判空→head==NULL<br>
+2026.04 第4题：带头结点判空→head-&gt;next==NULL<br>
+<b>来源</b>：考点解析课笔记·第二章考点五；真题 2024.10-9、2025.10-18、2026.04-4<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点10</span><span class="kp-name">单链表插入/删除的指针操作</span><span class="kp-level lv-S">S</span><span class="kp-freq">2024.10、2025.10、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">10.1 插入：先接后断<br>
+在 p 与其后继之间插入 s 所指结点：<br>
+<span class="formula">s-&gt;next = p-&gt;next;    // 第一步：先接后继
+p-&gt;next = s;          // 第二步：再接前驱</span>
+<ul><li>若前后两结点都有独立指针：两步顺序可颠倒</li><li>后继只能经 p-&gt;next 访问时：顺序<b>绝不可颠倒</b>，否则断链、丢失后继结点</li></ul>
+10.2 删除：跨过被删结点<br>
+删除 p 的后继结点 q：<br>
+<span class="formula">p-&gt;next = q-&gt;next;    // 前驱跨过 q（即 p-&gt;next = p-&gt;next-&gt;next）
+free(q);              // 释放结点空间，防止内存泄漏</span>
+10.3 算法阅读常见问法<br>
+<ul><li>说明功能：将首结点移到表尾（2025.04-30）；相邻结点两两交换（2026.04-20）</li><li>按位序插入：定位到第 i 个结点 p 后，s-&gt;next=p-&gt;next; p-&gt;next=s（2025.10-30）</li></ul>
+<span class="callout err">C 语言：= 是赋值，== 才是判断相等。算法阅读题看错等号，功能全错。</span>
+10.4 真题<br>
+2024.10 第3题：q 是 p 的前驱，插 s→q-&gt;next=s; s-&gt;next=p<br>
+2025.10 第30题：读算法→在第 i 个结点后插入 e<br>
+2026.04 第20题（问答）：相邻结点两两交换，L=(1…9)→(2,1,4,3,6,5,8,7,9)<br>
+<b>来源</b>：考点解析课笔记·第二章考点六、七；真题 2024.10-3、2025.10-30、2026.04-20<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点11</span><span class="kp-name">循环链表与双向链表</span><span class="kp-level lv-B">B</span><span class="kp-freq">2025.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">11.1 循环链表<br>
+尾结点指针域回指<b>头结点</b>（不再置空）；优点：从任一结点出发可遍历全表。<br>
+<span class="formula">判空（带头结点）：head-&gt;next == head
+p 是尾结点 ⇔ p-&gt;next == head</span>
+11.2 双向链表<br>
+结点三域：prior（前驱）+ data + next（后继）；可直接找前驱。<br>
+对称性（常考等式）：<br>
+<span class="formula">p = p-&gt;prior-&gt;next = p-&gt;next-&gt;prior</span>
+双向循环链表：头结点 prior 指向尾结点、尾结点 next 指向头结点；判空：head-&gt;next<span class="em">head 且 head-&gt;prior</span>head。<br>
+11.3 真题<br>
+2025.04 第5题：p 指向尾结点（非空单向循环链表）→p-&gt;next==head<br>
+<b>来源</b>：考点解析课笔记·第二章考点八、九；真题 2025.04-5<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点12</span><span class="kp-name">静态链表</span><span class="kp-level lv-B">B</span><span class="kp-freq">2024.10</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">12.1 是什么<br>
+用<b>数组</b>保存的链表：下标即地址，用游标（存下一结点的下标）代替指针。<br>
+<ul><li>头结点数据域可复用存元素个数；尾结点游标存 −1 表示结束</li><li>单循环链表的数组表示：尾游标指向头结点下标 0（而不是 −1）</li><li>双向链表需三列（数据+前驱+后继），一般不考</li></ul>
+12.2 怎么判断链表类型<br>
+从游标逐个跳转还原：末尾指向 −1→单链表；末尾指向 0→单向循环链表；仅两列→排除双向。<br>
+12.3 真题<br>
+2024.10 第18题（填空）：在数组中保存的链表→静态链表<br>
+<b>来源</b>：考点解析课笔记·第二章考点十一（改版新增）；真题 2024.10-18<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点13</span><span class="kp-name">顺序表与链表的比较</span><span class="kp-level lv-S">S</span><span class="kp-freq">2025.10</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">13.1 核心对比<br>
+<table><tr><th>维度</th><th>顺序表</th><th>链表</th></tr><tr><td>物理地址</td><td>必须连续</td><td>不要求连续（可连续可不连续）</td></tr><tr><td>存取方式</td><td>随机存取 O(1)</td><td>顺序存取 O(n)</td></tr><tr><td>插入/删除</td><td>需移动大量元素 O(n)</td><td>改指针即可（定位后 O(1)）</td></tr><tr><td>空间分配</td><td>预先分配、容量固定</td><td>按需分配、灵活扩展</td></tr><tr><td>额外开销</td><td>无指针域</td><td>每结点多一个指针域</td></tr><tr><td>适用场景</td><td>查找频繁、插删少</td><td>插删频繁、长度变化大</td></tr></table>
+<span class="callout tip">【记忆】查多用表，插删多用链。只在表尾插删是顺序表的特例：无需移动元素，顺序表也合适。</span>
+13.2 真题<br>
+2025.10 第1题：顺序/链式存储叙述辨析（"一定省空间"太绝对）<br>
+2025.10 第3题：不属于链表特点→随机访问（那是顺序存储的特点）<br>
+2025.10 第4题：链式存储对结点地址连续性→无要求<br>
+<b>来源</b>：考点解析课笔记·第二章考点十；真题 2025.10-1/3/4<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点14</span><span class="kp-name">线性表算法——双指针原地划分</span><span class="kp-level lv-S">S</span><span class="kp-freq">2024.10、2025.10、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">14.1 题型模型<br>
+<ul><li>输入：顺序表/数组</li><li>要求：<b>原地</b>（O(1) 辅助空间）把元素按条件分两边，或删除某类元素</li><li>解法①：i 从左、j 从右双向扫描，不符合者交换（划分型）</li><li>解法②：i 读、j 写快慢指针，把保留的元素依次前移，最后更新表长（过滤型）</li></ul>
+14.2 典型真题<br>
+<ul><li>2024.10 第31题：非负元素前移、负值删除 → L=(19,−6,−9,26,0,−21,74,35,−30) 变为 (19,26,0,74,35)，功能=删除负值</li><li>2025.10 第34题（设计，10分）：负数放非负数前面 → 双指针交换划分，(−1,−2,3,1,−3,5)→(−1,−2,−3,1,3,5)</li><li>2026.04 第21题（问答）：奇数移到偶数前面 → {1…8}→{1,3,5,7,2,4,6,8}</li></ul>
+14.3 易错<br>
+两侧扫描的循环边界都要用 i&lt;j 同时约束，否则越过中界会重复交换。<br>
+<b>来源</b>：【真题补充】考点笔记未展开；依据真题 2024.10-31、2025.10-34、2026.04-21 归纳的题型模型<br></div>
+</div>
+</div>
+</div>
+
+<div class="ch" style="--accent:#f472b6;--accent-light:#db2777">
+<div class="ch-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleCh(this)"><span class="ch-title-text">第三章 栈和队列<span class="badge">7考点</span></span><span class="arrow">▼</span></div>
+<div class="ch-body">
+<div class="ch-intro">出栈序列是四年考频第一的知识点（7 题）；循环队列三公式每年必考其一。栈一端进出、队列一进一出，本质都是受限线性表。<br></div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点15</span><span class="kp-name">栈的定义与出栈序列</span><span class="kp-level lv-S">S</span><span class="kp-freq">2024.10、2025.04、2025.10、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">15.1 是什么<br>
+栈：仅允许在<b>一端（栈顶）</b>插入和删除的受限线性表。先进后出 FILO / 后进先出 LIFO（同义）。<br>
+<ul><li>插入=入栈（push），删除=出栈（pop）；另一端=栈底</li><li>形象模型：有底的桶、一摞盘子——底部元素被压住，只能等上面全走</li><li>栈是"受限的线性表"（逻辑结构），存储结构未定</li></ul>
+15.2 出栈序列判断法（核心考法）<br>
+按目标序列依次模拟：要出的元素不在栈顶时，把它之前的元素全部压栈；压不出来（被压住）→该序列不可能。<br>
+<ul><li>n 个元素依次进栈，可能的出栈序列数 = 卡特兰数 C(2n,n)/(n+1)</li><li>p₁=n（最后元素先出）⇒ 剩余元素逆序输出，第 i 个出栈元素 = n−i+1</li><li>最小栈容量：模拟全程，记录栈内同时最多的元素个数</li></ul>
+<span class="callout tip">【信号】"入栈序列+出栈序列"→模拟法；"p₁=n"→后面逆序；"最小容量"→数栈内峰值。
+例：入栈1,2,3,4、出栈2,4,3,1：1入2入出2、3入4入（栈内1,3,4共3个）→最小容量3。</span>
+15.3 易错<br>
+<span class="callout err">判断"不可能序列"就找"被压住却想先出"的元素：f、e 出栈后 a 上面还压着 b、c，a 不可能先出。</span>
+15.4 真题<br>
+2024.10 第4题：a~e 进栈，d 开头的序列数→4 种<br>
+2024.10 第5题：选出不可能的出栈序列<br>
+2024.10 第29题（解答，5分）：写 push/pop 操作序列得到 2,1,4,3,5<br>
+2025.04 第6题：p₁=n 时第 i 个输出→n−i+1<br>
+2025.04 第7题：最小栈容量→3<br>
+2025.10 第27题（解答）：可作为变量名的输出序列（文件未给答案，待核实）<br>
+2026.04 第5题：p₁=n 时 pᵢ→n−i+1<br>
+<b>来源</b>：考点解析课笔记·第三章考点一；真题 2024.10-4/5/29、2025.04-6/7、2025.10-27、2026.04-5<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点16</span><span class="kp-name">顺序栈与链式栈</span><span class="kp-level lv-A">A</span><span class="kp-freq">2025.10、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">16.1 顺序栈<br>
+数组 + 栈顶指针 top。<br>
+<span class="formula">top 指向"栈顶元素的下一个空位"：top 值 = 栈内元素个数；入栈先存元素再 top+1
+top 指向"栈顶元素本身"：入栈先移指针再存元素</span>
+两道真题同一考点：<br>
+<ul><li>2025.10 第6题：V[0..n−1]、初始 top=n、向低地址生长 → 先 top=top−1，再 V[top]=x</li><li>2026.04 第6题：data[1..n]、初始 top=n+1 → top--; data[top]=x;</li></ul>
+<span class="callout err">"先移指针还是先存元素"取决于 top 的约定：top 指空位→先存后移；top 指栈顶→先移后存。搞反会越界或覆盖。</span>
+16.2 对顶栈（了解）<br>
+两栈共享一个数组，从两端向中间生长；栈满条件：top左 + 1 == top右。（改版新增，简单了解）<br>
+16.3 链式栈<br>
+单链表保存，<b>栈顶 = 链表头</b>；入栈即头插法：<br>
+<span class="formula">p-&gt;next = head-&gt;next;
+head-&gt;next = p;</span>
+16.4 真题<br>
+2025.10 第6题；2026.04 第6题（都考"先移后存"的顺序）<br>
+<b>来源</b>：考点解析课笔记·第三章考点二~四；真题 2025.10-6、2026.04-6<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点17</span><span class="kp-name">队列的定义与特性</span><span class="kp-level lv-B">B</span><span class="kp-freq">2025.10、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">17.1 是什么<br>
+队列：一端（<b>队尾</b>）插入、另一端（<b>队头</b>）删除的受限线性表；先进先出 FIFO。<br>
+<ul><li>栈和队列的共同点：都<b>只允许在端点处</b>插入和删除</li><li>队列不是"只能插"或"只能删"，而是插入位置固定在队尾、删除固定在队头</li></ul>
+17.2 真题<br>
+2025.10 第5题：栈和队列共同点→仅在端点插入删除<br>
+2026.04 第7题：循环队列中元素排列顺序与→进队的先后顺序有关（FIFO）<br>
+<b>来源</b>：考点解析课笔记·第三章考点五；真题 2025.10-5、2026.04-7<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点18</span><span class="kp-name">循环队列</span><span class="kp-level lv-S">S</span><span class="kp-freq">2025.04、2025.10、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">18.1 为什么需要循环队列<br>
+顺序队列的"假溢出"：rear 到数组末尾但前面还有空位；循环队列让指针回绕（取模）复用空间。<br>
+约定（本课口径）：front 指向队头元素，rear 指向队尾元素的<b>下一个空位</b>，容量 m。<br>
+18.2 三大公式（必背）<br>
+<span class="formula">入队：rear = (rear + 1) % m
+出队：front = (front + 1) % m
+判空：front == rear
+判满：(rear + 1) % m == front          ← 牺牲一个单元区分空/满
+元素个数：(rear − front + m) % m       ← 统一公式，分界情况也适用</span>
+18.3 易错<br>
+<span class="callout err">数组下标 0~m 时容量是 m+1 不是 m——入队语句应为 (rear+1) % (m+1)。判空用双等号 ==，单等号是赋值。
+front/rear 约定改变公式随之变：rear 指向队尾元素本身时，入队是"先加再存"。</span>
+手算例：容量 6、front=3、rear=0，元素在下标 3、4、5；删 1 个入 2 个 → front=4、rear=2。<br>
+18.4 真题<br>
+2025.04 第8题：第一个入队元素存 A[0]（rear 先加后存约定）→front=0, rear=n−1<br>
+2025.10 第19题（填空）：A[m..n] 存储时个数→(r−f+n−m+1)%(n−m+1)<br>
+2026.04 第7题：FIFO 特性（见考点17）<br>
+<b>来源</b>：考点解析课笔记·第三章考点六、七；真题 2025.04-8、2025.10-19、2026.04-7<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点19</span><span class="kp-name">链式队列</span><span class="kp-level lv-B">B</span><span class="kp-freq">2024.10、2025.10</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">19.1 结构与操作<br>
+单链表保存；front 指队头、rear 指队尾；插入只能在队尾、删除只能在队头。<br>
+<span class="formula">判空：front == rear（rear 回指头结点/均为 NULL）
+入队：rear-&gt;next = s;  rear = s;      ← 先接后移，两步顺序不可颠倒</span>
+<ul><li>不带头结点出队：front <b>必改</b>；rear <b>可能改</b>——队列只剩 1 个元素时删空，front 和 rear 都要置 NULL</li><li>入队同理：队空时入队，front、rear 都要修改</li></ul>
+19.2 真题<br>
+2024.10 第21题（填空）：链式队列的存储结构→带头指针和尾指针的单链表<br>
+2025.10 第7题：不带头结点链队入队→队尾指针一定改、队头指针可能改<br>
+<b>来源</b>：考点解析课笔记·第三章考点八；真题 2024.10-21、2025.10-7<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点20</span><span class="kp-name">双端队列</span><span class="kp-level lv-B">B</span><span class="kp-freq">2024.10</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">20.1 三种形态<br>
+<ul><li>双端队列：两端都可插入、都可删除</li><li>输入受限的双端队列：一端不能入队（出队两端都行）</li><li>输出受限的双端队列：一端不能出队（入队两端都行）</li></ul>
+<span class="callout err">输入受限限制的是"入"，输出受限限制的是"出"——别背反。</span>
+20.2 怎么判断输出序列<br>
+两端分别模拟；核心规律：入队顺序固定时，先入的元素只能待在两端，<b>插不进已相邻元素中间</b>。<br>
+2024.10 第6题：输入 1,2,3,4，1 与 2 相邻入队后，3 无论从哪端入都到不了 1、2 中间 → (4,2,3,1) 两种受限都得不到。<br>
+20.3 真题<br>
+2024.10 第6题<br>
+<b>来源</b>：考点解析课笔记·第三章考点九（改版新增）；真题 2024.10-6<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点21</span><span class="kp-name">栈和队列的应用</span><span class="kp-level lv-A">A</span><span class="kp-freq">2025.04、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">21.1 必背场景<br>
+<ul><li>栈：递归、函数调用、嵌套结构（括号匹配、表达式求值、中缀转后缀）</li><li>队列：需要"公平/保持先后次序"的场景（进程调度、打印任务缓冲）；图的广度优先搜索</li></ul>
+<span class="callout tip">【信号】题干出现"递归/嵌套"→栈；出现"调度/排队/先来先服务"→队列。</span>
+21.2 算法阅读常客：借助辅助结构分类<br>
+<ul><li>借助辅助队列按条件拆分：正数入 Q1、负数入 Q2，FIFO 保证各自内部次序不变（2025.04-32）</li><li>借助临时栈删除指定元素：全部退栈、非目标元素进临时栈，再倒回原栈（2026.04-22）</li></ul>
+21.3 真题<br>
+2025.04 第32题：队列按正负拆成 Q1、Q2<br>
+2026.04 第22题（问答）：借助临时栈从栈中删除元素 x<br>
+<b>来源</b>：考点解析课笔记·第三章考点十；真题 2025.04-32、2026.04-22<br></div>
+</div>
+</div>
+</div>
+
+<div class="ch" style="--accent:#a78bfa;--accent-light:#7c3aed">
+<div class="ch-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleCh(this)"><span class="ch-title-text">第四章 数组、广义表和串<span class="badge">5考点</span></span><span class="arrow">▼</span></div>
+<div class="ch-body">
+<div class="ch-intro">本章重计算：数组地址计算 4 套全考，广义表表头表尾年年出现；串与模式匹配笔记着墨少、真题常考，属【真题补充】重点。<br></div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点22</span><span class="kp-name">数组地址计算（行主序/列主序）</span><span class="kp-level lv-S">S</span><span class="kp-freq">2025.04、2025.10、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">22.1 两种存储次序<br>
+<ul><li>行主序（默认）：一行存完再存下一行</li><li>列主序：一列存完再存下一列</li><li>二维数组物理上仍是一维数组；题目不说明次序时默认行主序</li></ul>
+22.2 公式（m 行 n 列、首地址 LOC₀、每元素 d 个单元、下标从 0 起）<br>
+<span class="formula">行主序：LOC(a[i][j]) = LOC₀ + (i×n + j)×d
+列主序：LOC(a[i][j]) = LOC₀ + (j×m + i)×d
+一维：LOC(a[i]) = LOC(a[k]) + (i−k)×d   ← 任意起点按差值算</span>
+22.3 怎么算<br>
+<ul><li>2025.04 第28题（解答）：A[5][6] 每元素 4 字节、首址 1000 → 共 5×6×4=120 字节；行优先 A[2][5]=1000+(2×6+5)×4=<b>1068</b>；列优先=1000+(5×5+2)×4=<b>1108</b></li><li>2025.10 第9题：A[5][6] 每元素 5 单元 → A[4][5]=1000+(4×6+5)×5=<b>1145</b></li><li>2026.04 第8题：a[1..5,1..8] 列优先，a[4][6] 前有 5×5+3=<b>28</b> 个元素</li><li>思路：行偏移=前面整行（i×n 或 j×m），列偏移=本行（列）前面元素，两者相加×d</li></ul>
+<span class="callout err">下标从 1 开始（a[1..m,1..n]）时按差值算：行主序偏移=(i−1)×n+(j−1)。行、列公式不可混用。</span>
+22.4 真题<br>
+2025.04 第28题（解答，5分）：总字节数 + 行/列优先地址<br>
+2025.10 第9题：行优先求起始地址<br>
+2026.04 第8题：列优先数前面元素个数<br>
+2026.04 第27题（填空）：一维数组差值计算→112<br>
+<b>来源</b>：考点解析课笔记·第四章考点一~三；真题 2025.04-28、2025.10-9、2026.04-8/27<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点23</span><span class="kp-name">特殊矩阵与压缩存储</span><span class="kp-level lv-A">A</span><span class="kp-freq">2024.10、2025.04、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">23.1 三种特殊矩阵<br>
+<ul><li>对称矩阵：方阵且 aᵢⱼ=aⱼᵢ（即 A=Aᵀ）→只存上（下）三角+对角线</li><li>三角矩阵：主对角线以上（下）全为同一常数→存三角+一个常数</li><li>稀疏矩阵：非零元个数 t 远小于 m×n，<b>不要求方阵</b>→三元组表(行,列,值)，另存行数、列数、非零元个数</li></ul>
+23.2 必背公式与结论<br>
+<span class="formula">n 阶三角（对称）矩阵需存的元素数 = n(n+1)/2</span>
+<ul><li>压缩存储的目的（考概念）：<b>节省存储空间</b></li><li>下三角按行主序存一维数组：某元素下标 = 它前面有多少个元素（第 i 行有 i 个，逐行累加）</li></ul>
+23.3 真题<br>
+2024.10 第10题：三元组表之外还需存→行数、列数、非零元素个数<br>
+2025.04 第23题（填空）：压缩的目的→节省存储空间<br>
+2026.04 第9题：矩阵压缩存储是为了→节省存储空间<br>
+<b>来源</b>：考点解析课笔记·第四章考点四~五；真题 2024.10-10、2025.04-23、2026.04-9<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点24</span><span class="kp-name">广义表：长度、深度、表头表尾</span><span class="kp-level lv-S">S</span><span class="kp-freq">2024.10、2025.04、2025.10</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">24.1 四个必背概念<br>
+<ul><li>长度：<b>最外层</b>元素个数（去掉最外层括号按逗号数；子表整体算 1 个）</li><li>深度：括号最大嵌套层数（最外层算第 1 层）；空表 () 深度为 1；递归表深度为无穷</li><li>表头 Head(G)：第一个元素（可以是原子，也可以是子表）</li><li>表尾 Tail(G)：去掉第一个元素后，剩余元素组成的<b>广义表</b>——结果永远是表，要套括号</li></ul>
+<span class="callout err">表尾 ≠ 最后一个元素！Tail((c,d)) = (d)，是"只含 d 的表"，不是原子 d。((a),a) 的表头是子表 (a)，表尾是 (a)。</span>
+24.2 连续取头取尾（高频考法）<br>
+从外往里逐步算，每步结果重新识别头尾。<br>
+例：A=(a,b,(c,d),(e,(f,g)))：Tail(A)→(b,(c,d),(e,(f,g)))；再 Tail→((c,d),(e,(f,g)))；Head→(c,d)；Tail((c,d))→(d)；Head→d。<br>
+24.3 真题<br>
+2024.10 第7题：五重 Head/Tail 复合运算→d<br>
+2024.10 第20题（填空）：G=(a,b,(c,d,(e,f)),g) 的长度→4<br>
+2025.04 第9题：((a),a) 的表头和表尾<br>
+2025.10 第10题：表头 A、表尾 (B,C) → 原表 (A,B,C)<br>
+<b>来源</b>：考点解析课笔记·第四章考点六~七；真题 2024.10-7/20、2025.04-9、2025.10-10<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点25</span><span class="kp-name">串的基本概念与子串计数</span><span class="kp-level lv-A">A</span><span class="kp-freq">2024.10、2025.10、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">25.1 基本概念<br>
+<ul><li>串（字符串）：内容受限的线性表——<b>每个元素是一个字符</b></li><li>长度：串中字符个数（空格和重复字符都计入）</li><li>空串：长度为 0 的串；空串是任意串的子串；串自身也是自己的子串</li><li>子串：串中<b>连续</b>的字符序列（跳着选的不是子串）；主串：包含子串的串</li></ul>
+25.2 子串计数公式<br>
+<span class="formula">长度为 n 的串：子串总数 = n(n+1)/2 + 1   （含空串）
+各长度子串数：n, n−1, …, 1，等差求和后再加空串 1 个</span>
+例：'software' 长 8 → 8×9/2+1 = <b>37</b>。<br>
+25.3 真题<br>
+2024.10 第8题：子串数目→37<br>
+2025.10 第8题：串长度的定义→所含字符个数<br>
+2026.04 第10题：串的特殊性→数据元素是一个字符<br>
+<b>来源</b>：考点解析课笔记·第四章考点八~九；真题 2024.10-8、2025.10-8、2026.04-10<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点26</span><span class="kp-name">串的模式匹配（BF 与 KMP）</span><span class="kp-level lv-A">A</span><span class="kp-freq">2025.04、2025.10</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">26.1 是什么<br>
+模式匹配：求子串（模式串）在主串中<b>首次出现的位置</b>的运算。<br>
+26.2 BF 算法（朴素匹配）<br>
+主串指针逐位置尝试；一旦失配，主串指针回溯、模式串从头再来。<br>
+<span class="formula">最坏比较次数 = (n−m+1) × m    （主串长 n、模式串长 m）</span>
+最坏情形：每个位置都匹配到模式串最后一个字符才失败，主串指针反复回溯。<br>
+26.3 KMP 的思想（大纲"简单应用"）<br>
+用特征向量（next 数组）预先记录模式串自身的部分匹配信息；失配时<b>主串指针不回溯</b>，模式串滑到 next 指示的位置继续比较。<br>
+26.4 真题<br>
+2025.04 第10题：求子串首次出现位置的运算→模式匹配<br>
+2025.10 第20题（填空）：BF 最坏比较次数→(n−m+1)×m<br>
+<b>来源</b>：【真题补充】考点笔记未展开；依据真题 2025.04-10、2025.10-20 与大纲第四章"简单应用"条目补齐；KMP 细节以教材第四章为准<br></div>
+</div>
+</div>
+</div>
+
+<div class="ch" style="--accent:#22d3ee;--accent-light:#0891b2">
+<div class="ch-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleCh(this)"><span class="ch-title-text">第五章 树与二叉树<span class="badge">10考点</span></span><span class="arrow">▼</span></div>
+<div class="ch-body">
+<div class="ch-intro">二叉树遍历（含序列互推）与 n0=n2+1 是计算题主力；算法设计题四年两次考二叉树。树/森林转换、哈夫曼是笔记重点，真题轮换出现。<br></div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点27</span><span class="kp-name">树的基本概念</span><span class="kp-level lv-A">A</span><span class="kp-freq">2025.10、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">27.1 术语速览<br>
+<ul><li>根结点：有且仅有一个；双亲（父结点）唯一，孩子可有多个</li><li>兄弟：<b>同一双亲</b>的孩子才互为兄弟（不同双亲不是）</li><li>结点的度：孩子数；树的度：所有结点度的<b>最大值</b>（不是求和）</li><li>叶结点：度为 0；分支结点：度 ≥ 1</li><li>层次：根在第 0 层（教材现行口径；题目注明"根为第 1 层"时按题意）</li><li>森林：多棵互不相交的树的集合；空树：一个结点都没有</li></ul>
+27.2 括号表示法还原树（2026 新考法）<br>
+A(B,C(E,F(G)),D)：根 A；叶子 B、E、G、D；C 的度=2（孩子 E、F）；树的高度=4。<br>
+27.3 树与二叉树的差别（问答题）<br>
+<ul><li>二叉树子树<b>严格分左右</b>（只有一棵子树时也要分左右）；度为 2 的树只有一棵子树时不分左右</li><li>二叉树<b>可以为空</b>；度为 2 的树至少有一个度为 2 的结点、不能为空</li><li>相同点：每个结点至多一个双亲</li></ul>
+27.4 真题<br>
+2025.10 第11题：树与度为 2 的树的相同点→每个结点至多一个双亲<br>
+2026.04 第17题（问答）：简述二叉树与度为 2 的树的差别<br>
+2026.04 第18题（问答）：括号表示还原树答 5 小问<br>
+<b>来源</b>：考点解析课笔记·第五章考点一；真题 2025.10-11、2026.04-17/18<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点28</span><span class="kp-name">二叉树的定义与性质</span><span class="kp-level lv-S">S</span><span class="kp-freq">2024.10、2025.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">28.1 定义<br>
+二叉树：每个结点至多两棵子树（<b>分左右</b>）的树；结点度只能取 0、1、2；<b>可以为空</b>。<br>
+<span class="callout err">"二叉树的度为 2"是错的——是"不超过 2"，可以小于 2；左右子树交换后是另一棵二叉树；单结点二叉树的度为 0。</span>
+28.2 必背性质<br>
+<span class="formula">第 i 层最多 2ⁱ 个结点          （根在第 0 层；根在第 1 层时第 k 层最多 2^(k−1) 个）
+高度为 h 的二叉树最多 2ʰ−1 个结点
+n0 = n2 + 1                    （叶结点数 = 度2结点数 + 1，与 n1 无关！）
+卡特兰数：n 个结点的不同形态二叉树数 = C(2n,n)/(n+1)   （n=3 → 5 种）</span>
+n0=n2+1 推导：总度数=边数=n−1 → n1+2n2 = n0+n1+n2−1 → n0=n2+1。<br>
+28.3 怎么算<br>
+已知部分度数求总结点：先用 n0=n2+1 补齐，再 n0+n1+n2 相加。<br>
+例：n2=5、n1=3 → n0=6，共 14 个结点。n0=6 → n2=5。<br>
+28.4 真题<br>
+2024.10 第22题（填空）：20 结点、5 叶 → n1=11<br>
+2025.04 第11题：n1=3、n2=4 → n0=5（n1 是干扰条件）<br>
+<b>来源</b>：考点解析课笔记·第五章考点二~三；真题 2024.10-22、2025.04-11<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点29</span><span class="kp-name">满二叉树与完全二叉树</span><span class="kp-level lv-A">A</span><span class="kp-freq">2025.10</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">29.1 定义<br>
+<ul><li>满二叉树：每一层结点数都取最大值（层层全满）</li><li>完全二叉树：除最后一层外各层全满，最后一层结点<b>从左到右连续排列</b>（不许跳空）</li><li>关系：满二叉树一定是完全二叉树；完全二叉树不一定是满二叉树</li></ul>
+29.2 常用计算<br>
+<ul><li>完全二叉树按层连续存数组（顺序存储也是按完全二叉树处理）：b7 的父结点在 b3</li><li>n 个结点：前 k 层全满共 2^(k+1)−1 个；最后一层个数 = n − 满层累计</li><li>含 n 个结点的完全二叉树高度 = ⌊log₂n⌋+1（层号从 1 算）</li></ul>
+例：50 个结点 → 前 5 层满 1+2+4+8+16=31 → 第 6 层 50−31=<b>19</b> 个。<br>
+29.3 真题<br>
+2025.10 第21题（填空）：50 结点完全二叉树第 6 层→19 个<br>
+<b>来源</b>：考点解析课笔记·第五章考点四~五；真题 2025.10-21<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点30</span><span class="kp-name">二叉树的存储</span><span class="kp-level lv-A">A</span><span class="kp-freq">2024.10、2025.10</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">30.1 顺序存储<br>
+按完全二叉树的层序存入数组；非完全二叉树也按完全二叉树定位、缺位补空（浪费空间，适合完全二叉树）。<br>
+30.2 二叉链表（链式存储）<br>
+结点三域：lchild + data + rchild。<br>
+<span class="formula">n 个结点的二叉链表：
+指针域总数 2n 个
+非空指针域 n−1 个（= 边数）
+空指针域 n+1 个        ← 2n − (n−1) = n+1</span>
+30.3 真题<br>
+2024.10 第34题、2025.10 第31题都以二叉链表为命题载体（见考点31）<br>
+<b>来源</b>：考点解析课笔记·第五章考点七~八；真题 2024.10-34、2025.10-31<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点31</span><span class="kp-name">二叉树的遍历</span><span class="kp-level lv-S">S</span><span class="kp-freq">2024.10、2025.04、2025.10</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">31.1 四种次序<br>
+<ul><li>先序：<b>根</b>左右；中序：左<b>根</b>右；后序：左右<b>根</b>；层序：自上而下逐层从左到右</li><li>遍历原则：不漏（全访问）、不重（只访问一次）</li></ul>
+31.2 手算方法<br>
+层序最简单，直接按层写。先/中/后序用整体法：把根和左右子树各视作整体定位，再缩小到子树内部重复。<br>
+31.3 递归算法（设计题考过）<br>
+<span class="formula">后序遍历（2024.10-34 答案骨架，10 分）：
+void PostOrder(BinTree root){
+    if (root != NULL) {
+        PostOrder(root-&gt;lchild);   // 左
+        PostOrder(root-&gt;rchild);   // 右
+        printf("%c", root-&gt;data);  // 根
+    }
+}
+先序/中序只调整 printf 的位置。</span>
+带层参数的统计类递归（如数第 k 层叶子）：下探时传 h+1；空树返回 0；叶子判定=左右孩子均为 NULL。<br>
+31.4 真题<br>
+2024.10 第12题：先序+中序求后序（见考点32）<br>
+2024.10 第34题（设计，10分）：编写后序遍历递归程序<br>
+2025.04 第29题（解答，5分）：简述先序遍历过程（访问根→先序遍历左子树→先序遍历右子树）<br>
+2025.10 第31题：递归统计第 k 层叶子结点数（算法填空）<br>
+<b>来源</b>：考点解析课笔记·第五章考点九~十；真题 2024.10-12/34、2025.04-29、2025.10-31<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点32</span><span class="kp-name">由遍历序列确定二叉树</span><span class="kp-level lv-A">A</span><span class="kp-freq">2024.10、2025.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">32.1 核心结论<br>
+<span class="callout ok">中序 + 先序 ⇒ 可唯一确定一棵二叉树
+中序 + 后序 ⇒ 可唯一确定一棵二叉树
+先序 + 后序 ⇒ 不能确定（缺中序分不开左右）</span>
+必须含<b>中序</b>。<br>
+32.2 还原步骤<br>
+先序第一个元素（或后序最后一个元素）= 根 → 在中序中定位根，左侧为左子树、右侧为右子树 → 对左右子树递归重复。<br>
+32.3 选择题捷径<br>
+不必画完整棵树：后序末位必为整树根；先序首位必为根；用整体法判断序列前段的归属即可排除选项。<br>
+32.4 真题<br>
+2024.10 第12题：先序 abdgcefh + 中序 dgbaechf → 后序 <b>gdbehfca</b><br>
+2025.04 第25题（填空）：中序 ABCD + 后序 BADC → 先序 <b>CABD</b><br>
+<b>来源</b>：考点解析课笔记·第五章考点十一；真题 2024.10-12、2025.04-25<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点33</span><span class="kp-name">堆</span><span class="kp-level lv-A">A</span><span class="kp-freq">2025.04、2025.10</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">33.1 是什么<br>
+堆：完全二叉树 + 堆序性——大根堆（最大堆）：任意父 ≥ 孩子；小根堆（最小堆）：任意父 ≤ 孩子。<br>
+<ul><li>只约束"父子关系"，兄弟之间无序；堆顶是根</li></ul>
+33.2 判定方法（高频）<br>
+序列按层铺成完全二叉树，逐个<b>非叶结点</b>检查与孩子的大小关系；发现一处违反即排除。<br>
+33.3 建堆（由序列建初始堆）<br>
+<ul><li>按层填树 → <b>自下而上</b>逐个调整（违反就与较大/较小的孩子交换）→ 调到根后<b>再自上而下复查一遍</b>（自下而上可能破坏上层）</li></ul>
+33.4 插入与删除堆顶<br>
+<ul><li>插入：新元素放到<b>末尾</b>，自下而上调整</li><li>删除堆顶：<b>末元素补到堆顶</b>，自上而下调整（下方原本有序）</li></ul>
+<span class="callout tip">【记忆】插入从下往上；删顶从上往下。调整沿树高进行，O(log n)。</span>
+33.5 真题<br>
+2025.04 第15题：判断哪个序列是大根堆<br>
+2025.10 第33题：算法填空判断大根堆（文件缺答案，备考按判定方法掌握）<br>
+<b>来源</b>：考点解析课笔记·第五章考点十二~十五；真题 2025.04-15、2025.10-33<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点34</span><span class="kp-name">树、森林与二叉树的转换</span><span class="kp-level lv-A">A</span><span class="kp-freq">2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">34.1 转换规则（必背，一一对应）<br>
+<ul><li>树→二叉树：<b>兄弟降级</b>——保留第一个孩子为左孩子，其余兄弟依次作为前一个的右孩子</li><li>二叉树→树：右孩子链<b>升级</b>为兄弟</li><li>森林→二叉树：每棵树先转二叉树；第 2 棵作第 1 棵的<b>右子树</b>，第 3 棵作第 2 棵的右子树，依次串联</li><li>二叉树→森林：分离所有右子树，每棵再按"二叉树→树"还原</li></ul>
+34.2 常用结论<br>
+森林含 3 棵树（结点数 m1、m2、m3）：转换后根的左子树 = 第 1 棵树；<b>右子树结点数 = m2+m3</b>（每棵树转成二叉树后右子树为空，全被串到右侧）。<br>
+34.3 真题<br>
+2026.04 第11题：右子树结点数→m2+m3<br>
+<b>来源</b>：考点解析课笔记·第五章考点十六~十七；真题 2026.04-11<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点35</span><span class="kp-name">树与森林的遍历</span><span class="kp-level lv-B">B</span><span class="kp-freq">近4套未直接命题</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">35.1 必背结论<br>
+<ul><li>树<b>没有中序遍历</b>（多叉分不出"左右中间"）；只有先序、后序（和层次）</li><li>树的先序 = 对应二叉树的先序</li><li>树的后序 = 对应二叉树的<b>中序</b></li><li>森林同理：先序森林=对应二叉树的先序；后序森林=对应二叉树的中序</li></ul>
+35.2 考情说明<br>
+近 4 套真题未直接命题，但笔记标注为常考结论、大纲要求"领会"——按负证据规则保留为低频储备。<br>
+<b>来源</b>：考点解析课笔记·第五章考点十八~十九；近 4 套真题未直接命题（样本少，不下趋势结论）<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点36</span><span class="kp-name">哈夫曼树、WPL 与哈夫曼编码</span><span class="kp-level lv-A">A</span><span class="kp-freq">2025.10</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">36.1 概念链<br>
+<ul><li>路径长度：根到该结点经过的<b>边数</b>；权：给结点赋的数值</li><li>叶结点的带权路径长度 = 权 × 路径长度</li><li>WPL：二叉树所有<b>叶结点</b>的带权路径长度之和</li><li>哈夫曼树：n 个带权叶构造的所有二叉树中 <b>WPL 最小</b>者；<b>不唯一</b>（等权或左右交换都不改变 WPL）</li></ul>
+<span class="callout err">哈夫曼树的定义是"WPL 最小"，不是"权值和最小"，也不是"高度最低"。</span>
+36.2 构造方法<br>
+每次取权值<b>最小</b>的两棵树合并，新结点权=两者之和；重复直到只剩一棵。n 个叶合并 n−1 次。<br>
+<span class="formula">n 个叶结点的哈夫曼树：总结点数 = 2n − 1；分支结点数 = n − 1
+（哈夫曼树中没有度为 1 的结点）</span>
+例：权 {1,3,5,7}：1+3=4 → 4+5=9 → 7+9=16；WPL = 7×1 + 5×2 + (1+3)×3 = 29。<br>
+36.3 哈夫曼编码<br>
+字符作叶、出现频率作权；左分支标 0、右分支标 1；根到叶的路径 0/1 序列即该字符编码。<br>
+<ul><li>哈夫曼编码是<b>前缀码</b>：任一编码都不是其他编码的前缀 → 译码无歧义</li></ul>
+<span class="callout err">判断一组编码是否可能：只要出现"某编码是另一编码的前缀"（如 1 是 10、100 的前缀）→ 不可能。</span>
+36.4 真题<br>
+2025.10 第12题：按使用频率为 5 个字符设计编码，选出不可能的一组（违反前缀码）<br>
+<b>来源</b>：考点解析课笔记·第五章考点二十~二十二；真题 2025.10-12<br></div>
+</div>
+</div>
+</div>
+
+<div class="ch" style="--accent:#fb923c;--accent-light:#ea580c">
+<div class="ch-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleCh(this)"><span class="ch-title-text">第六章 图结构<span class="badge">7考点</span></span><span class="arrow">▼</span></div>
+<div class="ch-body">
+<div class="ch-intro">图的"度与边数关系"和"存储结构"每年各出一题；算法设计题连考两年图（邻接矩阵求最大度、DFS 数连通分量）。大纲还列有关键路径与弗洛伊德算法，近 4 套未考，速记一句带过。<br></div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点37</span><span class="kp-name">图的基本概念与顶点度数</span><span class="kp-level lv-S">S</span><span class="kp-freq">2024.10、2025.04、2025.10</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">37.1 概念要点<br>
+<ul><li>图 = 顶点 + 边；图<b>不能为空</b>（至少 1 个顶点）——树可为空，图不可</li><li>无向边/有向边（弧：弧尾→弧头）；规定：无自环、无重复边</li><li>邻接：有边<b>直接相连</b>才邻接；连通可以隔点——邻接≠连通</li><li>带权图：边带权值；有向无环图（DAG）</li></ul>
+37.2 度与边数（必背）<br>
+<span class="formula">无向图：所有顶点度数之和 = 2e        （每条边贡献 2 个度）
+有向图：入度之和 = 出度之和 = 边数 e；顶点的度 = 入度 + 出度
+完全无向图最多边数 = n(n−1)/2；完全有向图最多 = n(n−1)
+无向图某顶点最大度 = n−1；有向图计出入度最大 = 2(n−1)</span>
+37.3 真题<br>
+2024.10 第13题：有向图出度之和为 d → 入度之和也是 d<br>
+2025.04 第19题（填空）：n 顶点无向图最多边数→n(n−1)/2<br>
+2025.10 第22题（填空）：n 顶点有向图最多边数→n(n−1)<br>
+2025.10 第28题（解答，5分）：28 条边的非连通图最少顶点→<b>9</b>（1 个孤立顶点 + 8 顶点完全图 n(n−1)/2=28）<br>
+<b>来源</b>：考点解析课笔记·第六章考点一~二；真题 2024.10-13、2025.04-19、2025.10-22/28<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点38</span><span class="kp-name">图的存储：邻接矩阵与邻接表</span><span class="kp-level lv-S">S</span><span class="kp-freq">2024.10、2025.04、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">38.1 邻接矩阵（顺序存储）<br>
+n×n 矩阵：有边填 1（带权图填权值，无边填 ∞）。<br>
+<span class="formula">无向图：矩阵对称；1 的个数 = 2e；0 的个数 = n² − 2e
+有向图：矩阵不对称；1 的个数 = e；0 的个数 = n² − e
+矩阵不对称 ⇒ 图一定是有向图</span>
+<ul><li>无向图顶点 i 的度 = 第 i 行 1 的个数；有向图：行和=出度、列和=入度</li></ul>
+38.2 邻接表（链式存储）<br>
+表头数组存 n 个顶点，每个表头挂一条单链表，结点存<b>邻接点的数组下标</b>。<br>
+<ul><li>无向图每条边存两次 → 指针总数 n+2e（空指针也算）</li><li>有向图邻接表只挂出边；逆邻接表挂入边</li></ul>
+38.3 真题<br>
+2024.10 第19题（填空）：图的链式存储代表→邻接表<br>
+2024.10 第28题（解答，5分）：无向图邻接矩阵 0 的个数→n²−2e<br>
+2025.04 第34题（设计，10分）：邻接矩阵求顶点度的最大值（逐行数 1 取最大）<br>
+2026.04 第34题（设计）：邻接表存储的图做 DFS（见考点39）<br>
+<b>来源</b>：考点解析课笔记·第六章考点三~四；真题 2024.10-19/28、2025.04-34、2026.04-34<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点39</span><span class="kp-name">图的遍历：DFS 与 BFS</span><span class="kp-level lv-A">A</span><span class="kp-freq">2025.10、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">39.1 深度优先搜索 DFS<br>
+选起点 → 任选邻接点<b>深入</b>，能走多远走多远，无路可走<b>回溯</b>换分支。<br>
+<ul><li>辅助结构：栈（或递归）；visited 数组防重复</li><li>DFS 序列<b>不唯一</b>（邻接点访问顺序可不同）</li><li>不能走向不直接相连的顶点；当前点还有未访问邻接点时不能跳去别处</li></ul>
+39.2 广度优先搜索 BFS<br>
+先访问起点的<b>全部邻接点</b>，再逐层向外扩展。<br>
+<ul><li>辅助结构：<b>队列</b>；每个顶点入队恰好 <b>1 次</b>（2025.10-13）</li><li>必须等当前层全部访问完才进入下一层——起点的所有邻接点要连续排在前部</li></ul>
+39.3 真题<br>
+2025.10 第13题：BFS 中每个顶点最多入队→1 次<br>
+2026.04 第34题（设计）：邻接表存储的无向图，用 DFS 求连通分量个数并输出各分量顶点集（visited 全置 0 → 对每个未访问顶点 num++ 并 DFS）<br>
+<b>来源</b>：考点解析课笔记·第六章考点五~六；真题 2025.10-13、2026.04-34<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点40</span><span class="kp-name">连通图与连通分量</span><span class="kp-level lv-A">A</span><span class="kp-freq">2025.10、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">40.1 概念<br>
+<ul><li>无向连通图：任意两顶点间都有路径</li><li>连通分量：无向图的<b>极大连通子图</b></li><li>强连通（有向图）：任意两顶点互相可达</li></ul>
+40.2 必背结论<br>
+<span class="formula">n 个顶点的连通图：最少边数 = n−1；最多（完全图）= n(n−1)/2
+非连通图最少顶点构造：1 个孤立顶点 + 一个完全图</span>
+40.3 真题<br>
+2025.10 第28题：28 条边非连通图最少 9 个顶点（构造论证）<br>
+2026.04 第34题：DFS 求连通分量个数（设计）<br>
+<b>来源</b>：考点解析课笔记·第六章考点二；真题 2025.10-28、2026.04-34<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点41</span><span class="kp-name">最小生成树（Prim / Kruskal）</span><span class="kp-level lv-A">A</span><span class="kp-freq">2024.10、2025.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">41.1 概念<br>
+<ul><li>生成树：含全部 n 个顶点、<b>n−1 条边</b>、无回路的极小连通子图（取法不唯一）</li><li>最小生成树：边权值之和最小的生成树；<b>也可能不唯一</b>（等权边任选）</li></ul>
+41.2 两个算法（手算）<br>
+<ul><li><b>Kruskal（按边选）</b>：去边留点 → 按权值升序逐条选边 → 会成环就舍弃 → 选满 n−1 条为止</li><li><b>Prim（按点扩）</b>：去边留点 → 任选起点 → 每次选"已选顶点集到外部"权值最小的边，吸入一个新顶点 → 直到全部吸入</li></ul>
+<span class="callout tip">【记忆】Kruskal 挑边，Prim 扩点。手算优先 Kruskal，更快。两算法结果一致（都是最小生成树）。</span>
+41.3 真题<br>
+2024.10 第25题（填空）：最小生成树边数→n−1<br>
+2025.04 第27题（解答，5分）：简述最小生成树性质（含 n 个顶点、n−1 条边、连通无回路、权值和最小且可能不唯一）<br>
+<b>来源</b>：考点解析课笔记·第六章考点七~九；真题 2024.10-25、2025.04-27<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点42</span><span class="kp-name">拓扑排序</span><span class="kp-level lv-A">A</span><span class="kp-freq">2025.10、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">42.1 前提与结论<br>
+<ul><li>适用对象：<b>有向无环图</b>（AOV 网）</li><li>有环 ⇒ 不存在拓扑序列；能拓扑排序 ⇔ 图无环</li></ul>
+42.2 步骤（手算）<br>
+<ul><li>选一个<b>入度为 0</b> 的顶点输出 → 删除它及其所有出边 → 重复直到全部输出</li><li>多个入度 0 顶点时任选其一 ⇒ 拓扑序列一般<b>不唯一</b></li></ul>
+42.3 复杂度<br>
+<span class="formula">邻接表存储时，拓扑排序时间复杂度 = O(n + e)</span>
+42.4 真题<br>
+2025.10 第23题（填空）：时间复杂度→O(n+e)<br>
+2026.04 第28题（填空）：可进行拓扑排序的有向图一定是→无环图<br>
+<b>来源</b>：考点解析课笔记·第六章考点十；真题 2025.10-23、2026.04-28<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点43</span><span class="kp-name">最短路径（迪杰斯特拉算法）</span><span class="kp-level lv-B">B</span><span class="kp-freq">2025.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">43.1 概念<br>
+<ul><li>带权图路径长度 = 路径上各边权值之和</li><li>单源最短路径：一个起点（源点）到其余各顶点的最短路径——<b>迪杰斯特拉（Dijkstra）算法</b></li></ul>
+43.2 手算过程<br>
+每轮从未确定顶点中挑"当前距离最小"者确定下来 → 用它更新（松弛）经其中转的距离 → 重复 n−1 轮。<br>
+<span class="callout err">求最短路径用 Dijkstra；Prim/Kruskal 是最小生成树；哈夫曼求 WPL——三个"最优"别混。</span>
+43.3 真题<br>
+2025.04 第12题：求单源最短路径的算法→迪杰斯特拉算法<br>
+<b>来源</b>：考点解析课笔记·第六章考点十一；真题 2025.04-12<br></div>
+</div>
+</div>
+</div>
+
+<div class="ch" style="--accent:#a3e635;--accent-light:#65a30d">
+<div class="ch-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleCh(this)"><span class="ch-title-text">第七章 内部排序<span class="badge">7考点</span></span><span class="arrow">▼</span></div>
+<div class="ch-body">
+<div class="ch-intro">排序是 2026.04 单卷考得最多的章（6 题）。稳定性口诀与"一趟结果反推算法"是必练题型。<br></div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点44</span><span class="kp-name">排序基本概念与稳定性</span><span class="kp-level lv-S">S</span><span class="kp-freq">2024.10、2025.04、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">44.1 概念<br>
+<ul><li>排序：按关键字（主/次）将记录排成升序（默认）或降序</li><li><b>稳定</b>：相等元素排序前后相对次序不变；不稳定 = <b>可能</b>改变（不是一定改变）</li><li>衡量排序效率的两个因素：关键字的<b>比较次数</b> + 记录的<b>移动次数</b></li></ul>
+44.2 稳定性口诀（必背）<br>
+<span class="callout tip">【记忆】稳定：直接插入、起泡、归并、基数（口诀"插冒归基"）；
+不稳定：简单选择、希尔、快速、堆（口诀"选希快堆"）。
+平均 O(n log₂n) 且稳定的只有归并。</span>
+44.3 真题<br>
+2024.10 第23题（填空）：影响排序效率两因素→比较次数和移动次数<br>
+2025.04 第13题：平均 O(nlogn) 且稳定→归并排序<br>
+2025.04 第22题（填空）：同 2024.10-23<br>
+2026.04 第12题：全为稳定的一组→归并和起泡<br>
+<b>来源</b>：考点解析课笔记·第七章考点十四~十七；真题 2024.10-23、2025.04-13/22、2026.04-12<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点45</span><span class="kp-name">插入排序（直接插入 + 希尔）</span><span class="kp-level lv-S">S</span><span class="kp-freq">2024.10、2025.10、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">45.1 直接插入排序<br>
+每趟把<b>无序区第一个元素</b>插入有序区的正确位置；n 个元素 n−1 趟；任意时刻<b>前部（有序区）始终有序</b>。<br>
+<ul><li>稳定；比较/移动次数与初始排列有关</li><li>手算插入比较次数：从后往前与有序区元素逐个比较。例：有序区 [4,12,23,48,96] 插入 60 → 与 96 比（小）、与 48 比（大）→ 共 2 次（2025.10-24）</li><li>哨兵 r[0]：暂存待插元素，免去每次判断是否越界（2024.10-33 算法阅读）</li></ul>
+45.2 希尔排序<br>
+按<b>增量</b>分组做组内直接插入；增量逐趟缩小，<b>最后一趟增量必为 1</b>。<br>
+<ul><li>本质：直接插入的改进版（缩小增量排序）；不稳定</li><li>增量范围：1 ≤ s ≤ n−1（下界 1，上界 n−1）</li><li>2026.04 真题：增量从 n/3 起每趟 ÷3 → 两趟：第一趟 2,1,3,6,4,7,5,8；第二趟完全有序</li><li>反推增量（2025.10-14）：把候选增量代入"按间隔分组"逐组验证是否有序</li></ul>
+<span class="callout err">希尔排序不稳定——同值元素被分到不同组会跨越换位。最后一趟增量不是 1 则不能保证整体有序。</span>
+45.3 真题<br>
+2024.10 第33题：算法阅读——识别直接插入排序+哨兵作用+判断稳定<br>
+2025.10 第14题：由一趟结果判断增量→3<br>
+2025.10 第24题（填空）：插入 60 比较→2 次<br>
+2026.04 第13题：每趟后未必有元素归位的是→直接插入（堆/冒泡/快排每趟都归位一个）<br>
+2026.04 第23题（问答）：增量递减的希尔排序，两趟结果<br>
+<b>来源</b>：考点解析课笔记·第七章考点二~五；真题 2024.10-33、2025.10-14/24、2026.04-13/23<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点46</span><span class="kp-name">交换排序（起泡 + 快速）</span><span class="kp-level lv-A">A</span><span class="kp-freq">2024.10、2025.10</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">46.1 起泡排序<br>
+相邻元素比较，逆序交换；每趟把当前最值"冒"到一端；n−1 趟；<b>某趟无交换可提前结束</b>。<br>
+<ul><li>稳定；比较次数固定 <b>n(n−1)/2</b>（与数据无关）</li><li>特征：每趟确定一个最值，<b>末尾（或首部）若干元素有序</b></li><li>例：6 个元素降序起泡 → 比较 6×5/2=15 次（2024.10-24）</li></ul>
+46.2 快速排序<br>
+选基准（枢轴）做<b>划分</b>：小于基准放前、大于放后，基准落在最终位置；对两侧递归（分治思想）。<br>
+<ul><li>两种划分：对调划分（左右指针找一对交换一对）、转移划分（挖坑填数）；两者结果可能不同但基准都归位</li><li>平均 O(n log₂n)、<b>最坏 O(n²)</b>（初始基本有序时）；不稳定；空间 O(log₂n)（递归栈）</li><li>判定特征：序列中存在某元素"左边的都比它小、右边的都比它大"⇒ 可能是快排一趟结果</li></ul>
+<span class="callout tip">【信号】"一趟后某元素左边全小右边全大"→快排划分；双指针原地划分大题就是快排的 partition。</span>
+46.3 真题<br>
+2024.10 第24题（填空）：起泡降序比较次数→15<br>
+2025.10 第34题（设计，10分）：双指针划分把负数放非负数前面（快排 partition 思想）<br>
+<b>来源</b>：考点解析课笔记·第七章考点五~六；真题 2024.10-24、2025.10-34<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点47</span><span class="kp-name">选择排序（简单选择 + 堆排序）</span><span class="kp-level lv-A">A</span><span class="kp-freq">2024.10、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">47.1 简单选择排序<br>
+每趟从无序区<b>选出最小</b>，与无序区首位交换；n−1 趟。<br>
+<ul><li>比较次数固定 <b>n(n−1)/2</b>；不稳定</li><li>特征：每趟确定一个最值放前部，<b>前部有序且是全局最小的若干元素</b></li><li>第一趟：最小元素与第 1 个元素交换（如 45,24,39,… → 24,45,39,…）</li></ul>
+47.2 堆排序<br>
+<ul><li>升序：建初始<b>大根堆</b> → 堆顶与末位交换（最大值就位）→ 剩余元素重新调成大根堆 → 重复 n−1 趟</li><li>每趟确定一个最大值放末尾 → 末尾若干元素有序且是全局最大</li><li>不稳定；时间 O(n log₂n)；<b>空间 O(1)</b>（就地交换，辅助空间为常数）</li></ul>
+<span class="callout err">堆排序虽用堆结构，辅助空间仍是 O(1)；辅助空间 O(n) 的是归并排序。</span>
+47.3 真题<br>
+2024.10 第15题：辅助空间 O(n) 的排序→归并（辨析：堆排是 O(1)）<br>
+2026.04 第13题：堆/冒泡/快排每趟都归位一个元素，直接插入未必<br>
+2026.04 第30题（填空）：简单选择排序比较次数→n(n−1)/2<br>
+<b>来源</b>：考点解析课笔记·第七章考点六~七；真题 2024.10-15、2026.04-13/30<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点48</span><span class="kp-name">归并排序</span><span class="kp-level lv-A">A</span><span class="kp-freq">2025.04、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">48.1 二路归并<br>
+两个<b>有序</b>段合并为一个有序段；初始每个元素自成一有序段，两两合并，长度 2→4→8…，共 ⌈log₂n⌉ 趟。<br>
+<ul><li>合并前各段必须有序（3,1 不是有序段，不能直接合并）</li><li><b>稳定</b>；时间 O(n log₂n)（最好最坏相同）；<b>空间 O(n)</b></li><li>属于<b>分治</b>算法</li><li>比较次数手算：8 个元素的逆序序列二路归并 → 3 趟 × 每趟 4 次 = 12 次</li></ul>
+48.2 真题<br>
+2025.04 第13题：O(nlogn) 且稳定→归并<br>
+2026.04 第29题（填空）：(8,7,…,1) 归并比较次数→12<br>
+2026.04 第31题（填空）：归并排序是一个＿＿算法→分治<br>
+<b>来源</b>：考点解析课笔记·第七章考点八；真题 2025.04-13、2026.04-29/31<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点49</span><span class="kp-name">基数排序</span><span class="kp-level lv-B">B</span><span class="kp-freq">2025.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">49.1 分配—收集<br>
+按<b>个位、十位…</b>依次分配到 0~9 号桶再按桶序收回；位数为 d 就 d 趟。<br>
+<ul><li>每趟"分配→收集"后整体更接近有序；最后一趟结束后完全有序</li><li>一位数按前补 0 处理（1→01）</li><li>稳定；O(d(n+rd))</li></ul>
+49.2 真题<br>
+2025.04 第24题（填空）：{55,46,13,94,17,42} 第一趟（按个位分配收集）→ <b>42,13,94,55,46,17</b><br>
+<b>来源</b>：考点解析课笔记·第七章考点九；真题 2025.04-24<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点50</span><span class="kp-name">排序算法比较（复杂度/一趟特性/反推算法）</span><span class="kp-level lv-S">S</span><span class="kp-freq">2024.10、2025.10、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">50.1 总表（以教材 290 页结论为准）<br>
+<table><tr><th>算法</th><th>平均时间</th><th>最坏时间</th><th>辅助空间</th><th>稳定性</th></tr><tr><td>直接插入</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>稳定</td></tr><tr><td>希尔</td><td>约 O(n^1.3)</td><td>依赖增量</td><td>O(1)</td><td>不稳定</td></tr><tr><td>起泡</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>稳定</td></tr><tr><td>快速</td><td>O(n log₂n)</td><td>O(n²)</td><td>O(log₂n)</td><td>不稳定</td></tr><tr><td>简单选择</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>不稳定</td></tr><tr><td>堆排序</td><td>O(n log₂n)</td><td>O(n log₂n)</td><td>O(1)</td><td>不稳定</td></tr><tr><td>归并</td><td>O(n log₂n)</td><td>O(n log₂n)</td><td>O(n)</td><td>稳定</td></tr><tr><td>基数</td><td>O(d(n+rd))</td><td>O(d(n+rd))</td><td>O(n+rd)</td><td>稳定</td></tr></table>
+50.2 一趟结果反推算法（题型模型）<br>
+<ul><li>前部是"有序区"（前 k 个有序）→ 直接插入（或希尔最后一趟）</li><li>末尾若干元素有序且依次为最大/最小 → 起泡</li><li>前部有序且是<b>全局最小</b>的若干元素 → 简单选择</li><li>存在"左小右大"的元素（在最终位置）→ 快速排序</li><li>末尾若干元素是<b>全局最大</b> → 堆排序</li><li>出现多个长度相等的有序块 → 归并</li><li>按"位"分组局部有序 → 基数（按增量分组 → 希尔）</li><li>每趟都归位一个元素的：起泡、快速、简单选择、堆；<b>直接插入未必</b></li></ul>
+50.3 真题<br>
+2026.04 第13题：哪一种一趟后未必选出最终位置元素→直接插入<br>
+2024.10 第15题：辅助空间 O(n)→归并<br>
+2025.10 第14题：由一趟结果反推希尔增量<br>
+<b>来源</b>：考点解析课笔记·第七章考点十~十三；真题 2026.04-13、2024.10-15、2025.10-14<br></div>
+</div>
+</div>
+</div>
+
+<div class="ch" style="--accent:#fb7185;--accent-light:#e11d48">
+<div class="ch-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleCh(this)"><span class="ch-title-text">第八章 查找<span class="badge">8考点</span></span><span class="arrow">▼</span></div>
+<div class="ch-body">
+<div class="ch-intro">折半查找四年 6 题（判定树/比较序列/ASL），本章绝对核心；哈希（函数构造+冲突处理）解答题两年各一道。AVL、B 树笔记讲得细，近 4 套真题零星出现，按 B 级保守整理。<br></div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点51</span><span class="kp-name">查找基本概念与 ASL</span><span class="kp-level lv-B">B</span><span class="kp-freq">2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">51.1 概念<br>
+<ul><li>查找表：查找的搜索范围（数组、链表、树等结构）</li><li>成功查找/不成功查找</li><li>ASL（平均查找长度）= 各元素所需比较次数之和 ÷ 元素个数——<b>衡量查找方法效率的指标</b></li><li>哈希表的查找效率同样用 ASL 度量</li></ul>
+51.2 真题<br>
+2026.04 第33题（填空）：哈希表查找效率用＿＿度量→平均查找长度<br>
+<b>来源</b>：考点解析课笔记·第八章考点一~三；真题 2026.04-33<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点52</span><span class="kp-name">顺序查找</span><span class="kp-level lv-A">A</span><span class="kp-freq">2024.10、2025.10、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">52.1 思想<br>
+从头到尾逐个比较，<b>不要求表有序</b>；找到返回位置，查完没找到为不成功。<br>
+<span class="formula">成功 ASL = (n+1)/2        （比较次数 1,2,…,n 求和除以 n）
+不成功查找：比较 n 次（ASL = n）
+最坏比较次数 = n（目标是最后一个，或不存在）</span>
+52.2 真题<br>
+2024.10 第11题：等概率顺序查找 ASL→(n+1)/2<br>
+2025.10 第15题：不成功查找的 ASL→n<br>
+2026.04 第19题（问答）：简述顺序查找的基本思想<br>
+<b>来源</b>：考点解析课笔记·第八章考点四~六；真题 2024.10-11、2025.10-15、2026.04-19<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点53</span><span class="kp-name">折半查找</span><span class="kp-level lv-S">S</span><span class="kp-freq">2024.10、2025.04、2025.10、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">53.1 前提（必考概念）<br>
+两个必要条件：<b>顺序存储</b> + <b>元素有序</b>。链表不行（无法随机定位中间元素）。<br>
+53.2 过程模拟（高频考法）<br>
+<ul><li>mid = ⌊(low+high)/2⌋（题目常给一次比较结果让你反领取整方式）</li><li>目标 &lt; 中间值去前半段；&gt; 去后半段；相等成功</li><li>偶数个元素时取<b>前半段最后一个</b>作为中间值</li><li>比较序列：依次写出每次比较的元素值</li></ul>
+例：2,4,6,…,20 找 14 → 比 10（14&gt;10）→ 比 16（14&lt;16）→ 比 12（14&gt;12）→ 比 14 成功，共 4 次。<br>
+53.3 判定树与 ASL<br>
+<ul><li>判定树：每次的中间元素作根（子树根），左右子表递归构造</li><li>元素的比较次数 = 其在判定树中的<b>层数 + 1</b>（根为第 0 层）</li><li>最多比较次数 = <b>⌊log₂n⌋ + 1</b>（判定树高度）</li><li>ASL = Σ(每层结点数 × (层号+1)) ÷ n</li></ul>
+<span class="formula">13 个元素：第0层1个、第1层2个、第2层4个、第3层6个
+ASL = (1×1 + 2×2 + 4×3 + 6×4) / 13 = 41/13
+100 个元素不成功最多比较 ⌊log₂100⌋+1 = 7 次</span>
+53.4 真题<br>
+2024.10 第14题：二分查找前提→顺序存储且有序<br>
+2024.10 第32题：读递归折半程序——key=19 返回 −1、key=28 返回 3<br>
+2025.04 第21题（填空）：13 元素有序表找 75 比较→4 次<br>
+2025.10 第25题（填空）：比较序列→10、16、12、14<br>
+2025.10 第32题：递归折半找 5 返回→4<br>
+2026.04 第14题：100 元素不成功最多比较→7 次<br>
+<b>来源</b>：考点解析课笔记·第八章考点七~九；真题 2024.10-14/32、2025.04-21、2025.10-25/32、2026.04-14<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点54</span><span class="kp-name">分块查找（索引顺序查找）</span><span class="kp-level lv-B">B</span><span class="kp-freq">2025.04、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">54.1 思想<br>
+前提"<b>分块有序</b>"：<b>块间有序</b>（后一块的最小关键字 &gt; 前一块的最大关键字），块内可以无序。<br>
+<ul><li>流程：建索引表（各块最大关键字，天然有序）→ 索引表折半（或顺序）查找定位块 → 块内顺序查找</li><li>存储：线性表必须采用<b>索引</b>方法存储</li><li>别名：索引顺序查找 = 分块查找（同一概念）</li></ul>
+54.2 真题<br>
+2025.04 第14题：分块查找要求→块间有序（块内无序不要求）<br>
+2026.04 第32题（填空）：实现分块查找，线性表必须采用＿＿存储→索引<br>
+<b>来源</b>：考点解析课笔记·第八章考点十~十一；真题 2025.04-14、2026.04-32<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点55</span><span class="kp-name">二叉查找树（BST）</span><span class="kp-level lv-A">A</span><span class="kp-freq">2025.10</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">55.1 定义（左小右大）<br>
+任一结点：<b>左子树所有结点 &lt; 根 &lt; 右子树所有结点</b>；左右子树也各是 BST（递归定义）。<br>
+别名：二叉排序树、二叉搜索树、二叉查找树（同一概念）。<br>
+<span class="callout err">只检查"每个结点与直接孩子"的大小关系不够——左子树里不能藏比根大的数，必须整棵子树都满足。</span>
+55.2 关键性质与操作<br>
+<ul><li><b>中序遍历 BST → 升序序列</b>（左根右 × 左小右大 = 天然递增）——判 BST、求有序序列的钥匙</li><li>生成：逐个插入，新元素从<b>根</b>开始比较下探到空位；<b>插入顺序不同 → 树形不同</b>（同一集合可长成单支斜树）</li><li>查找：与根比较，小往左、大往右，路径由大小关系唯一决定</li><li>删除三种情况：叶结点直接删；只有一棵子树用子树顶替；左右子树都有用<b>直接前驱（左子树最右结点）或直接后继（右子树最左结点）</b>顶替</li><li>填值推理：按左右子树结点个数定根（左子树 k 个 ⇒ 根是第 k+1 小的值），逐层推理</li></ul>
+55.3 真题<br>
+2025.10 第29题（解答，5分）：简述二叉查找树的特点（三条递归定义）<br>
+<b>来源</b>：考点解析课笔记·第八章考点十二~十七；真题 2025.10-29<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点56</span><span class="kp-name">AVL 树</span><span class="kp-level lv-B">B</span><span class="kp-freq">2025.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">56.1 平衡因子<br>
+平衡因子 = 左子树高度 − 右子树高度；合法取值 <b>−1、0、1</b>。<br>
+<ul><li>所有结点平衡因子都在 {−1,0,1} 内 ⇒ AVL 树；任一结点超出 ⇒ 失衡</li><li>目的：解决 BST 可能退化成单支斜树的问题</li></ul>
+56.2 插入与旋转<br>
+按 BST 方式插入；插入后沿路径检查，对<b>离插入点最近的失衡结点</b>做旋转（LL/RR 单旋等）恢复平衡。<br>
+56.3 最少结点数递推<br>
+<span class="formula">N(h) = N(h−1) + N(h−2) + 1，N(1)=1，N(2)=2
+高度 4 最少 N(4) = 7 个结点；N(5) = 12</span>
+56.4 真题<br>
+2025.04 第20题（填空）：高度 4 的 AVL 树最少结点→7<br>
+<b>来源</b>：考点解析课笔记·第八章（AVL 树，考频低）；真题 2025.04-20<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点57</span><span class="kp-name">B 树</span><span class="kp-level lv-B">B</span><span class="kp-freq">近4套未直接命题</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">57.1 m 阶 B 树定义（判断题素材）<br>
+<ul><li>每个结点最多 <b>m</b> 棵子树、<b>m−1</b> 个关键字——关键字数 = 子树数 − 1</li><li><b>所有叶结点在同一层</b>（完全平衡）</li><li>非空根：子树数 2~m，关键字数 1~m−1</li><li>非根结点：子树数 ⌈m/2⌉~m，关键字数 ⌈m/2⌉−1 ~ m−1</li></ul>
+<span class="callout err">"每个结点关键字最多 m 个"是错的——是 m−1 个。</span>
+57.2 插入与分裂<br>
+按大小规则插到叶层；结点关键字超过 m−1 → <b>中间关键字上提</b>，左右分裂成两个结点；上提导致父结点也超限 → <b>连锁分裂</b>（树可长高一层）。<br>
+例：3 阶 B 根 [1,2] 插入 3 → [1,2,3] 超限（上限 2）→ 2 上提，1、3 分列两侧。<br>
+57.3 常考计算<br>
+<span class="formula">高度 2 的 4 阶 B 树最多关键字 = 根 3 个 + 4 个子结点 × 3 = 15
+非根结点关键字下限 = ⌈m/2⌉ − 1     （m=3 → 1；m=25 → 12）</span>
+57.4 考情说明<br>
+笔记重点（定义判断/关键字个数/插入分裂三组例题），但近 4 套真题未直接命题；大纲要求"领会"——保守保留 B 级。<br>
+<b>来源</b>：考点解析课笔记·第八章（B 树，重点）；近 4 套真题未直接命题（样本少，不下趋势结论）<br></div>
+</div>
+<div class="kp">
+<div class="kp-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleKp(this)"><span class="kp-num">考点58</span><span class="kp-name">哈希表</span><span class="kp-level lv-S">S</span><span class="kp-freq">2024.10、2025.04、2026.04</span><span class="kp-arrow">▼</span></div>
+<div class="kp-detail">58.1 基本概念<br>
+<ul><li>哈希（散列）方法：由关键字直接计算存储地址；h(key) 为哈希函数；存放关键字的数组为哈希表</li><li><b>冲突</b>：不同关键字算出相同地址；冲突双方互称<b>同义词</b></li><li>装填因子：表中已有记录数 / 表长（影响效率的因素之一）</li></ul>
+58.2 哈希函数构造（解答题考过两次）<br>
+五种方法：<b>直接定址法、平方取中法、折叠法、基数转换法、除留余数法</b>（h(key)=key mod p）。<br>
+<ul><li>构造时考虑的因素（5 条，2024.10-26）：计算哈希函数所需时间、关键字长度、哈希表大小、关键字分布情况、记录的查找频率</li><li>除留余数法的除数：选<b>小于等于表长的质数</b>（表长 40 → 选 37；39=3×13、38=2×19 都不是质数）</li></ul>
+58.3 冲突处理（笔记重点，考法：手算位置）<br>
+<ul><li>线性探测法：冲突则 +1、+2、… 顺次向后找空位</li><li>二次探测法：+1²、−1²、+2²、−2²、… 平方跳跃探测</li><li>链地址法（拉链法）：同义词挂同一地址的<b>单链表</b>，不另找地址</li></ul>
+58.4 手算流程<br>
+算 h(key) → 冲突？→ 按探测序列逐个试 → 记录第几次探测落入空位。<br>
+例：表长 7、h=key mod 7，插入 14：mod 7=0 被占 → 地址 1 被占 → 地址 2 空 → 放入 2（探测 3 次）。<br>
+58.5 真题<br>
+2024.10 第26题（解答，5分）：构造哈希函数考虑的因素（5 条）<br>
+2025.04 第26题（解答，5分）：列出五种构造哈希函数的方法<br>
+2026.04 第15题：哈希冲突定义→关键字不同而哈希函数值相同<br>
+2026.04 第33题：效率度量→平均查找长度<br>
+<b>来源</b>：考点解析课笔记·第八章（哈希方法）；真题 2024.10-26、2025.04-26、2026.04-15/33<br></div>
+</div>
+</div>
+</div>
+
+<div class="ch" style="--accent:#4ade80;--accent-light:#16a34a">
+<div class="ch-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleCh(this)"><span class="ch-title-text">高频公式</span><span class="arrow">▼</span></div>
+<div class="ch-body">
+<div class="ch-intro"><span class="formula">顺序表地址：LOC(aᵢ) = LOC(a₀) + i×d
+二维行主序：LOC = 首址 + (i×n + j)×d    列主序：LOC = 首址 + (j×m + i)×d
+顺序表平均移动：插入 n/2 次；删除 (n−1)/2 次；删第 i 个移动 n−i 个
+循环队列：入队/出队 (x+1)%m；判空 front==rear；判满 (rear+1)%m==front；
+          元素个数 (rear−front+m)%m
+三角/对称矩阵存储量：n(n+1)/2
+串的子串数：n(n+1)/2 + 1；BF 最坏比较 (n−m+1)×m
+二叉树：第 i 层最多 2ⁱ；高度 h 最多 2ʰ−1；n0 = n2 + 1；卡特兰数 C(2n,n)/(n+1)
+完全二叉树：n 个结点高度 ⌊log₂n⌋+1；哈夫曼树总结点 2n−1，分支结点 n−1
+图：无向 Σ度=2e；有向 Σ入度=Σ出度=e；完全图 n(n−1)/2（有向 n(n−1)）；连通最少 n−1 条边
+最小生成树：n−1 条边；拓扑排序（邻接表）O(n+e)
+排序：起泡/简单选择比较次数 n(n−1)/2（固定）；折半判定树高度 ⌊log₂n⌋+1
+查找：顺序成功 ASL=(n+1)/2、不成功 ASL=n；AVL 最少结点 N(h)=N(h−1)+N(h−2)+1</span></div>
+</div>
+</div>
+
+<div class="ch" style="--accent:#e879f9;--accent-light:#a21caf">
+<div class="ch-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleCh(this)"><span class="ch-title-text">高频易错</span><span class="arrow">▼</span></div>
+<div class="ch-body">
+<div class="ch-intro"><span class="callout err">单链表插入必须先接后断：s-&gt;next=p-&gt;next 再 p-&gt;next=s，顺序颠倒会断链丢后继。</span>
+<span class="callout err">链式存储"不要求连续"≠"一定不连续"；= 是赋值、== 才是判等；判空 head-&gt;next==NULL（带头结点）/ head==NULL（不带头）。</span>
+<span class="callout err">循环队列容量陷阱：数组下标 0~m 时容量是 m+1；判空判满都用双等号；rear 指向约定变了公式跟着变。</span>
+<span class="callout err">广义表表尾永远是"表"要套括号：Tail((c,d))=(d) 不是原子 d；表头表尾对子表要重新识别。</span>
+<span class="callout err">n0 = n2 + 1 与 n1 无关——题目给 n1 多半是干扰条件；"二叉树的度为 2"错，是"不超过 2"。</span>
+<span class="callout err">顺序栈先移指针还是先存元素，取决于 top 指向空位还是栈顶元素；两道真题（2025.10-6、2026.04-6）都考这个。</span>
+<span class="callout err">哈夫曼编码判"不可能"：某编码是另一编码的前缀（如 1 是 10 的前缀）即不可能；哈夫曼树不唯一。</span>
+<span class="callout err">存储结构三连辨析：最短路径用 Dijkstra；最小生成树用 Prim/Kruskal；WPL 最小是哈夫曼树。</span>
+<span class="callout err">折半查找两个前提缺一不可：顺序存储 + 有序；偶数个元素取前半段最后一个作 mid。</span>
+<span class="callout err">希尔排序、简单选择、快速、堆排序不稳定；稳定的是直接插入、起泡、归并、基数（插冒归基）。</span></div>
+</div>
+</div>
+
+<div class="ch" style="--accent:#facc15;--accent-light:#a16207">
+<div class="ch-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleCh(this)"><span class="ch-title-text">题型索引</span><span class="arrow">▼</span></div>
+<div class="ch-body">
+<div class="ch-intro"><table><tr><th>题型</th><th>考点</th><th>说明</th></tr><tr><td>概念辨析（单选/填空）</td><td>考点1、2、3、17、23、25、44</td><td>识记层，抓关键词"基本单位/最小单位/受限线性表"</td></tr><tr><td>出入栈序列模拟</td><td>考点15</td><td>全场最高频，模拟法+卡特兰数+最小容量</td></tr><tr><td>指针操作判断</td><td>考点9、10、11、16、19</td><td>先接后断、判空条件、top 约定</td></tr><tr><td>地址计算</td><td>考点7、22</td><td>一维/二维、行/列主序，套公式</td></tr><tr><td>手算算法过程</td><td>考点18、33、36、41、42、45、46、47、48、49</td><td>循环队列、建堆、哈夫曼、Prim/Kruskal、拓扑、各排序一趟</td></tr><tr><td>遍历序列互推</td><td>考点31、32</td><td>先/中/后序定根分左右，必须含中序</td></tr><tr><td>ASL 与判定树</td><td>考点52、53</td><td>折半比较序列、⌊log₂n⌋+1</td></tr><tr><td>简答题</td><td>考点4、27、37、41、43、52、55、58</td><td>算法五特性、树/二叉树差别、BST 特点、哈希构造</td></tr><tr><td>算法阅读</td><td>考点10、14、21、31、33、45、53</td><td>说功能+推结果：双指针、辅助栈/队列、递归遍历、折半</td></tr><tr><td>算法设计（10分）</td><td>考点14、31、38、39、46</td><td>双指针划分、二叉树递归、邻接矩阵/表操作、DFS 连通分量</td></tr></table></div>
+</div>
+</div>
+
+<div class="ch" style="--accent:hsl(67,70%,62%);--accent-light:hsl(67,78%,38%)">
+<div class="ch-title" role="button" tabindex="0" aria-expanded="false" onclick="toggleCh(this)"><span class="ch-title-text">考前速记</span><span class="arrow">▼</span></div>
+<div class="ch-body">
+<div class="ch-intro"><ul><li>四种逻辑结构：集合、线性、树、图；四种存储：顺序、链式、索引、散列</li><li>算法五特性：输入(≥0)、输出(≥1)、有穷、确定、可行</li><li>出栈序列数 = 卡特兰数 C(2n,n)/(n+1)；p₁=n ⇒ 第 i 个出栈 = n−i+1</li><li>单链表插入：先接后断；判空：带头 head-&gt;next<span class="em">NULL，不带头 head</span>NULL</li><li>循环队列：个数 (rear−front+m)%m，判满 (rear+1)%m==front</li><li>二维数组：行主序 (i×n+j)×d，列主序 (j×m+i)×d；子串数 n(n+1)/2+1</li><li>广义表：表尾是表要套括号；长度看最外层，深度看括号层数</li><li>二叉树：n0=n2+1；中序+先序（或后序）唯一确定；树的先序=对应二叉树先序，树的后序=对应二叉树中序</li><li>哈夫曼：WPL 最小、不唯一、2n−1 个结点、前缀码</li><li>图：无向 Σ度=2e，有向 Σ入度=Σ出度=e；DFS 用栈、BFS 用队（每点入队 1 次）；生成树 n−1 条边</li><li>排序稳定口诀：插冒归基稳，选希快堆不稳；O(nlogn) 且稳定只有归并；一趟未必归位的是直接插入</li><li>折半查找：顺序存储+有序；最多比较 ⌊log₂n⌋+1；BST 中序遍历升序；分块查找块间有序</li><li>哈希：除留余数选质数；冲突=不同关键字同地址；线性探测+1 顺次、二次探测±i²、链地址拉链</li></ul></div>
+</div>
+</div>
+
+<script>
+function toggleTheme(){var r=document.documentElement,next=r.getAttribute('data-theme')==='light'?'dark':'light';r.setAttribute('data-theme',next);try{localStorage.setItem('theme',next)}catch(e){}}
+document.addEventListener('keydown',function(e){if(e.key!=='Enter'&&e.key!==' ')return;var el=e.target;if(el.classList&&el.classList.contains('ch-title')){e.preventDefault();toggleCh(el)}else if(el.classList&&el.classList.contains('kp-title')){e.preventDefault();toggleKp(el)}});
+function toggleCh(el){var ch=el.closest('.ch'),isOpen=ch.classList.contains('open');ch.classList.toggle('open');el.setAttribute('aria-expanded',String(!isOpen));if(!isOpen){ch.querySelectorAll('.kp-detail').forEach(function(d){d.style.display='none'});ch.querySelectorAll('.kp').forEach(function(k){k.classList.remove('open')});ch.querySelectorAll('.kp-title').forEach(function(t){t.setAttribute('aria-expanded','false')})}}
+function toggleKp(el){var kp=el.closest('.kp'),isOpen=kp.classList.contains('open');kp.classList.toggle('open');el.setAttribute('aria-expanded',String(!isOpen));kp.querySelector('.kp-detail').style.display=isOpen?'none':'block'}
+function mdInline(n){if(n.nodeType===3)return n.textContent;if(n.nodeType!==1)return '';if(n.tagName==='BR')return '\n';var s='';for(var i=0;i<n.childNodes.length;i++)s+=mdInline(n.childNodes[i]);var t=n.tagName;if(t==='B'||t==='STRONG')return '**'+s.trim()+'**';return s}
+function mdTable(t){var rows=[].map.call(t.rows,function(r){return [].map.call(r.cells,function(c){return mdInline(c).trim().replace(/\|/g,'\\|').replace(/\n/g,' ')})});if(!rows.length)return '';function line(cs){return '| '+cs.join(' | ')+' |'}var out=[line(rows[0]),line(rows[0].map(function(){return '---'}))];for(var i=1;i<rows.length;i++)out.push(line(rows[i]));return out.join('\n')}
+function mdDetail(el){var lines=[],cur='';function flush(){cur=cur.trim();if(cur)lines.push(cur);cur=''}[].forEach.call(el.childNodes,function(n){if(n.nodeType===3){cur+=n.textContent.replace(/\s+/g,' ');return}if(n.nodeType!==1)return;var tag=n.tagName;if(tag==='svg'){return}if(tag==='BR'){flush();return}if(tag==='TABLE'){flush();lines.push(mdTable(n));return}if(tag==='UL'){flush();[].forEach.call(n.children,function(li){lines.push('- '+mdInline(li).trim())});return}var txt=mdInline(n).trim();if(!txt)return;if(n.classList.contains('kp-sub')){flush();lines.push('#### '+txt);return}if(n.classList.contains('formula')){flush();txt.split('\n').forEach(function(l){lines.push('> '+l)});return}if(n.classList.contains('callout')){flush();txt.split('\n').forEach(function(l){lines.push('> '+l)});return}cur+=mdInline(n)});flush();return lines.join('\n\n')}
+function exportMarkdown(){var parts=[];var h1=document.querySelector('header h1');parts.push('# '+(h1?h1.textContent.trim():'考点笔记'));var stats=[].map.call(document.querySelectorAll('.header-stat'),function(s){return s.textContent.replace(/\s+/g,' ').trim()});if(stats.length)parts.push('> '+stats.join(' · '));[].forEach.call(document.querySelectorAll('.ch'),function(ch){var ts=ch.querySelector('.ch-title span');var title='';if(ts){var c=ts.cloneNode(true);[].forEach.call(c.querySelectorAll('.badge'),function(b){b.remove()});title=c.textContent.trim()}parts.push('## '+title);[].forEach.call(ch.querySelectorAll('.kp'),function(kp){var num=kp.querySelector('.kp-num'),name=kp.querySelector('.kp-name');var head=((num?num.textContent.trim():'')+' '+(name?name.textContent.trim():'')).trim();parts.push('### '+head);var d=kp.querySelector('.kp-detail');var dt=d?mdDetail(d):'';if(dt)parts.push(dt)})});parts.push('---');parts.push('*导出于 '+new Date().toLocaleString('zh-CN',{hour12:false})+'*');var md=parts.join('\n\n');var blob=new Blob(['\ufeff'+md],{type:'text/markdown;charset=utf-8'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='13003数据结构与算法考点笔记.md';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1000);return md}
+function downloadBlob(blob,name){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1000)}
+function showToast(msg,ms){var t=document.getElementById('exportToast');if(!t){t=document.createElement('div');t.className='export-toast';t.id='exportToast';document.body.appendChild(t)}t.style.display='block';t.textContent=msg;clearTimeout(showToast._t);if(ms)showToast._t=setTimeout(function(){t.style.display='none'},ms);return t}
+function hideToast(){var t=document.getElementById('exportToast');if(t)t.style.display='none'}
+function toggleExportMenu(e){e.stopPropagation();var m=document.getElementById('exportMenu'),b=document.querySelector('.export-md');var open=m.hasAttribute('hidden');if(open){m.removeAttribute('hidden')}else{m.setAttribute('hidden','')}b.setAttribute('aria-expanded',String(open))}
+function closeExportMenu(){var m=document.getElementById('exportMenu');if(m)m.setAttribute('hidden','');var b=document.querySelector('.export-md');if(b)b.setAttribute('aria-expanded','false')}
+function onExportItem(kind){closeExportMenu();if(kind==='pdf'){exportPDF()}else if(kind==='word'){exportWord()}else{exportMarkdown()}}
+document.addEventListener('click',function(e){var m=document.getElementById('exportMenu');if(m&&!m.hasAttribute('hidden')&&!m.contains(e.target)&&!e.target.closest('.export-md'))closeExportMenu()});
+function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+/* 全部展开 / 收起：与单个 toggle 保持同一套状态（.open 类 + kp-detail 内联 display + aria-expanded） */
+function setAllChapters(open){[].forEach.call(document.querySelectorAll('.ch'),function(ch){ch.classList.toggle('open',open);var t=ch.querySelector('.ch-title');if(t)t.setAttribute('aria-expanded',String(open))});[].forEach.call(document.querySelectorAll('.kp'),function(kp){kp.classList.toggle('open',open);var t=kp.querySelector('.kp-title');if(t)t.setAttribute('aria-expanded',String(open));var d=kp.querySelector('.kp-detail');if(d)d.style.display=open?'block':'none'})}
+function expandAllChapters(){setAllChapters(true)}
+function collapseAllChapters(){setAllChapters(false)}
+/* ── 悬浮工具：整页搜索（含折叠内容）+ 回到顶部 ── */
+var _searchIndex=null;
+function getSearchIndex(){if(_searchIndex)return _searchIndex;_searchIndex=[];[].forEach.call(document.querySelectorAll('.ch'),function(ch){var ts=ch.querySelector('.ch-title span');var chName='';if(ts){var c=ts.cloneNode(true);[].forEach.call(c.querySelectorAll('.badge'),function(b){b.remove()});chName=c.textContent.trim()}[].forEach.call(ch.querySelectorAll('.kp'),function(kp){var num=kp.querySelector('.kp-num'),name=kp.querySelector('.kp-name'),d=kp.querySelector('.kp-detail');_searchIndex.push({ch:chName,kp:((num?num.textContent.trim():'')+' '+(name?name.textContent.trim():'')).trim(),kpEl:kp,chEl:ch,text:d?d.textContent.replace(/\s+/g,' '):''})})});return _searchIndex}
+var searchMarks=[];
+function clearSearchMarks(){searchMarks.forEach(function(m){var p=m.parentNode;if(!p)return;p.replaceChild(document.createTextNode(m.textContent),m);p.normalize()});searchMarks=[]}
+function markSnippet(text,lq){var low=text.toLowerCase(),out='',pos=0,i;while((i=low.indexOf(lq,pos))>=0){out+=escHtml(text.slice(pos,i))+'<mark>'+escHtml(text.substr(i,lq.length))+'</mark>';pos=i+lq.length}return out+escHtml(text.slice(pos))}
+function runSearch(){var inp=document.getElementById('searchInput'),box=document.getElementById('searchResults'),cnt=document.getElementById('searchCount');var q=inp.value.trim().toLowerCase();box.innerHTML='';if(!q){cnt.textContent='';box.innerHTML='<div class="sp-empty">输入关键词，搜索全部章节与考点（含折叠内容）</div>';return}var hits=getSearchIndex().filter(function(it){return it.text.toLowerCase().indexOf(q)>=0||it.kp.toLowerCase().indexOf(q)>=0||it.ch.toLowerCase().indexOf(q)>=0});cnt.textContent=hits.length?('共 '+hits.length+' 个考点'):'';
+if(!hits.length){box.innerHTML='<div class="sp-empty">没有找到「'+escHtml(inp.value.trim())+'」相关内容</div>';return}
+hits.slice(0,60).forEach(function(it,i){var text=it.text,low=text.toLowerCase(),f=low.indexOf(q),snip;if(f<0){snip=markSnippet(it.kp,q)}else{var s=Math.max(0,f-32),e=Math.min(text.length,f+q.length+64);snip=(s>0?'…':'')+markSnippet(text.slice(s,e),q)+(e<text.length?'…':'')}
+var el=document.createElement('div');el.className='sr-item';el.innerHTML='<div class="sr-path">'+escHtml(it.ch)+' ▸ '+escHtml(it.kp)+'</div><div class="sr-snippet">'+snip+'</div>';el.addEventListener('click',function(){jumpToSearchHit(it,q)});box.appendChild(el)});
+if(hits.length>60){var more=document.createElement('div');more.className='sp-empty';more.textContent='仅显示前 60 条，请细化关键词';box.appendChild(more)}}
+/* 页内高亮：只包普通文本节点，跳过 SVG 子树（mark 在 SVG 里非法） */
+function markInElement(root,q){if(!q)return;var lq=q.toLowerCase(),made=0;var walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,function(n){if(!n.nodeValue||n.nodeValue.toLowerCase().indexOf(lq)<0)return NodeFilter.FILTER_REJECT;if(n.parentNode&&n.parentNode.ownerSVGElement)return NodeFilter.FILTER_REJECT;return NodeFilter.FILTER_ACCEPT}),nodes=[],n;while((n=walker.nextNode()))nodes.push(n);nodes.forEach(function(node){var txt=node.nodeValue,low=txt.toLowerCase(),pos=0,idx,frag=null;while((idx=low.indexOf(lq,pos))>=0&&made<120){if(!frag)frag=document.createDocumentFragment();if(idx>pos)frag.appendChild(document.createTextNode(txt.slice(pos,idx)));var m=document.createElement('mark');m.className='search-hit';m.textContent=txt.substr(idx,q.length);frag.appendChild(m);searchMarks.push(m);made++;pos=idx+q.length}if(frag){if(pos<txt.length)frag.appendChild(document.createTextNode(txt.slice(pos)));node.parentNode.replaceChild(frag,node)}})}
+function jumpToSearchHit(it,q){clearSearchMarks();it.chEl.classList.add('open');var ct=it.chEl.querySelector('.ch-title');if(ct)ct.setAttribute('aria-expanded','true');it.kpEl.classList.add('open');var kt=it.kpEl.querySelector('.kp-title');if(kt)kt.setAttribute('aria-expanded','true');var d=it.kpEl.querySelector('.kp-detail');if(d)d.style.display='block';markInElement(d,q);var y=it.kpEl.getBoundingClientRect().top+(window.scrollY||document.documentElement.scrollTop)-90;animateScrollTo(Math.max(0,y))}
+function openSearchPanel(){var p=document.getElementById('searchPanel');if(!p.hasAttribute('hidden')){document.getElementById('searchInput').focus();return}p.removeAttribute('hidden');if(!document.getElementById('searchInput').value)document.getElementById('searchResults').innerHTML='<div class="sp-empty">输入关键词，搜索全部章节与考点（含折叠内容）</div>';setTimeout(function(){document.getElementById('searchInput').focus()},50)}
+function closeSearchPanel(){var p=document.getElementById('searchPanel');if(p.hasAttribute('hidden'))return;p.setAttribute('hidden','');clearSearchMarks()}
+function toggleSearchPanel(){var p=document.getElementById('searchPanel');if(p.hasAttribute('hidden'))openSearchPanel();else closeSearchPanel()}
+/* 平滑滚动：定时器驱动，不依赖合成器动画帧（部分环境原生 smooth 不推进）；尊重减弱动效偏好 */
+function animateScrollTo(targetY){var reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;if(reduced){window.scrollTo(0,targetY);onScrollFloat();return}var startY=window.scrollY||document.documentElement.scrollTop||0,delta=targetY-startY;if(delta===0)return;var t0=Date.now(),DUR=Math.min(650,240+Math.abs(delta)*0.15);var timer=setInterval(function(){var p=Math.min(1,(Date.now()-t0)/DUR);p=1-Math.pow(1-p,3);window.scrollTo(0,Math.round(startY+delta*p));if(p>=1){clearInterval(timer);onScrollFloat()}},16)}
+function scrollTopSmooth(){animateScrollTo(0)}
+document.addEventListener('click',function(e){var p=document.getElementById('searchPanel');if(p&&!p.hasAttribute('hidden')&&!p.contains(e.target)&&!e.target.closest('.float-tools'))closeSearchPanel()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeExportMenu();closeSearchPanel()}});
+document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&(e.key==='k'||e.key==='K')){e.preventDefault();openSearchPanel()}});
+document.getElementById('searchInput').addEventListener('input',runSearch);
+document.getElementById('searchInput').addEventListener('keydown',function(e){if(e.key==='Enter'){var first=document.querySelector('#searchResults .sr-item');if(first)first.click()}});
+/* 滚动后浮现悬浮工具（搜索 / 回到顶部） */
+function onScrollFloat(){var y=window.scrollY||document.documentElement.scrollTop||0;document.getElementById('floatTools').classList.toggle('show',y>280)}
+window.addEventListener('scroll',onScrollFloat,{passive:true});
+onScrollFloat();
+</script>
+</div></body></html>

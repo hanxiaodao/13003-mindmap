@@ -1,0 +1,16 @@
+# 原始素材与解析产物：教材/真题/考点笔记版权归出版社与命题机构，不公开
+教材/
+真题/
+考点笔记/
+materials/
+shots/
+
+# 本地密钥（MinerU API key），严禁提交
+.env
+
+# 本地工具
+.agents/
+
+# 系统杂项
+Thumbs.db
+Desktop.ini
