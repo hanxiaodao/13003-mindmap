@@ -2,15 +2,23 @@
 
 全国自考 13003《数据结构与算法》的考点笔记 + 交互式复习页面 + 错题集。
 
-- **[index.html](https://hanxiaodao.github.io/13003-mindmap/) — 考点笔记页**：58 个考点按教材八章编号，含考点评级（S/A/B）、真题出处、公式块、易错提醒；支持章节折叠、深浅主题、`Ctrl+K` 全文搜索、导出 Markdown。
-- **[mistakes.html](https://hanxiaodao.github.io/13003-mindmap/mistakes.html) — 错题集**：按考点/错因/状态记录错题，带按章分布统计；数据存浏览器 localStorage，支持导出/导入 JSON 备份。
+## 在线阅读
 
-## 内容组织
+**https://hanxiaodao.github.io/13003-mindmap/**
 
-- 以**考点解析课**的考点体系为主体，按教材章节顺序编号（考点 1–58）。
-- 以 **4 套历年真题**（2024.10 / 2025.04 / 2025.10 / 2026.04，共 136 题）标注考频、补充笔记未覆盖的知识点；每个考点末尾标有来源（笔记章节 + 真题题号）。
-- 评级依据教材考试大纲的考核要求（识记/领会/简单应用/综合应用），样本仅 4 套，评级只到 B、偏保守。
-- `distill/` 是中间产物：逐题拆解（`papers-*.md`）、考点登记表（`topics.md`）、真题回测覆盖矩阵（`coverage.md`）。
+- [考点笔记页](https://hanxiaodao.github.io/13003-mindmap/)（index.html）：58 个考点按教材八章编号，含考点评级（S/A/B）、真题出处、公式块、易错提醒；支持章节折叠、深浅主题、`Ctrl+K` 全文搜索、导出 Markdown。
+- [错题集](https://hanxiaodao.github.io/13003-mindmap/mistakes.html)（mistakes.html）：按考点/错因/状态记录错题，带按章分布统计；数据存浏览器 localStorage，支持导出/导入 JSON 备份。
+
+## 仓库内容
+
+| 目录 | 说明 |
+|---|---|
+| `index.html` / `mistakes.html` | 笔记页与错题集（单文件自包含） |
+| `exam-notes.md` | 笔记唯一内容源，改动后重跑渲染脚本即可更新页面 |
+| `distill/` | 真题逐题拆解（papers-*.md）、考点登记表（topics.md）、真题回测覆盖矩阵（coverage.md） |
+| `教材/`、`真题/`、`考点笔记/` | 原始学习资料 PDF |
+| `materials/parsed/` | 上述资料经 MinerU 解析出的 Markdown 与图片 |
+| `.agents/` | 渲染脚本所在工具目录 |
 
 ## 本地使用
 
@@ -24,4 +32,4 @@ python .agents/skills/exam-note-distiller/scripts/render_notes.py exam-notes.md
 
 ## 版权说明
 
-教材、历年真题及考点解析课内容的版权归出版社与命题机构所有，本仓库仅包含个人整理的学习笔记与复习工具，不含原始教材与真题全文，仅供个人复习使用。
+仓库内的教材、历年真题与考点解析课资料版权归机械工业出版社与命题机构所有，页面笔记为个人整理的学习笔记。全部内容仅供个人学习复习使用，请勿商用或二次传播。

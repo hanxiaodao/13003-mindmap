@@ -1,0 +1,4091 @@
+[
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "13003 数据结构与算法"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                180,
+                266,
+                830,
+                396
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "2025年10月 真题解析"
+                    }
+                ]
+            },
+            "bbox": [
+                219,
+                501,
+                786,
+                609
+            ]
+        }
+    ],
+    [
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "绝密★启用前"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                144,
+                221,
+                194
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "2025年10月高等教育自学考试全国统一命题考试数据结构与算法"
+                    }
+                ],
+                "level": 1
+            },
+            "bbox": [
+                120,
+                292,
+                845,
+                492
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "(课程代码 13003)"
+                    }
+                ]
+            },
+            "bbox": [
+                352,
+                568,
+                608,
+                629
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "单选题"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                361,
+                453,
+                643,
+                559
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "一、单选题（共15小题，每小题2分，共30分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                70,
+                55,
+                825,
+                129
+            ]
+        },
+        {
+            "type": "list",
+            "content": {
+                "list_type": "text_list",
+                "attribute": "unordered",
+                "list_items": [
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "1. 下列关于顺序存储结构与链式存储结构的叙述中，正确的是A. 顺序存储结构的存储空间是连续的，链式存储结构的存储空间不一定连续B. 顺序存储结构只用于线性结构，链式存储结构只用于非线性结构"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "C. 顺序存储结构一定比链式存储结构节省存储空间"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "D. 链式存储结构一定比顺序存储结构节省存储空间"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "bbox": [
+                71,
+                168,
+                922,
+                516
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：A"
+                    }
+                ]
+            },
+            "bbox": [
+                83,
+                542,
+                166,
+                588
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析："
+                    }
+                ]
+            },
+            "bbox": [
+                83,
+                609,
+                137,
+                655
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "顺序存储用连续空间（数组）"
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                677,
+                346,
+                722
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "链式存储结点可分散，靠指针链接，空间不一定连续（链表）"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                744,
+                638,
+                788
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "一、单选题（共15小题，每小题2分，共30分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                71,
+                55,
+                825,
+                129
+            ]
+        },
+        {
+            "type": "list",
+            "content": {
+                "list_type": "text_list",
+                "attribute": "unordered",
+                "list_items": [
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "2. 下列关于算法的叙述中，正确的是A.算法最终必须由计算机程序实现B.一个算法所花的时间等于该算法中每条语句的执行时间之和"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "C. 算法的可行性是指指令不能有二义性"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "D. 算法不能使用自然语言描述"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "bbox": [
+                71,
+                157,
+                736,
+                485
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：B"
+                    }
+                ]
+            },
+            "bbox": [
+                83,
+                518,
+                164,
+                564
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析："
+                    }
+                ]
+            },
+            "bbox": [
+                83,
+                587,
+                137,
+                631
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "算法总时间等于每条语句执行时间的总和"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                653,
+                462,
+                698
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "一、单选题（共15小题，每小题2分，共30分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                70,
+                55,
+                826,
+                129
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "3. 下列选项中，不属于链表特点的是A. 插入、删除时不需要移动元素 B. 可随机访问任一元素C. 不必事先估计存储空间 D. 所需空间与元素个数成正比"
+                    }
+                ]
+            },
+            "bbox": [
+                70,
+                170,
+                866,
+                394
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：B"
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                425,
+                164,
+                474
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析："
+                    }
+                ]
+            },
+            "bbox": [
+                83,
+                494,
+                137,
+                540
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "随机访问是顺序存储的特点（数组），链表只能顺序遍历"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                562,
+                608,
+                609
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "一、单选题（共15小题，每小题2分，共30分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                70,
+                53,
+                826,
+                129
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "4. 若线性表采用链式存储结构保存，则要求内存中可用存储单元的地址A. 必须是连续的 B. 部分地址必须是连续的C.一定是不连续的 D. 连续或不连续都可以"
+                    }
+                ]
+            },
+            "bbox": [
+                72,
+                175,
+                850,
+                387
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案： D"
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                414,
+                166,
+                462
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析："
+                    }
+                ]
+            },
+            "bbox": [
+                83,
+                483,
+                138,
+                529
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "链式结构靠指针链接，结点地址连续或不连续均可"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                551,
+                545,
+                596
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "一、单选题（共15小题，每小题2分，共30分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                70,
+                55,
+                825,
+                129
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "5. 栈和队列的共同点是A. 都是先进后出 B. 都是先进先出C.只允许在端点处插入和删除元素 D. 没有共同点"
+                    }
+                ]
+            },
+            "bbox": [
+                69,
+                164,
+                715,
+                381
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：C"
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                405,
+                164,
+                455
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析："
+                    }
+                ]
+            },
+            "bbox": [
+                83,
+                475,
+                137,
+                522
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "栈仅在栈顶操作"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                544,
+                234,
+                588
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "队列仅在队头 / 队尾操作，均限制在端点插入 / 删除元素"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                611,
+                610,
+                655
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "一、单选题（共15小题，每小题2分，共30分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                70,
+                53,
+                826,
+                129
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "6. 若一个栈保存在数组 "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathbf { V } [ 0 \\cdots _ { \\mathbf { n } - 1 } ]"
+                    },
+                    {
+                        "type": "text",
+                        "content": "中，初始时栈顶指针top为n，则下列选项中，能够正确实现x入栈操作的语句序列是A. "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\scriptstyle \\mathbf { { t o p } } = \\mathbf { { t o p } } + 1 ; \\mathbf { V } [ \\mathbf { { t o p } } ] = \\mathbf { { x } } ;"
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathbf { V } [ \\mathsf { t o p } ] { = } \\mathbf { x } ; \\mathsf { t o p } { = } \\mathsf { t o p } { + } 1"
+                    },
+                    {
+                        "type": "text",
+                        "content": "C. "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\scriptstyle \\mathbf { t o p } = \\mathbf { t o p } - \\mathbf { 1 } : \\mathbf { V } [ \\mathbf { t o p } ] = \\mathbf { x } ;"
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathbf { V } [ \\mathsf { t o p } ] = \\mathbf { x } ; \\mathsf { t o p } = \\mathsf { t o p } - 1"
+                    }
+                ]
+            },
+            "bbox": [
+                71,
+                159,
+                921,
+                433
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：C"
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                470,
+                164,
+                518
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析："
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                533,
+                138,
+                585
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "equation_inline",
+                        "content": "\\tan \\rho -"
+                    },
+                    {
+                        "type": "text",
+                        "content": "1指向数组最后一个可用位置V[n-1]，再存入x"
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                605,
+                551,
+                651
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "① 先调整栈顶指针："
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                672,
+                269,
+                718
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "先进行 "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathsf { t o p } { = } \\mathsf { t o p - }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "1操作，调整栈顶指针"
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                735,
+                443,
+                785
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "② 然后将元素存入栈顶位置：即： "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "V [ \\mathrm { \\ t o p } ] = x"
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                803,
+                494,
+                853
+            ]
+        },
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/d14dbb8a416a90dd1bac0028313b3922047a8d17d7a65e2b754fbc0db2e69ff2.jpg"
+                },
+                "image_caption": [
+                    {
+                        "type": "text",
+                        "content": "top"
+                    }
+                ],
+                "image_footnote": []
+            },
+            "bbox": [
+                548,
+                705,
+                708,
+                833
+            ]
+        },
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/f38b85ca8da0e49e1d548b884515c3da95f99cc5e02bc404dac0fbe2a6060d7e.jpg"
+                },
+                "image_caption": [
+                    {
+                        "type": "text",
+                        "content": "top"
+                    }
+                ],
+                "image_footnote": []
+            },
+            "bbox": [
+                729,
+                709,
+                882,
+                831
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "一、单选题（共15小题，每小题2分，共30分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                70,
+                53,
+                826,
+                129
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "7. 若使用不带头结点的单链表存储队列，则进行入队操作时A. 仅需要修改队头指针，不需要修改队尾指针B. 仅需要修改队尾指针，不需要修改队头指针C.队尾指针一定要修改，队头指针也一定要修改D. 队尾指针一定要修改，队头指针可能要修改"
+                    }
+                ]
+            },
+            "bbox": [
+                70,
+                155,
+                683,
+                492
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：D"
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                522,
+                166,
+                568
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析："
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                587,
+                138,
+                635
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "队列结构：front（队头）、rear（队尾），空队列时 front=rear=NULL。"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                655,
+                757,
+                703
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "入队逻辑：在队尾插入新结点，"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                722,
+                367,
+                768
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "若队列空，需同时修改front和rear"
+                    }
+                ]
+            },
+            "bbox": [
+                117,
+                788,
+                443,
+                835
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "若队列非空，仅修改rear。"
+                    }
+                ]
+            },
+            "bbox": [
+                117,
+                855,
+                359,
+                901
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "一、单选题（共15小题，每小题2分，共30分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                70,
+                53,
+                826,
+                129
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "8. 串的长度是指A. 串中所含不同字母的个数 B. 串中所含字符的个数C. 串中所含不同字符的个数 D. 串中所含非空格字符的个数"
+                    }
+                ]
+            },
+            "bbox": [
+                71,
+                157,
+                856,
+                359
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：B"
+                    }
+                ]
+            },
+            "bbox": [
+                77,
+                396,
+                161,
+                442
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析："
+                    }
+                ]
+            },
+            "bbox": [
+                78,
+                462,
+                133,
+                511
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "串的长度定义为串中所有字符的个数（包含重复字符、空格）。"
+                    }
+                ]
+            },
+            "bbox": [
+                76,
+                531,
+                654,
+                577
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "一、单选题（共15小题，每小题2分，共30分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                69,
+                53,
+                826,
+                131
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "9. 数组A[5][6]的每个元素占5个单元，将其按行优先次序存储在起始地址为1000的连续内存单元中，则A[4][5]的起始地址是A.1120 B.1125C.1140 D.1145"
+                    }
+                ]
+            },
+            "bbox": [
+                70,
+                170,
+                933,
+                440
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案： D"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                468,
+                167,
+                518
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析："
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                535,
+                139,
+                585
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "公式：LOC(A[i][j]) = 起始地址 + (i×列数 + j)×元素大小= 1000 + (4×6+5) × 5= 1000 + 29 × 5= 1145"
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                603,
+                609,
+                850
+            ]
+        },
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/b578632b60a21391aad87904b941d522e047374a9d746f07c50d95c79ae684f1.jpg"
+                },
+                "image_caption": [],
+                "image_footnote": []
+            },
+            "bbox": [
+                723,
+                601,
+                928,
+                903
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "一、单选题（共15小题，每小题2分，共30分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                69,
+                53,
+                826,
+                129
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "10.已知广义表的表头为A，表尾为(B,C)，则此广义表为 A. (A, (B, C)) B.((A),B,C) C. (A, B, C) D.((A, B, C))"
+                    }
+                ]
+            },
+            "bbox": [
+                70,
+                166,
+                750,
+                368
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：C"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                390,
+                166,
+                438
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析："
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                455,
+                140,
+                505
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "表头：广义表的第一个元素"
+                    }
+                ]
+            },
+            "bbox": [
+                79,
+                525,
+                340,
+                572
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "表尾：除表头外的剩余元素组成的子表"
+                    }
+                ]
+            },
+            "bbox": [
+                78,
+                592,
+                451,
+                638
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "一、单选题（共15小题，每小题2分，共30分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                70,
+                53,
+                826,
+                129
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "11.二叉树和度为2的树的相同之处是A. 每个结点都有一个或两个孩子结点 B. 至少有一个根结点C. 至少有一个度为2的结点 D. 每个结点最多只有一个双亲结点"
+                    }
+                ]
+            },
+            "bbox": [
+                71,
+                166,
+                909,
+                366
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案： D"
+                    }
+                ]
+            },
+            "bbox": [
+                73,
+                387,
+                159,
+                435
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析："
+                    }
+                ]
+            },
+            "bbox": [
+                75,
+                453,
+                130,
+                501
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "二者均为树结构，树的核心性质：每个结点最多只有一个双亲结点（根结点无双亲）。"
+                    }
+                ]
+            },
+            "bbox": [
+                72,
+                522,
+                860,
+                570
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "一、单选题（共15小题，每小题2分，共30分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                70,
+                53,
+                826,
+                131
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "12.根据使用频率为5个字符设计的哈夫曼编码不可能是A. 111,110,10,01,00 B.000,001,010,011,1C. 100, 11, 10, 1,0 D.001,000,01,11,10"
+                    }
+                ]
+            },
+            "bbox": [
+                71,
+                164,
+                790,
+                387
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：C"
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                405,
+                165,
+                457
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析："
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                474,
+                138,
+                524
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "夫曼编码是前缀码：任意编码不能是其他编码的前缀。"
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                542,
+                576,
+                590
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "1 是10、11、100的前缀，违反前缀码规则，不可能是哈夫曼编码。"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                603,
+                705,
+                659
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "一、单选题（共15小题，每小题2分，共30分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                70,
+                53,
+                826,
+                129
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "13. 在图的广度优先搜索算法中用到一个队列，每个顶点最多进队的次数是A.1 B.2C.3 D.4"
+                    }
+                ]
+            },
+            "bbox": [
+                70,
+                170,
+                888,
+                377
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：A"
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                411,
+                166,
+                459
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析："
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                477,
+                138,
+                525
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "广度优先搜索中，每个顶点被访问一次，入队一次。"
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                546,
+                554,
+                592
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "一、单选题（共15小题，每小题2分，共30分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                69,
+                53,
+                826,
+                131
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "14.在用希尔排序方法对一个数据序列进行排序时，若第一趟排序结果为9，1，4，13，7，8，20，23，15,则该趟排序采用的增量（间隔）可能是A.2 B.3C.4 D.5"
+                    }
+                ]
+            },
+            "bbox": [
+                69,
+                168,
+                929,
+                446
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：B"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                483,
+                165,
+                535
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析："
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                551,
+                139,
+                601
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "一、单选题（共15小题，每小题2分，共30分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                70,
+                53,
+                826,
+                129
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "15. 采用顺序查找方法查找长度为n的线性表时，不成功查找的平均查找长度为A. n B. n/2C.(n-1)/2 D. (n+1)/2"
+                    }
+                ]
+            },
+            "bbox": [
+                70,
+                166,
+                919,
+                392
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：A"
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                416,
+                167,
+                466
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析："
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                485,
+                138,
+                533
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "不成功查找需比较所有n个元素，比较次数为n，平均长度为n。"
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                553,
+                656,
+                600
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "二、 填空题"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                362,
+                453,
+                643,
+                559
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "二、填空题（共10小题，每小题2分，共20分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                82,
+                40,
+                834,
+                114
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "16.在数据结构中，数据的最小不可分割单位是"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                138,
+                700,
+                201
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：数据项"
+                    }
+                ]
+            },
+            "bbox": [
+                84,
+                238,
+                213,
+                285
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析："
+                    }
+                ]
+            },
+            "bbox": [
+                84,
+                305,
+                137,
+                351
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "数据的基本单位是数据元素，数据元素还可以细分为数据项"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                372,
+                629,
+                418
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "二、填空题（共10小题，每小题2分，共20分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                81,
+                40,
+                835,
+                116
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "17.表中元素的值不满足按位置顺序递增或递减关系的线性表称为"
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                142,
+                926,
+                203
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：无序表"
+                    }
+                ]
+            },
+            "bbox": [
+                83,
+                238,
+                213,
+                285
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析： 【P51】"
+                    }
+                ]
+            },
+            "bbox": [
+                83,
+                305,
+                220,
+                351
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "表中元素的值不满足按位置顺序递增或递减关系的线性表则称为无序表。"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                372,
+                741,
+                420
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "二、填空题（共10小题，每小题2分，共20分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                81,
+                40,
+                835,
+                116
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "18.不带头结点的单链表L（head为头指针）为空的判定条件是"
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                138,
+                905,
+                200
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案： "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathbf { \\boldsymbol { \\mathsf { h e a d } } } = = \\mathbf { \\boldsymbol { \\mathsf { N U L l } } }"
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                222,
+                290,
+                270
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析："
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                288,
+                138,
+                337
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "扩展：在带头结点的单链表中，表为空的判定条件是： "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "h e a d - > n e x t = = N U L l"
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                492,
+                789,
+                537
+            ]
+        },
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/60c1b95cb8d179071b4dd8dd07f40a4ad3b0f2dd4cd9dc42331108f1986ce911.jpg"
+                },
+                "image_caption": [],
+                "image_footnote": []
+            },
+            "bbox": [
+                178,
+                568,
+                297,
+                712
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "a) 带头结点的空单链表"
+                    }
+                ]
+            },
+            "bbox": [
+                148,
+                729,
+                345,
+                770
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "二、填空题（共10小题，每小题2分，共20分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                81,
+                40,
+                835,
+                116
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "19.循环队列用数组 A[m…n](m<n)存储元素，其中队头指针f指向队头元素的前一个位置，队尾指针r指向队尾元素，则该队列中的元素个数是"
+                    }
+                ]
+            },
+            "bbox": [
+                79,
+                142,
+                931,
+                266
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案： "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "( r - f + \\boldsymbol { \\mathsf { m } } - \\boldsymbol { \\mathsf { m } } + 1 ) \\% ( \\boldsymbol { \\mathsf { n } } - \\boldsymbol { \\mathsf { m } } + 1 )"
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                296,
+                387,
+                344
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析："
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                362,
+                138,
+                411
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "循环队列元素个数的通用公式为："
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                433,
+                389,
+                477
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "元素个数 = (队尾指针 − 队头指针 + 数组长度) % 数组长度"
+                    }
+                ]
+            },
+            "bbox": [
+                116,
+                498,
+                670,
+                544
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "二、填空题（共10小题，每小题2分，共20分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                80,
+                40,
+                835,
+                116
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "20.若n为主串长度，m为子串长度，采用BF模式匹配算法，在最坏的情况下需要的字符比较次数为"
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                144,
+                931,
+                262
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案： "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "( n - m + 1 ) \\times m"
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                290,
+                275,
+                338
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析："
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                355,
+                138,
+                403
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "BF算法的最坏情况是：每次匹配到子串的最后一个字符才发现不匹配，需要回溯主串指针。"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                425,
+                912,
+                472
+            ]
+        },
+        {
+            "type": "table",
+            "content": {
+                "image_source": {
+                    "path": "images/1f2bf082748b18249e56389050d9e622f0dfcb099ce65d68453604aa1235b838.jpg"
+                },
+                "table_caption": [
+                    {
+                        "type": "text",
+                        "content": "主串(长度n=5)"
+                    }
+                ],
+                "table_footnote": [],
+                "html": "<table><tr><td rowspan=1 colspan=1>A</td><td rowspan=1 colspan=1>B</td><td rowspan=1 colspan=1>C</td><td rowspan=1 colspan=1>D</td><td rowspan=1 colspan=1>E</td></tr></table>",
+                "table_type": "complex_table",
+                "table_nest_level": 1
+            },
+            "bbox": [
+                209,
+                522,
+                927,
+                655
+            ]
+        },
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/c1ad53bcc019f6953037fe35a827ac1d350fa98b351983a0ff5129089105d742.jpg"
+                },
+                "image_caption": [],
+                "image_footnote": []
+            },
+            "bbox": [
+                207,
+                777,
+                929,
+                959
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "二、填空题（共10小题，每小题2分，共20分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                79,
+                38,
+                836,
+                116
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "21.一棵含有50个结点的完全二叉树中，第6层有个结点。"
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                153,
+                793,
+                214
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：19"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                242,
+                178,
+                294
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析："
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                311,
+                140,
+                361
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "50 - 2<sup>0</sup> - 2<sup>1</sup> - 2<sup>2</sup> - 2<sup>3</sup> - 2<sup>4</sup> = 50 - 1 - 2 - 4 - 8 - 16 = 19"
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                379,
+                605,
+                424
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "第1层： 1"
+                    }
+                ]
+            },
+            "bbox": [
+                84,
+                470,
+                372,
+                516
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "第2层： 2 3"
+                    }
+                ]
+            },
+            "bbox": [
+                84,
+                559,
+                412,
+                601
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "第3层： 5 6 7"
+                    }
+                ]
+            },
+            "bbox": [
+                84,
+                646,
+                436,
+                687
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "第4层： 8-15 (共8个结点)"
+                    }
+                ]
+            },
+            "bbox": [
+                84,
+                688,
+                469,
+                731
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "第5层： 16-31 (共16个结点，满)"
+                    }
+                ]
+            },
+            "bbox": [
+                84,
+                731,
+                533,
+                775
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "第6层： 32-50(共19个结点，从左到右排列)"
+                    }
+                ]
+            },
+            "bbox": [
+                84,
+                775,
+                645,
+                820
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "二、填空题（共10小题，每小题2分，共20分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                80,
+                38,
+                835,
+                116
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "22. 有n个顶点的有向图最多有 条边。"
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                144,
+                562,
+                200
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案： "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathsf { n } ( \\mathsf { n } = 1 )"
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                227,
+                215,
+                277
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析："
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                294,
+                138,
+                344
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "方法一："
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                364,
+                160,
+                409
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "从 n 个顶点中任选两个不同的顶点，有 "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\begin{array} { r } { C _ { n } ^ { 2 } = \\frac { n ( n - 1 ) } { 2 } } \\end{array}"
+                    },
+                    {
+                        "type": "text",
+                        "content": "种组合【无向图】每一对顶点之间可以有 2 条有向边。"
+                    }
+                ]
+            },
+            "bbox": [
+                79,
+                425,
+                750,
+                546
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "因此，有向图最多的边数为：n(n-1)"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                564,
+                423,
+                611
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "方法二："
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                633,
+                160,
+                677
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "有向图中，每个顶点可以向其余n-1个顶点各发送一条有向边，因此最多边数为 n(n-1)（无向图最多边数为其一半，即 "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\begin{array} { r } { C _ { n } ^ { 2 } = \\frac { n ( n - 1 ) } { 2 } ~ ) } \\end{array}"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                698,
+                880,
+                822
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "二、填空题（共10小题，每小题2分，共20分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                81,
+                40,
+                835,
+                116
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "23.含有n个顶点、e条边的有向无环图，拓扑排序算法的时间复杂度为"
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                140,
+                926,
+                198
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案： "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "{ \\bf O } ( { \\bf n } + { \\bf e } )"
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                220,
+                223,
+                270
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析："
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                288,
+                137,
+                337
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "采用邻接表存储时，拓扑排序的时间复杂度为 "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "{ \\bf O } ( { \\bf n } + { \\bf e } )"
+                    },
+                    {
+                        "type": "text",
+                        "content": "，其中 n 为顶点数，e 为边数。"
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                357,
+                866,
+                403
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "二、填空题（共10小题，每小题2分，共20分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                81,
+                40,
+                836,
+                116
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "24.对一组数据(4,48,96,23,12,60,45,73)，采用直接插入排序算法进行递增排序当把60插入到有序表中时，为寻找插入位置需比较 次。"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                148,
+                934,
+                277
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：2"
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                307,
+                164,
+                355
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析："
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                372,
+                138,
+                424
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "当插入 60 时，前面已有序表为：[4, 12, 23, 48, 96]"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                444,
+                576,
+                490
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "从后往前比较："
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                511,
+                221,
+                557
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "60 与 96 比较，60 < 96"
+                    }
+                ]
+            },
+            "bbox": [
+                118,
+                577,
+                354,
+                622
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "60 与 48 比较，60 > 48"
+                    }
+                ]
+            },
+            "bbox": [
+                118,
+                644,
+                354,
+                688
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "此时确定应插在 48 和 96 之间，所以共比较 2 次。"
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                711,
+                547,
+                759
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "二、填空题（共10小题，每小题2分，共20分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                81,
+                40,
+                835,
+                116
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "25.给定有序表：2468101214 161820,采用折半查找方法查找元素14.依次比较的元素是。"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                150,
+                927,
+                270
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：10、16、12、14"
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                301,
+                317,
+                350
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析："
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                366,
+                138,
+                416
+            ]
+        },
+        {
+            "type": "table",
+            "content": {
+                "image_source": {
+                    "path": "images/29bb0a1283145a820854144bba3ad974f0c7303d4a42afb4bdcea5edb666632d.jpg"
+                },
+                "table_caption": [],
+                "table_footnote": [],
+                "html": "<table><tr><td rowspan=1 colspan=1>2</td><td rowspan=1 colspan=1>4</td><td rowspan=1 colspan=1>6</td><td rowspan=1 colspan=1>8</td><td rowspan=1 colspan=1>10</td><td rowspan=1 colspan=1>12</td><td rowspan=1 colspan=1>14</td><td rowspan=1 colspan=1>16</td><td rowspan=1 colspan=1>18</td><td rowspan=1 colspan=1>20</td></tr><tr><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td></tr><tr><td rowspan=1 colspan=1>2</td><td rowspan=1 colspan=1>4</td><td rowspan=1 colspan=1>6</td><td rowspan=1 colspan=1>8</td><td rowspan=1 colspan=1>10</td><td rowspan=1 colspan=1>12</td><td rowspan=1 colspan=1>14</td><td rowspan=1 colspan=1>16</td><td rowspan=1 colspan=1>18</td><td rowspan=1 colspan=1>20</td></tr><tr><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td></tr><tr><td rowspan=1 colspan=1>2</td><td rowspan=1 colspan=1>4</td><td rowspan=1 colspan=1>6</td><td rowspan=1 colspan=1>8</td><td rowspan=1 colspan=1>10</td><td rowspan=1 colspan=1>12</td><td rowspan=1 colspan=1>14</td><td rowspan=1 colspan=1>16</td><td rowspan=1 colspan=1>18</td><td rowspan=1 colspan=1>20</td></tr><tr><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1></td></tr><tr><td rowspan=1 colspan=1>2</td><td rowspan=1 colspan=1>4</td><td rowspan=1 colspan=1>6</td><td rowspan=1 colspan=1>8</td><td rowspan=1 colspan=1>10</td><td rowspan=1 colspan=1>12</td><td rowspan=1 colspan=1>14</td><td rowspan=1 colspan=1>16</td><td rowspan=1 colspan=1>18</td><td rowspan=1 colspan=1>20</td></tr></table>",
+                "table_type": "complex_table",
+                "table_nest_level": 1
+            },
+            "bbox": [
+                82,
+                442,
+                419,
+                783
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "三、解答题"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                362,
+                453,
+                643,
+                561
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "三、解答题（共4小题，每小题5分，共20分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                81,
+                40,
+                815,
+                116
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "26. 简述数据与数据元素的概念及关系。"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                81,
+                146,
+                533,
+                205
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "答案："
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                82,
+                237,
+                138,
+                285
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "数据是指所有能输入计算机并被计算机程序处理的符号的集合。"
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                305,
+                658,
+                353
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "构成数据的基本单位称为数据元素。"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                372,
+                408,
+                418
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "数据与数据元素之间的关系是集合与元素之间的关系。"
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                438,
+                575,
+                487
+            ]
+        }
+    ],
+    [
+        {
+            "type": "table",
+            "content": {
+                "image_source": {
+                    "path": "images/7bbdc02b5c90d57049fc2947e3e0d886cea6b832cf4293a4f0d2f75e908d979f.jpg"
+                },
+                "table_caption": [],
+                "table_footnote": [],
+                "html": "<table><tr><td>AP321 PA321</td><td></td></tr><tr><td></td><td></td></tr><tr><td>P3A21</td><td>3</td></tr><tr><td>P32A1</td><td>2</td></tr><tr><td>P321A</td><td>1</td></tr></table>",
+                "table_type": "simple_table",
+                "table_nest_level": 1
+            },
+            "bbox": [
+                79,
+                435,
+                318,
+                759
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "三、解答题（共4小题，每小题5分，共20分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                80,
+                38,
+                816,
+                118
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "27.设输入元素为1、2、3、P和A，输入次序为123PA，元素经过一个栈后产生输出序列，在所有输出序列中，有哪些序列可作为高级语言的变量名（以字母开头的字母数字串）？"
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                153,
+                930,
+                346
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案："
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                364,
+                139,
+                416
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "三、解答题（共4小题，每小题5分，共20分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                80,
+                40,
+                816,
+                116
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "28.图G是一个非连通图，共有28条边，该图最少有多少个顶点？为什么？"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                79,
+                150,
+                930,
+                224
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案："
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                242,
+                138,
+                292
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "最少有 9 个顶点。"
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                312,
+                244,
+                359
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "由于 G 是一个非连通图，在边数固定时，顶点数最少的情况是该图由两个连通分量构成，"
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                379,
+                893,
+                427
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "且其中之一只含一个顶点（没有边），另一个为完全无向图。"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                446,
+                638,
+                494
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "设该完全无向图的顶点数为 n，其边数为 "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "n ( n - 1 ) / 2"
+                    },
+                    {
+                        "type": "text",
+                        "content": "，即 "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "n ( n - 1 ) / 2 = 2 8"
+                    },
+                    {
+                        "type": "text",
+                        "content": "，得 "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "n = 8"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                512,
+                820,
+                561
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "所以，这样的非连通图最少有 "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "1 + 8 = 9"
+                    },
+                    {
+                        "type": "text",
+                        "content": "个顶点。"
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                579,
+                509,
+                627
+            ]
+        },
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/4142babad08755be877c3b21604fb198a0636120794dc256cdea5753f395a084.jpg"
+                },
+                "image_caption": [],
+                "image_footnote": []
+            },
+            "bbox": [
+                534,
+                592,
+                785,
+                803
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "从 n 个顶点中任选两个不同的顶点，有 "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\begin{array} { r } { C _ { n } ^ { 2 } = \\frac { n ( n - 1 ) } { 2 } } \\end{array}"
+                    },
+                    {
+                        "type": "text",
+                        "content": "种组合【无向图】"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                842,
+                750,
+                909
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "三、解答题（共4小题，每小题5分，共20分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                81,
+                40,
+                815,
+                116
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "29. 二叉查找树具有什么特点？"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                81,
+                151,
+                409,
+                211
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "答案："
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                82,
+                240,
+                138,
+                288
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "（1）若它的左子树不空，则左子树所有结点保存的记录的关键字值均小于它的根结点保存的记录的关键字值。"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                309,
+                914,
+                424
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "（2）若它的右子树不空，则右子树所有结点保存的记录的关键字值均大于它的根结点保存的记录的关键字值。"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                442,
+                913,
+                557
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "（3）它的左子树、右子树也都是二叉查找树。"
+                    }
+                ]
+            },
+            "bbox": [
+                93,
+                575,
+                504,
+                624
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "四、算法阅读题"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                307,
+                453,
+                698,
+                561
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "四、算法阅读题（共4小题，每小题5分，共20分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                81,
+                38,
+                892,
+                118
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "30.阅读下列关于单链表L的算法，并回答问题："
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                138,
+                460,
+                192
+            ]
+        },
+        {
+            "type": "algorithm",
+            "content": {
+                "algorithm_caption": [],
+                "algorithm_content": [
+                    {
+                        "type": "text",
+                        "content": "bool fun (LinkNode *&L, int i, ElemType e) { int j=0; (1) 指出 fun (L, i, e) 算法的功 LinkNode *p=L, *S; (2) 当L=(1,2,3,4,5,6,7,8)日 while(j<i-1&&p!=NULL) {j++; p=p->next; if(p==NULL) return false; else {s= (LinkNode *) malloc (sizeof(LinkNode)); s->data=e; s->next=p->next; p->next=s; return true;"
+                    }
+                ],
+                "algorithm_footnote": []
+            },
+            "bbox": [
+                110,
+                194,
+                615,
+                977
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "四、算法阅读题（共4小题，每小题5分，共20分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                80,
+                40,
+                891,
+                118
+            ]
+        },
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/b8e3522cdda73fd86d98c35a5b0f15836139b71c5a5b6c068a7e335f703c688e.jpg"
+                },
+                "image_caption": [],
+                "image_footnote": []
+            },
+            "bbox": [
+                83,
+                170,
+                909,
+                620
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案："
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                653,
+                138,
+                703
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "(1) 算法的功能是在单链表 L 中的第 i 个结点插入元素值为 e ，成功插入时返回 true，否则返回 false。"
+                    }
+                ]
+            },
+            "bbox": [
+                81,
+                724,
+                650,
+                838
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "(2) 执行 fun(L, 3, 9) 后 L=(1, 2, 9, 3, 4, 5, 6, 7, 8)。"
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                855,
+                554,
+                907
+            ]
+        }
+    ],
+    [
+        {
+            "type": "algorithm",
+            "content": {
+                "algorithm_caption": [],
+                "algorithm_content": [
+                    {
+                        "type": "text",
+                        "content": "int LevelLeafkCount (BTNode *b, int h, int k) { int num1, num2, num=0; if(b!=(1)) {if(h==k&&b->1child==NULL&&b->rchild==NULL) (2);"
+                    }
+                ],
+                "algorithm_footnote": []
+            },
+            "bbox": [
+                114,
+                231,
+                494,
+                470
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "四、算法阅读题（共4小题，每小题5分，共20分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                81,
+                38,
+                892,
+                118
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "31. 程序的功能是求二叉树b中第k层上的叶子结点个数，请在空白处填上适当内容"
+                    }
+                ]
+            },
+            "bbox": [
+                78,
+                131,
+                696,
+                172
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "以将算法补充完整。"
+                    }
+                ]
+            },
+            "bbox": [
+                105,
+                181,
+                251,
+                220
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案："
+                    }
+                ]
+            },
+            "bbox": [
+                539,
+                200,
+                596,
+                251
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "(1) NULL"
+                    }
+                ]
+            },
+            "bbox": [
+                538,
+                268,
+                634,
+                318
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "(2) num++"
+                    }
+                ]
+            },
+            "bbox": [
+                539,
+                335,
+                654,
+                385
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "(3) num1+num2"
+                    }
+                ]
+            },
+            "bbox": [
+                538,
+                400,
+                710,
+                451
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "(4) num"
+                    }
+                ]
+            },
+            "bbox": [
+                539,
+                468,
+                626,
+                518
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "(5) 0"
+                    }
+                ]
+            },
+            "bbox": [
+                539,
+                533,
+                591,
+                585
+            ]
+        },
+        {
+            "type": "algorithm",
+            "content": {
+                "algorithm_caption": [],
+                "algorithm_content": [
+                    {
+                        "type": "text",
+                        "content": "else return(5);}int LevelLeafk(BTNode *b, int k)//求 b 中第 k层上的叶子结点个数{ return LevelLeafkCount (b, 1, k) ;一"
+                    }
+                ],
+                "algorithm_footnote": []
+            },
+            "bbox": [
+                131,
+                729,
+                678,
+                975
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "四、算法阅读题（共4小题，每小题5分，共20分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                81,
+                40,
+                892,
+                118
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "32. 阅读下列算法，并回答问题："
+                    }
+                ]
+            },
+            "bbox": [
+                82,
+                142,
+                352,
+                187
+            ]
+        },
+        {
+            "type": "algorithm",
+            "content": {
+                "algorithm_caption": [],
+                "algorithm_content": [
+                    {
+                        "type": "text",
+                        "content": "int fun(int a[], int low, int high, int k) 答案：{ int mid; (1) 算法的功能是在有序数组 a[low…high]if(low<=high)中采用折半查找方法查找值为 k 的元素的{mid=(low+high)/2;下标，没有找到时返回 -1。if(a[mid]<k) return fun(a, mid+1, high, k);else if(a[mid]>k) (2) 返回结果是 4。return fun(a, low, mid-1, k);else return mid;}else return(-1);(1)指出 fun(a, low, high, k) 算法的功能。(2)当a[]={1,2,3,4,5,6,7,8}时，执行fun(a,0,7,5)后的返回结果是什么?"
+                    }
+                ],
+                "algorithm_footnote": []
+            },
+            "bbox": [
+                95,
+                200,
+                950,
+                961
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "四、算法阅读题（共4小题，每小题5分，共20分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                81,
+                38,
+                892,
+                118
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "33.下面程序判断一个数据序列R[1…n]是否构成一个大根堆，请在空白处填上适当内容以将算法补充完整。"
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                144,
+                694,
+                233
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案："
+                    }
+                ]
+            },
+            "bbox": [
+                591,
+                475,
+                647,
+                529
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "五、算法设计题"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                304,
+                453,
+                698,
+                561
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "五、算法设计题（共1小题，每小题10分，共10分）"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                80,
+                40,
+                911,
+                116
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "34.假设一个顺序表L中所有元素为整数，设计一个算法调整该顺序表，使其中所有小于零的元素放在所有大于等于零的元素的前面。"
+                    }
+                ]
+            },
+            "bbox": [
+                80,
+                155,
+                927,
+                281
+            ]
+        },
+        {
+            "type": "algorithm",
+            "content": {
+                "algorithm_caption": [],
+                "algorithm_content": [
+                    {
+                        "type": "text",
+                        "content": "答案： -1 -2 3 1 -3 5 void fun(SqList *&L) i { int i=0,j=L->length-1; while (i<j) -1 -2 -3 1 3 5 { while (L->data[i]<0) i++；//若当前元素<0，i后移，直到找到≥0的元素时停止 while (L->data[j]>=0) if (i<j) swap(L->data[i], L->data[j]); } 一"
+                    }
+                ],
+                "algorithm_footnote": []
+            },
+            "bbox": [
+                81,
+                311,
+                826,
+                966
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "谢谢大家"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                381,
+                442,
+                627,
+                538
+            ]
+        }
+    ]
+]

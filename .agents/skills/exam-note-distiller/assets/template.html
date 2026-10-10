@@ -1,0 +1,657 @@
+<!--
+Exam Note Distiller · 思维导图 HTML 模板（资产）
+
+用法：本模板是"内容 → 页面"的唯一呈现层。把 exam-notes.md（格式见 references/format-contract.md）
+的内容渲染进本模板，输出 index.html。交互脚本（折叠/主题/导出）原样保留，不要改动 JS。
+
+═══ Token 替换表 ═══
+@@PAGE_TITLE@@    页面 <title>，格式"课程名 · 考点笔记"
+@@H1@@            页头大标题 = 课程名
+@@STAT_CH@@       章数（数字）
+@@STAT_KP@@       考点总数（数字）
+@@SUBTITLE_STAT@@ 副标题统计区。有副标题时填：
+                  <div class="header-divider"></div><div class="header-stat"><strong>副标题文本</strong></div>
+                  无则删除此行占位
+@@BODY_CLASS@@    无 GitHub 按钮 → no-github；有 → 空字符串
+@@GITHUB@@        GitHub 仓库 URL（不展示按钮时保留占位即可，按钮已被 no-github 隐藏）
+@@CHAPTERS@@      所有章节 HTML（生成规则见下）
+@@EXPORT_NAME@@   导出 Markdown 文件名，如"数据结构考点笔记.md"
+
+═══ exam-notes.md → HTML 渲染规则 ═══
+## 章标题     → <div class="ch" style="--accent:暗色;--accent-light:亮色"> 卡片，章标题放 .ch-title 内，
+                考点数徽章：<span class="badge">N考点</span>（0 个考点则省略），折叠箭头 <span class="arrow">▼</span>
+章导语内容    → <div class="ch-intro">…</div>（章标题下、考点前）
+### 考点N：名 → .kp 行：
+                <span class="kp-num">考点N</span><span class="kp-name">名称</span>
+                meta: level=S → <span class="kp-level lv-S">S</span>（A/B/C/D 同理，仅 S/A/B/C/D 有样式）
+                meta: freq=… → <span class="kp-freq">…</span>
+                末尾 <span class="kp-arrow">▼</span>，详情容器 <div class="kp-detail">
+#### 子主题   → <span class="kp-sub">标题</span>
+普通行        → 转义 HTML 后整行输出，行尾加 <br>；**x** → <b>x</b>；==x== → <span class="em">x</span>
+```f 块      → <span class="formula">…（换行保留，多行直接放 
+）</span>
+```err/tip/ok → <span class="callout err|tip|ok">…</span>
+| 表格        → <table><tr><th>表头…</th></tr><tr><td>…</td></tr></table>（单元格内同样处理 **bold**）
+- 列表        → <ul><li>…</li></ul>
+
+═══ 章节配色 ═══
+按章节顺序取下表（暗色, 亮色），超过 12 章用黄金角扩展 hue=(217+n*137.5)%360：
+ 1 (#60a5fa,#2563eb)  2 (#34d399,#059669)  3 (#fbbf24,#d97706)  4 (#f472b6,#db2777)
+ 5 (#a78bfa,#7c3aed)  6 (#22d3ee,#0891b2)  7 (#fb923c,#ea580c)  8 (#a3e635,#65a30d)
+ 9 (#fb7185,#e11d48) 10 (#4ade80,#16a34a) 11 (#e879f9,#a21caf) 12 (#facc15,#a16207)
+-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>@@PAGE_TITLE@@</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+(function(){
+  var t;
+  try{ t=localStorage.getItem('theme'); }catch(e){}
+  if(t!=='light'&&t!=='dark'){ t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'; }
+  document.documentElement.setAttribute('data-theme',t);
+})();
+
+/* 导出前临时展开全部内容并切亮色主题，导出后还原页面原状态 */
+function expandAllForExport(){var st={theme:document.documentElement.getAttribute('data-theme'),opens:[],disp:[]};document.documentElement.setAttribute('data-theme','light');[].forEach.call(document.querySelectorAll('.ch,.kp'),function(el){st.opens.push([el,el.classList.contains('open')]);el.classList.add('open')});[].forEach.call(document.querySelectorAll('.kp-detail'),function(d){st.disp.push([d,d.style.display]);d.style.display='block'});return st}
+function restoreAfterExport(st){if(!st)return;document.documentElement.setAttribute('data-theme',st.theme);st.opens.forEach(function(p){p[0].classList.toggle('open',p[1])});st.disp.forEach(function(p){p[0].style.display=p[1]})}
+function exportPDF(){var st=expandAllForExport();showToast('已展开全部内容。请在打印对话框中，将目标打印机选为「另存为 PDF」',8000);window.addEventListener('afterprint',function onDone(){window.removeEventListener('afterprint',onDone);restoreAfterExport(st);hideToast()});setTimeout(function(){window.print()},350)}
+/* 内嵌 SVG → PNG：SVG 里的 var(--x) 颜色在独立序列化后会失效，需用计算后的具体颜色值重写 */
+function svgToPngDataUrl(svg){return new Promise(function(resolve){try{var rect=svg.getBoundingClientRect();var w=Math.max(1,Math.ceil(rect.width)),h=Math.max(1,Math.ceil(rect.height));var clone=svg.cloneNode(true);clone.setAttribute('xmlns','http://www.w3.org/2000/svg');clone.setAttribute('width',w);clone.setAttribute('height',h);clone.removeAttribute('style');var src=[svg].concat([].slice.call(svg.querySelectorAll('*')));var dst=[clone].concat([].slice.call(clone.querySelectorAll('*')));for(var i=1;i<src.length;i++){var cs=getComputedStyle(src[i]),tag=src[i].tagName.toLowerCase(),st='fill:'+cs.fill+';stroke:'+cs.stroke+';';if(cs.stroke&&cs.stroke!=='none')st+='stroke-width:'+cs.strokeWidth+';';if(tag==='text')st+='font-family:'+cs.fontFamily+';font-size:'+cs.fontSize+';font-weight:'+cs.fontWeight+';';dst[i].setAttribute('style',st)}var str=new XMLSerializer().serializeToString(clone);var img=new Image();img.onload=function(){try{var s=2,cvs=document.createElement('canvas');cvs.width=w*s;cvs.height=h*s;var ctx=cvs.getContext('2d');ctx.scale(s,s);ctx.drawImage(img,0,0,w,h);resolve(cvs.toDataURL('image/png'))}catch(err){resolve(null)}};img.onerror=function(){resolve(null)};img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(str)}catch(e){resolve(null)}})}
+function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+/* 导出 Word：示意图全部栅格化为 PNG 内嵌（base64），生成 Word 兼容 HTML 存为 .doc */
+function exportWord(){var st=expandAllForExport();showToast('正在生成 Word 文档（含示意图），请稍候…');var svgs=[].slice.call(document.querySelectorAll('.kp-detail svg'));Promise.all(svgs.map(function(s){return svgToPngDataUrl(s)})).then(function(urls){var urlMap=new Map();svgs.forEach(function(s,i){if(urls[i])urlMap.set(s,urls[i])});var buf=[];var h1=document.querySelector('header h1');buf.push('<h1>'+escHtml(h1?h1.textContent.trim():'考点笔记')+'</h1>');var stats=[].map.call(document.querySelectorAll('.header-stat'),function(s){return s.textContent.replace(/\s+/g,' ').trim()});if(stats.length)buf.push('<p class="stats">'+escHtml(stats.join(' · '))+'</p>');[].forEach.call(document.querySelectorAll('.ch'),function(ch){var ts=ch.querySelector('.ch-title span');var title='';if(ts){var c=ts.cloneNode(true);[].forEach.call(c.querySelectorAll('.badge'),function(b){b.remove()});title=c.textContent.trim()}buf.push('<h2>'+escHtml(title)+'</h2>');[].forEach.call(ch.querySelectorAll('.kp'),function(kp){var num=kp.querySelector('.kp-num'),name=kp.querySelector('.kp-name');buf.push('<h3>'+escHtml(((num?num.textContent.trim():'')+' '+(name?name.textContent.trim():'')).trim())+'</h3>');var d=kp.querySelector('.kp-detail');if(!d)return;var dc=d.cloneNode(true);[].forEach.call(dc.querySelectorAll('.kp-sub'),function(s){var h=document.createElement('h4');h.innerHTML=s.innerHTML;s.parentNode.replaceChild(h,s)});[].forEach.call(dc.querySelectorAll('.formula'),function(s){var p=document.createElement('p');p.className='formula';p.innerHTML=s.innerHTML;s.parentNode.replaceChild(p,s)});var orig=[].slice.call(d.querySelectorAll('svg')),cl=[].slice.call(dc.querySelectorAll('svg'));cl.forEach(function(cs,i){var u=orig[i]&&urlMap.get(orig[i]);var img=document.createElement('img');if(u){img.setAttribute('src',u);var w=Math.ceil(orig[i].getBoundingClientRect().width)||300;img.setAttribute('width',String(Math.min(480,w)))}cs.parentNode.replaceChild(img,cs)});buf.push('<div class="det">'+dc.innerHTML+'</div>')})});buf.push('<p class="foot">导出于 '+new Date().toLocaleString('zh-CN',{hour12:false})+' · 由考点笔记页面导出</p>');var css="body{font-family:'Microsoft YaHei','微软雅黑',SimSun,serif;font-size:10.5pt;color:#242930;line-height:1.7}h1{font-size:19pt;color:#1f2429;margin:0 0 4pt}h2{font-size:14.5pt;color:#1f2429;border-bottom:1.5pt solid #c9c5ba;padding-bottom:3pt;margin:18pt 0 8pt}h3{font-size:12pt;color:#242930;margin:14pt 0 6pt}h4{font-size:10.5pt;color:#4c5868;margin:10pt 0 4pt}p{margin:4pt 0}p.stats{color:#626b7a;font-size:9.5pt}p.foot{color:#9aa1ab;font-size:9pt;margin-top:20pt;border-top:.5pt solid #c9c5ba;padding-top:6pt}p.formula{background:#eef2fa;color:#2c5cb0;padding:6pt 9pt;margin:6pt 0;border-left:2.25pt solid #2c5cb0}p.formula b{color:#1d4e97}ul{margin:4pt 0 6pt 20pt}li{margin:2pt 0}table{border-collapse:collapse;margin:6pt 0;font-size:9.5pt}td,th{border:.75pt solid #9aa1ab;padding:3.5pt 6pt;vertical-align:top}th{background:#eeede7;font-weight:bold}.det b{color:#1f2429}.tag{background:#e9e7e1;color:#5d6570;font-size:9pt;padding:0 3pt}.tip{color:#a16207}.ok{color:#047857}.err{color:#dc2626}.em{color:#a16207;font-weight:bold}img{margin:4pt 0}";var html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>@@H1@@</title><!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom></w:WordDocument></xml><![endif]--><style>'+css+'</style></head><body>'+buf.join('\n')+'</body></html>';downloadBlob(new Blob(['\ufeff'+html],{type:'application/msword;charset=utf-8'}),'@@EXPORT_NAME@@'.replace(/\.md$/,'.doc'));restoreAfterExport(st);var n=urls.filter(Boolean).length;showToast('Word 文档已导出（内嵌 '+n+' 张示意图）',3200)}).catch(function(e){restoreAfterExport(st);showToast('Word 导出失败：'+e,4000)})}
+</script>
+<style>
+:root {
+  --bg:#0d1117; --surface:#161b22; --card:#1c2230;
+  --border:#2a3344; --border-strong:#3d4f66;
+  --text:#c9d2dd; --muted:#7d8fa8; --faint:#4a5568;
+  --heading:#e2eaf2;
+  --hover-bg:rgba(255,255,255,.03);
+  --detail-bg:rgba(0,0,0,.15);
+  --formula-bg:#111c2e; --formula-text:#8fb5e8;
+  --th-bg:rgba(255,255,255,.05);
+  --row-hover-bg:rgba(255,255,255,.02);
+  --tip:#fbbf24; --ok:#34d399; --err:#f87171; --em:#fbbf24;
+  --focus:#60a5fa;
+  --detail-text:var(--muted); --detail-size:13px;
+  color-scheme:dark;
+}
+:root[data-theme="light"] {
+  --bg:#f3f1ec; --surface:#faf9f5; --card:#faf9f5;
+  --border:#e2dfd7; --border-strong:#c9c5ba;
+  --text:#33393f; --muted:#626b7a; --faint:#9aa1ab;
+  --heading:#242930;
+  --hover-bg:rgba(45,45,55,.045);
+  --detail-bg:#f5f3ee;
+  --formula-bg:#eef2fa; --formula-text:#2c5cb0;
+  --th-bg:rgba(45,45,55,.05);
+  --row-hover-bg:rgba(45,45,55,.03);
+  --tip:#a16207; --ok:#047857; --err:#dc2626; --em:#a16207;
+  --focus:#2563eb;
+  --detail-text:#4c5868; --detail-size:14px;
+  color-scheme:light;
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+body {
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
+  font-size:15px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── Header ── */
+header {
+  padding:40px 20px 32px;
+  text-align:center;
+  border-bottom:1px solid var(--border);
+  margin-bottom:20px;
+}
+header h1 {
+  font-family:'Noto Serif SC',serif;
+  font-size:26px;
+  font-weight:700;
+  letter-spacing:2px;
+  color:var(--heading);
+  margin-bottom:10px;
+}
+.header-meta {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+.header-stat {
+  font-size:12px;
+  color:var(--muted);
+  letter-spacing:.5px;
+}
+.header-stat strong {
+  font-size:18px;
+  font-weight:600;
+  color:var(--text);
+  display:block;
+  font-family:'Noto Sans SC',sans-serif;
+  line-height:1.2;
+  margin-bottom:2px;
+}
+.header-divider {
+  width:1px; height:28px;
+  background:var(--border-strong);
+}
+
+/* ── Chapter list ── */
+.chapters { padding:0 16px 60px; display:flex; flex-direction:column; gap:8px; max-width:860px; margin:0 auto; }
+
+.ch {
+  border-radius:10px;
+  overflow:hidden;
+  border:1px solid var(--border);
+  background:var(--surface);
+  transition:border-color .2s;
+}
+.ch:hover { border-color:var(--border-strong); }
+
+.ch-title {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 18px 14px 20px;
+  cursor:pointer;
+  font-weight:600;
+  font-size:15px;
+  color:var(--text);
+  position:relative;
+  transition:background .15s;
+}
+.ch-title:hover { background:var(--hover-bg); }
+.ch-title::before {
+  content:'';
+  position:absolute;
+  left:0; top:0; bottom:0;
+  width:3px;
+  background:var(--accent);
+  transition:width .2s;
+}
+:root[data-theme="light"] .ch-title::before { background:var(--accent-light, var(--accent)); }
+.ch.open .ch-title { background:var(--hover-bg); }
+.ch.open .ch-title::before { width:5px; }
+
+.ch-title-text { flex:1; }
+.ch-title .badge {
+  font-size:11px;
+  font-weight:400;
+  color:var(--muted);
+  margin-left:8px;
+  font-family:'Noto Sans SC',sans-serif;
+}
+.ch-title .arrow {
+  font-size:10px;
+  color:var(--faint);
+  transition:transform .25s;
+  flex-shrink:0;
+  margin-left:12px;
+}
+.ch.open .arrow { transform:rotate(180deg); }
+
+.ch-body {
+  background:var(--card);
+  border-top:1px solid var(--border);
+  display:none;
+}
+.ch.open .ch-body { display:block; }
+
+/* 章导语 */
+.ch-intro {
+  padding:14px 20px 16px;
+  font-size:var(--detail-size);
+  color:var(--detail-text);
+  line-height:1.75;
+  border-bottom:1px solid var(--border);
+  background:var(--detail-bg);
+}
+.ch-intro b { color:var(--text); font-weight:600; }
+
+/* ── 考点 ── */
+.kp { border-bottom:1px solid var(--border); }
+.kp:last-child { border-bottom:none; }
+
+.kp-title {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:11px 18px 11px 20px;
+  cursor:pointer;
+  transition:background .15s;
+}
+.kp-title:hover { background:var(--hover-bg); }
+
+.kp-num {
+  font-size:10px;
+  font-weight:600;
+  color:var(--accent);
+  min-width:36px;
+  white-space:nowrap;
+  letter-spacing:.3px;
+  font-family:'Noto Sans SC',sans-serif;
+}
+:root[data-theme="light"] .kp-num { color:var(--accent-light, var(--accent)); }
+.kp-name {
+  flex:1;
+  font-size:14px;
+  font-weight:500;
+  color:var(--text);
+}
+.kp-level {
+  font-size:10px;
+  font-weight:700;
+  padding:0 8px;
+  line-height:18px;
+  border-radius:9px;
+  flex-shrink:0;
+  letter-spacing:.5px;
+}
+.kp-level.lv-S { color:#f87171; background:rgba(248,113,113,.12); border:1px solid rgba(248,113,113,.35); }
+.kp-level.lv-A { color:#fbbf24; background:rgba(251,191,36,.10); border:1px solid rgba(251,191,36,.32); }
+.kp-level.lv-B { color:#60a5fa; background:rgba(96,165,250,.10); border:1px solid rgba(96,165,250,.32); }
+.kp-level.lv-C { color:#9ab; background:rgba(153,170,187,.10); border:1px solid rgba(153,170,187,.30); }
+.kp-level.lv-D { color:var(--faint); background:rgba(74,85,104,.12); border:1px solid rgba(74,85,104,.30); }
+:root[data-theme="light"] .kp-level.lv-S { color:#dc2626; background:rgba(220,38,38,.07); }
+:root[data-theme="light"] .kp-level.lv-A { color:#b45309; background:rgba(180,83,9,.07); }
+:root[data-theme="light"] .kp-level.lv-B { color:#2563eb; background:rgba(37,99,235,.07); }
+.kp-freq {
+  font-size:10px;
+  color:var(--faint);
+  font-weight:400;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.kp-arrow {
+  font-size:9px;
+  color:var(--faint);
+  transition:transform .2s;
+  flex-shrink:0;
+}
+.kp.open .kp-arrow { transform:rotate(180deg); }
+
+.kp-detail {
+  display:none;
+  padding:14px 20px 18px 68px;
+  font-size:var(--detail-size);
+  color:var(--detail-text);
+  line-height:1.75;
+  border-top:1px solid var(--border);
+  background:var(--detail-bg);
+}
+.kp.open .kp-detail { display:block; }
+.kp-detail b { color:var(--text); font-weight:600; }
+
+/* 公式块 */
+.kp-detail .formula, .ch-intro .formula {
+  display:block;
+  background:var(--formula-bg);
+  border-left:2px solid var(--accent);
+  border-radius:0 6px 6px 0;
+  padding:8px 14px;
+  margin:8px 0;
+  font-size:13px;
+  color:var(--formula-text);
+  letter-spacing:.6px;
+  line-height:1.7;
+  overflow-x:auto;
+  white-space:pre-wrap;
+  font-family:'Consolas','Courier New',monospace;
+}
+:root[data-theme="light"] .kp-detail .formula,
+:root[data-theme="light"] .ch-intro .formula { border-left-color:var(--accent-light, var(--accent)); }
+
+/* 语义提示块 */
+.callout {
+  display:block;
+  border-left:2px solid;
+  border-radius:0 6px 6px 0;
+  padding:8px 14px;
+  margin:8px 0;
+  font-size:13px;
+  line-height:1.7;
+  white-space:pre-wrap;
+}
+.callout.err { color:var(--err); background:rgba(248,113,113,.07); border-color:var(--err); }
+.callout.tip { color:var(--tip); background:rgba(251,191,36,.06); border-color:var(--tip); }
+.callout.ok  { color:var(--ok);  background:rgba(52,211,153,.07); border-color:var(--ok); }
+.callout b { color:inherit; }
+
+/* 表格 */
+.kp-detail table, .ch-intro table {
+  width:100%;
+  border-collapse:collapse;
+  margin:10px 0;
+  font-size:12px;
+}
+.kp-detail td, .kp-detail th, .ch-intro td, .ch-intro th {
+  border:1px solid var(--border);
+  padding:6px 10px;
+  text-align:center;
+  vertical-align:middle;
+}
+.kp-detail th, .ch-intro th {
+  background:var(--th-bg);
+  color:var(--text);
+  font-weight:600;
+  font-size:11px;
+  letter-spacing:.3px;
+}
+.kp-detail tr:hover td, .ch-intro tr:hover td { background:var(--row-hover-bg); }
+.kp-detail ul, .ch-intro ul { padding-left:16px; }
+.kp-detail li, .ch-intro li { margin:3px 0; }
+
+/* 子标题 */
+.kp-sub {
+  display:block;
+  color:var(--text);
+  font-size:12px;
+  font-weight:600;
+  margin-top:14px;
+  margin-bottom:4px;
+  letter-spacing:.3px;
+  padding-bottom:4px;
+  border-bottom:1px solid var(--border);
+}
+.kp-sub:first-child { margin-top:2px; }
+
+/* ── 右上角功能按钮 ── */
+.theme-toggle, .github-link, .export-md {
+  position:fixed;
+  top:16px;
+  width:38px; height:38px;
+  border-radius:50%;
+  border:1px solid var(--border);
+  background:var(--surface);
+  color:var(--muted);
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+  z-index:100;
+  box-shadow:0 2px 8px rgba(0,0,0,.12);
+  transition:border-color .2s, color .2s, transform .15s;
+}
+.theme-toggle:hover, .github-link:hover, .export-md:hover {
+  border-color:var(--border-strong);
+  color:var(--text);
+  transform:scale(1.06);
+}
+.theme-toggle { right:64px; }
+.github-link { right:16px; }
+.export-md { right:112px; }
+body.no-github .github-link { display:none; }
+body.no-github .theme-toggle { right:16px; }
+body.no-github .export-md { right:64px; }
+body.no-github .export-menu { right:64px; }
+.theme-toggle .icon-sun { display:none; }
+:root[data-theme="light"] .theme-toggle .icon-sun { display:block; }
+:root[data-theme="light"] .theme-toggle .icon-moon { display:none; }
+
+/* 键盘焦点 */
+.ch-title:focus-visible, .kp-title:focus-visible { outline:2px solid var(--focus); outline-offset:-2px; }
+.theme-toggle:focus-visible, .github-link:focus-visible, .export-md:focus-visible { outline:2px solid var(--focus); outline-offset:2px; }
+
+/* ── 响应式 ── */
+@media (max-width:600px) {
+  header { padding:52px 16px 24px; }
+  header h1 { font-size:21px; }
+  .chapters { padding:0 10px 48px; }
+  .kp-detail { padding-left:20px; }
+  .header-divider { display:none; }
+  .theme-toggle, .github-link, .export-md { top:10px; width:36px; height:36px; }
+  .theme-toggle { right:52px; }
+  .github-link { right:10px; }
+  .export-md { right:94px; }
+  body.no-github .theme-toggle { right:10px; }
+  body.no-github .export-md { right:52px; }
+  body.no-github .export-menu { right:52px; }
+  .export-menu { top:52px; right:94px; }
+}
+/* ── 章节列表工具条：全部展开 / 收起 ── */
+.list-tools {
+  display:flex; justify-content:flex-end; gap:8px;
+  margin-bottom:2px;
+}
+.list-tools button {
+  display:flex; align-items:center; gap:5px;
+  height:30px; padding:0 12px;
+  border-radius:15px; border:1px solid var(--border);
+  background:var(--surface); color:var(--muted); cursor:pointer;
+  font-size:12.5px; font-family:inherit;
+  transition:color .15s, border-color .15s;
+}
+.list-tools button:hover { color:var(--heading); border-color:var(--border-strong); }
+.list-tools button:focus-visible { outline:2px solid var(--border-strong); outline-offset:2px; }
+.list-tools svg { flex:none; }
+/* 导出下拉菜单 */
+.export-menu {
+  position:fixed; top:60px; right:112px; z-index:101;
+  min-width:186px; padding:6px;
+  background:var(--surface); border:1px solid var(--border); border-radius:12px;
+  box-shadow:0 10px 30px rgba(0,0,0,.28);
+  display:flex; flex-direction:column; gap:2px;
+}
+.export-menu[hidden] { display:none; }
+.export-menu button {
+  display:flex; align-items:center; justify-content:space-between; gap:14px;
+  padding:9px 12px; border:0; border-radius:8px; background:none;
+  color:var(--text); font-size:13px; font-family:inherit; cursor:pointer; text-align:left;
+}
+.export-menu button:hover { background:var(--hover-bg); }
+.export-menu .em-ext {
+  font-size:11px; color:var(--muted);
+  border:1px solid var(--border); border-radius:5px; padding:1px 6px;
+}
+.export-menu button:hover .em-ext { border-color:var(--border-strong); color:var(--text); }
+.export-menu button:focus-visible { outline:2px solid var(--c1); outline-offset:-2px; }
+/* 导出状态提示 */
+.export-toast {
+  position:fixed; left:50%; bottom:28px; transform:translateX(-50%);
+  z-index:200; max-width:88vw;
+  background:var(--card); color:var(--text);
+  border:1px solid var(--border); border-radius:10px;
+  padding:10px 16px; font-size:13px;
+  box-shadow:0 8px 24px rgba(0,0,0,.25);
+}
+/* ── 悬浮工具（滚动后浮现）：整页搜索 + 回到顶部 ── */
+.float-tools {
+  position:fixed; right:16px; bottom:16px; z-index:110;
+  display:flex; flex-direction:column; gap:8px;
+  opacity:0; visibility:hidden; transform:translateY(10px);
+  transition:opacity .2s, transform .2s, visibility .2s;
+}
+.float-tools.show { opacity:1; visibility:visible; transform:none; }
+.float-btn {
+  width:40px; height:40px; border-radius:50%;
+  border:1px solid var(--border); background:var(--surface); color:var(--muted);
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  padding:0; box-shadow:0 4px 14px rgba(0,0,0,.22);
+  transition:border-color .2s, color .2s;
+}
+.float-btn:hover { border-color:var(--border-strong); color:var(--text); }
+.float-btn:focus-visible { outline:2px solid var(--border-strong); outline-offset:2px; }
+/* 搜索面板：悬浮按钮上方 */
+.search-panel {
+  position:fixed; right:16px; bottom:68px; z-index:120;
+  width:min(440px, calc(100vw - 24px));
+  max-height:min(64vh, 580px);
+  display:flex; flex-direction:column;
+  background:var(--surface); border:1px solid var(--border); border-radius:14px;
+  box-shadow:0 14px 40px rgba(0,0,0,.35);
+  overflow:hidden;
+}
+.search-panel[hidden] { display:none; }
+.sp-input-row {
+  display:flex; align-items:center; gap:8px;
+  padding:10px 12px; border-bottom:1px solid var(--border);
+}
+.sp-input-row input {
+  flex:1; min-width:0;
+  background:none; border:0; outline:none;
+  color:var(--text); font-size:14px; font-family:inherit;
+}
+.sp-input-row input::placeholder { color:var(--faint); }
+.sp-count { font-size:11.5px; color:var(--muted); white-space:nowrap; }
+.sp-close {
+  border:0; background:none; color:var(--muted); cursor:pointer;
+  font-size:13px; padding:4px 7px; border-radius:6px; font-family:inherit; line-height:1;
+}
+.sp-close:hover { color:var(--text); background:var(--hover-bg); }
+.sp-results { overflow-y:auto; padding:6px; }
+.sr-item { padding:8px 10px; border-radius:8px; cursor:pointer; }
+.sr-item:hover { background:var(--hover-bg); }
+.sr-path { font-size:11.5px; color:var(--muted); margin-bottom:3px; }
+.sr-snippet { font-size:12.5px; color:var(--text); line-height:1.55; word-break:break-word; }
+.sr-snippet mark, .kp-detail mark.search-hit {
+  background:rgba(251,191,36,.5); color:inherit; border-radius:2px; padding:0 1px;
+}
+.sp-empty { padding:18px 12px; font-size:12.5px; color:var(--muted); text-align:center; }
+@media (max-width:600px) {
+  .float-tools { right:12px; bottom:12px; }
+  .search-panel { left:8px; right:8px; width:auto; bottom:64px; }
+  .sp-input-row input { font-size:16px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .arrow, .kp-arrow, .ch-title::before, .theme-toggle, .github-link, .export-md, .list-tools button, .float-tools, .float-btn { transition:none; }
+}
+/* ── 导出 PDF（打印 → 另存为 PDF）：全部展开、隐藏控件、保留配色 ── */
+@media print {
+  @page { margin: 14mm 12mm; }
+  body { background:#fff; }
+  .corner-links, .export-md, .export-menu, .theme-toggle, .github-link,
+  .export-toast, .arrow, .kp-arrow, .list-tools, .float-tools, .search-panel { display:none !important; }
+  .ch-body, .kp-detail { display:block !important; }
+  * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  header { padding-top:8px; }
+  .ch { box-shadow:none; break-inside:auto; }
+  .ch-title { break-after:avoid; }
+  .kp { break-inside:auto; }
+  .kp-title { break-after:avoid; }
+  .kp-detail table { break-inside:auto; }
+  .kp-detail tr, .kp-detail .formula, .kp-detail svg { break-inside:avoid; }
+}
+</style>
+</head>
+<body class="@@BODY_CLASS@@">
+<button class="export-md" onclick="toggleExportMenu(event)" aria-label="导出笔记（Markdown / PDF / Word）" title="导出笔记（Markdown / PDF / Word）" aria-haspopup="menu" aria-expanded="false" aria-controls="exportMenu">
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+</button>
+<div class="export-menu" id="exportMenu" role="menu" hidden>
+  <button role="menuitem" onclick="onExportItem('md')"><span>Markdown 笔记</span><span class="em-ext">.md</span></button>
+  <button role="menuitem" onclick="onExportItem('pdf')"><span>PDF 文档</span><span class="em-ext">.pdf</span></button>
+  <button role="menuitem" onclick="onExportItem('word')"><span>Word 文档</span><span class="em-ext">.doc</span></button>
+</div>
+
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="切换亮色/暗色模式" title="切换亮色/暗色模式">
+  <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+</button>
+<a class="github-link" href="@@GITHUB@@" target="_blank" rel="noopener" aria-label="GitHub 项目源码" title="GitHub 项目源码">
+  <svg width="19" height="19" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+</a>
+<div class="float-tools" id="floatTools">
+  <button class="float-btn" onclick="toggleSearchPanel()" aria-label="搜索笔记内容" title="搜索笔记内容（Ctrl+K）">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
+  </button>
+  <button class="float-btn" id="backTopBtn" onclick="scrollTopSmooth()" aria-label="回到顶部" title="回到顶部">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+  </button>
+</div>
+<div class="search-panel" id="searchPanel" role="dialog" aria-label="搜索笔记内容" hidden>
+  <div class="sp-input-row">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted);flex:none"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
+    <input id="searchInput" type="text" placeholder="搜索全部章节与考点内容…" aria-label="搜索全部章节与考点内容">
+    <span class="sp-count" id="searchCount"></span>
+    <button class="sp-close" onclick="closeSearchPanel()" aria-label="关闭搜索">✕</button>
+  </div>
+  <div class="sp-results" id="searchResults"></div>
+</div>
+<header>
+  <h1>@@H1@@</h1>
+  <div class="header-meta">
+    <div class="header-stat"><strong>@@STAT_CH@@</strong>章</div>
+    <div class="header-divider"></div>
+    <div class="header-stat"><strong>@@STAT_KP@@</strong>考点</div>
+    @@SUBTITLE_STAT@@
+  </div>
+</header>
+<div class="chapters">
+<div class="list-tools">
+  <button onclick="expandAllChapters()" aria-label="展开全部章节和考点" title="展开全部章节和考点">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="7 13 12 18 17 13"/><polyline points="7 6 12 11 17 6"/></svg>
+    展开全部
+  </button>
+  <button onclick="collapseAllChapters()" aria-label="收起全部章节和考点" title="收起全部章节和考点">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="7 11 12 6 17 11"/><polyline points="7 18 12 13 17 18"/></svg>
+    收起全部
+  </button>
+</div>
+@@CHAPTERS@@
+
+<script>
+function toggleTheme(){var r=document.documentElement,next=r.getAttribute('data-theme')==='light'?'dark':'light';r.setAttribute('data-theme',next);try{localStorage.setItem('theme',next)}catch(e){}}
+document.addEventListener('keydown',function(e){if(e.key!=='Enter'&&e.key!==' ')return;var el=e.target;if(el.classList&&el.classList.contains('ch-title')){e.preventDefault();toggleCh(el)}else if(el.classList&&el.classList.contains('kp-title')){e.preventDefault();toggleKp(el)}});
+function toggleCh(el){var ch=el.closest('.ch'),isOpen=ch.classList.contains('open');ch.classList.toggle('open');el.setAttribute('aria-expanded',String(!isOpen));if(!isOpen){ch.querySelectorAll('.kp-detail').forEach(function(d){d.style.display='none'});ch.querySelectorAll('.kp').forEach(function(k){k.classList.remove('open')});ch.querySelectorAll('.kp-title').forEach(function(t){t.setAttribute('aria-expanded','false')})}}
+function toggleKp(el){var kp=el.closest('.kp'),isOpen=kp.classList.contains('open');kp.classList.toggle('open');el.setAttribute('aria-expanded',String(!isOpen));kp.querySelector('.kp-detail').style.display=isOpen?'none':'block'}
+function mdInline(n){if(n.nodeType===3)return n.textContent;if(n.nodeType!==1)return '';if(n.tagName==='BR')return '\n';var s='';for(var i=0;i<n.childNodes.length;i++)s+=mdInline(n.childNodes[i]);var t=n.tagName;if(t==='B'||t==='STRONG')return '**'+s.trim()+'**';return s}
+function mdTable(t){var rows=[].map.call(t.rows,function(r){return [].map.call(r.cells,function(c){return mdInline(c).trim().replace(/\|/g,'\\|').replace(/\n/g,' ')})});if(!rows.length)return '';function line(cs){return '| '+cs.join(' | ')+' |'}var out=[line(rows[0]),line(rows[0].map(function(){return '---'}))];for(var i=1;i<rows.length;i++)out.push(line(rows[i]));return out.join('\n')}
+function mdDetail(el){var lines=[],cur='';function flush(){cur=cur.trim();if(cur)lines.push(cur);cur=''}[].forEach.call(el.childNodes,function(n){if(n.nodeType===3){cur+=n.textContent.replace(/\s+/g,' ');return}if(n.nodeType!==1)return;var tag=n.tagName;if(tag==='svg'){return}if(tag==='BR'){flush();return}if(tag==='TABLE'){flush();lines.push(mdTable(n));return}if(tag==='UL'){flush();[].forEach.call(n.children,function(li){lines.push('- '+mdInline(li).trim())});return}var txt=mdInline(n).trim();if(!txt)return;if(n.classList.contains('kp-sub')){flush();lines.push('#### '+txt);return}if(n.classList.contains('formula')){flush();txt.split('\n').forEach(function(l){lines.push('> '+l)});return}if(n.classList.contains('callout')){flush();txt.split('\n').forEach(function(l){lines.push('> '+l)});return}cur+=mdInline(n)});flush();return lines.join('\n\n')}
+function exportMarkdown(){var parts=[];var h1=document.querySelector('header h1');parts.push('# '+(h1?h1.textContent.trim():'考点笔记'));var stats=[].map.call(document.querySelectorAll('.header-stat'),function(s){return s.textContent.replace(/\s+/g,' ').trim()});if(stats.length)parts.push('> '+stats.join(' · '));[].forEach.call(document.querySelectorAll('.ch'),function(ch){var ts=ch.querySelector('.ch-title span');var title='';if(ts){var c=ts.cloneNode(true);[].forEach.call(c.querySelectorAll('.badge'),function(b){b.remove()});title=c.textContent.trim()}parts.push('## '+title);[].forEach.call(ch.querySelectorAll('.kp'),function(kp){var num=kp.querySelector('.kp-num'),name=kp.querySelector('.kp-name');var head=((num?num.textContent.trim():'')+' '+(name?name.textContent.trim():'')).trim();parts.push('### '+head);var d=kp.querySelector('.kp-detail');var dt=d?mdDetail(d):'';if(dt)parts.push(dt)})});parts.push('---');parts.push('*导出于 '+new Date().toLocaleString('zh-CN',{hour12:false})+'*');var md=parts.join('\n\n');var blob=new Blob(['\ufeff'+md],{type:'text/markdown;charset=utf-8'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='@@EXPORT_NAME@@';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1000);return md}
+function downloadBlob(blob,name){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1000)}
+function showToast(msg,ms){var t=document.getElementById('exportToast');if(!t){t=document.createElement('div');t.className='export-toast';t.id='exportToast';document.body.appendChild(t)}t.style.display='block';t.textContent=msg;clearTimeout(showToast._t);if(ms)showToast._t=setTimeout(function(){t.style.display='none'},ms);return t}
+function hideToast(){var t=document.getElementById('exportToast');if(t)t.style.display='none'}
+function toggleExportMenu(e){e.stopPropagation();var m=document.getElementById('exportMenu'),b=document.querySelector('.export-md');var open=m.hasAttribute('hidden');if(open){m.removeAttribute('hidden')}else{m.setAttribute('hidden','')}b.setAttribute('aria-expanded',String(open))}
+function closeExportMenu(){var m=document.getElementById('exportMenu');if(m)m.setAttribute('hidden','');var b=document.querySelector('.export-md');if(b)b.setAttribute('aria-expanded','false')}
+function onExportItem(kind){closeExportMenu();if(kind==='pdf'){exportPDF()}else if(kind==='word'){exportWord()}else{exportMarkdown()}}
+document.addEventListener('click',function(e){var m=document.getElementById('exportMenu');if(m&&!m.hasAttribute('hidden')&&!m.contains(e.target)&&!e.target.closest('.export-md'))closeExportMenu()});
+function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+/* 全部展开 / 收起：与单个 toggle 保持同一套状态（.open 类 + kp-detail 内联 display + aria-expanded） */
+function setAllChapters(open){[].forEach.call(document.querySelectorAll('.ch'),function(ch){ch.classList.toggle('open',open);var t=ch.querySelector('.ch-title');if(t)t.setAttribute('aria-expanded',String(open))});[].forEach.call(document.querySelectorAll('.kp'),function(kp){kp.classList.toggle('open',open);var t=kp.querySelector('.kp-title');if(t)t.setAttribute('aria-expanded',String(open));var d=kp.querySelector('.kp-detail');if(d)d.style.display=open?'block':'none'})}
+function expandAllChapters(){setAllChapters(true)}
+function collapseAllChapters(){setAllChapters(false)}
+/* ── 悬浮工具：整页搜索（含折叠内容）+ 回到顶部 ── */
+var _searchIndex=null;
+function getSearchIndex(){if(_searchIndex)return _searchIndex;_searchIndex=[];[].forEach.call(document.querySelectorAll('.ch'),function(ch){var ts=ch.querySelector('.ch-title span');var chName='';if(ts){var c=ts.cloneNode(true);[].forEach.call(c.querySelectorAll('.badge'),function(b){b.remove()});chName=c.textContent.trim()}[].forEach.call(ch.querySelectorAll('.kp'),function(kp){var num=kp.querySelector('.kp-num'),name=kp.querySelector('.kp-name'),d=kp.querySelector('.kp-detail');_searchIndex.push({ch:chName,kp:((num?num.textContent.trim():'')+' '+(name?name.textContent.trim():'')).trim(),kpEl:kp,chEl:ch,text:d?d.textContent.replace(/\s+/g,' '):''})})});return _searchIndex}
+var searchMarks=[];
+function clearSearchMarks(){searchMarks.forEach(function(m){var p=m.parentNode;if(!p)return;p.replaceChild(document.createTextNode(m.textContent),m);p.normalize()});searchMarks=[]}
+function markSnippet(text,lq){var low=text.toLowerCase(),out='',pos=0,i;while((i=low.indexOf(lq,pos))>=0){out+=escHtml(text.slice(pos,i))+'<mark>'+escHtml(text.substr(i,lq.length))+'</mark>';pos=i+lq.length}return out+escHtml(text.slice(pos))}
+function runSearch(){var inp=document.getElementById('searchInput'),box=document.getElementById('searchResults'),cnt=document.getElementById('searchCount');var q=inp.value.trim().toLowerCase();box.innerHTML='';if(!q){cnt.textContent='';box.innerHTML='<div class="sp-empty">输入关键词，搜索全部章节与考点（含折叠内容）</div>';return}var hits=getSearchIndex().filter(function(it){return it.text.toLowerCase().indexOf(q)>=0||it.kp.toLowerCase().indexOf(q)>=0||it.ch.toLowerCase().indexOf(q)>=0});cnt.textContent=hits.length?('共 '+hits.length+' 个考点'):'';
+if(!hits.length){box.innerHTML='<div class="sp-empty">没有找到「'+escHtml(inp.value.trim())+'」相关内容</div>';return}
+hits.slice(0,60).forEach(function(it,i){var text=it.text,low=text.toLowerCase(),f=low.indexOf(q),snip;if(f<0){snip=markSnippet(it.kp,q)}else{var s=Math.max(0,f-32),e=Math.min(text.length,f+q.length+64);snip=(s>0?'…':'')+markSnippet(text.slice(s,e),q)+(e<text.length?'…':'')}
+var el=document.createElement('div');el.className='sr-item';el.innerHTML='<div class="sr-path">'+escHtml(it.ch)+' ▸ '+escHtml(it.kp)+'</div><div class="sr-snippet">'+snip+'</div>';el.addEventListener('click',function(){jumpToSearchHit(it,q)});box.appendChild(el)});
+if(hits.length>60){var more=document.createElement('div');more.className='sp-empty';more.textContent='仅显示前 60 条，请细化关键词';box.appendChild(more)}}
+/* 页内高亮：只包普通文本节点，跳过 SVG 子树（mark 在 SVG 里非法） */
+function markInElement(root,q){if(!q)return;var lq=q.toLowerCase(),made=0;var walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,function(n){if(!n.nodeValue||n.nodeValue.toLowerCase().indexOf(lq)<0)return NodeFilter.FILTER_REJECT;if(n.parentNode&&n.parentNode.ownerSVGElement)return NodeFilter.FILTER_REJECT;return NodeFilter.FILTER_ACCEPT}),nodes=[],n;while((n=walker.nextNode()))nodes.push(n);nodes.forEach(function(node){var txt=node.nodeValue,low=txt.toLowerCase(),pos=0,idx,frag=null;while((idx=low.indexOf(lq,pos))>=0&&made<120){if(!frag)frag=document.createDocumentFragment();if(idx>pos)frag.appendChild(document.createTextNode(txt.slice(pos,idx)));var m=document.createElement('mark');m.className='search-hit';m.textContent=txt.substr(idx,q.length);frag.appendChild(m);searchMarks.push(m);made++;pos=idx+q.length}if(frag){if(pos<txt.length)frag.appendChild(document.createTextNode(txt.slice(pos)));node.parentNode.replaceChild(frag,node)}})}
+function jumpToSearchHit(it,q){clearSearchMarks();it.chEl.classList.add('open');var ct=it.chEl.querySelector('.ch-title');if(ct)ct.setAttribute('aria-expanded','true');it.kpEl.classList.add('open');var kt=it.kpEl.querySelector('.kp-title');if(kt)kt.setAttribute('aria-expanded','true');var d=it.kpEl.querySelector('.kp-detail');if(d)d.style.display='block';markInElement(d,q);var y=it.kpEl.getBoundingClientRect().top+(window.scrollY||document.documentElement.scrollTop)-90;animateScrollTo(Math.max(0,y))}
+function openSearchPanel(){var p=document.getElementById('searchPanel');if(!p.hasAttribute('hidden')){document.getElementById('searchInput').focus();return}p.removeAttribute('hidden');if(!document.getElementById('searchInput').value)document.getElementById('searchResults').innerHTML='<div class="sp-empty">输入关键词，搜索全部章节与考点（含折叠内容）</div>';setTimeout(function(){document.getElementById('searchInput').focus()},50)}
+function closeSearchPanel(){var p=document.getElementById('searchPanel');if(p.hasAttribute('hidden'))return;p.setAttribute('hidden','');clearSearchMarks()}
+function toggleSearchPanel(){var p=document.getElementById('searchPanel');if(p.hasAttribute('hidden'))openSearchPanel();else closeSearchPanel()}
+/* 平滑滚动：定时器驱动，不依赖合成器动画帧（部分环境原生 smooth 不推进）；尊重减弱动效偏好 */
+function animateScrollTo(targetY){var reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;if(reduced){window.scrollTo(0,targetY);onScrollFloat();return}var startY=window.scrollY||document.documentElement.scrollTop||0,delta=targetY-startY;if(delta===0)return;var t0=Date.now(),DUR=Math.min(650,240+Math.abs(delta)*0.15);var timer=setInterval(function(){var p=Math.min(1,(Date.now()-t0)/DUR);p=1-Math.pow(1-p,3);window.scrollTo(0,Math.round(startY+delta*p));if(p>=1){clearInterval(timer);onScrollFloat()}},16)}
+function scrollTopSmooth(){animateScrollTo(0)}
+document.addEventListener('click',function(e){var p=document.getElementById('searchPanel');if(p&&!p.hasAttribute('hidden')&&!p.contains(e.target)&&!e.target.closest('.float-tools'))closeSearchPanel()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeExportMenu();closeSearchPanel()}});
+document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&(e.key==='k'||e.key==='K')){e.preventDefault();openSearchPanel()}});
+document.getElementById('searchInput').addEventListener('input',runSearch);
+document.getElementById('searchInput').addEventListener('keydown',function(e){if(e.key==='Enter'){var first=document.querySelector('#searchResults .sr-item');if(first)first.click()}});
+/* 滚动后浮现悬浮工具（搜索 / 回到顶部） */
+function onScrollFloat(){var y=window.scrollY||document.documentElement.scrollTop||0;document.getElementById('floatTools').classList.toggle('show',y>280)}
+window.addEventListener('scroll',onScrollFloat,{passive:true});
+onScrollFloat();
+</script>
+</div></body></html>

@@ -1,21 +1,17 @@
-# 原始素材与解析产物：教材/真题/考点笔记版权归出版社与命题机构，不公开
-教材/
-真题/
-考点笔记/
-materials/
-shots/
-
 # 本地密钥（MinerU API key），严禁提交
 .env
 
-# 本地工具
-.agents/
+# 验证截图（本地测试产物，非学习资料）
+shots/
+
+# MinerU 解析用的教材拆分临时件（与 教材/ 内容重复）
+materials/split/
+
+# 设备码授权临时文件
+.token.tmp
+.dcode.tmp
+.payload.tmp
 
 # 系统杂项
 Thumbs.db
 Desktop.ini
-
-# 设备码授权的临时文件
-.token.tmp
-.dcode.tmp
-.payload.tmp

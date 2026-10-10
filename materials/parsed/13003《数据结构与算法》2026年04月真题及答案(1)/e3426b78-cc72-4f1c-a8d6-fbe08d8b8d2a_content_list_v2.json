@@ -1,0 +1,2287 @@
+[
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "13003 数据结构与算法 2026 年 4 月真题"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                248,
+                117,
+                748,
+                140
+            ]
+        },
+        {
+            "type": "list",
+            "content": {
+                "list_type": "text_list",
+                "attribute": "unordered",
+                "list_items": [
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "1、【单选题】在数据结构中,从逻辑上可以把数据结构分成"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "A: 动态结构和静态结构"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "B: 紧凑结构和非紧凑结构"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "C: 线性结构和非线性结构"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "D: 内部结构和外部结构"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                174,
+                599,
+                266
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：C"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                286,
+                217,
+                301
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析：数据结构逻辑上分为线性结构(如线性表、栈)和非线性结构(如树、图)。"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                323,
+                759,
+                340
+            ]
+        },
+        {
+            "type": "list",
+            "content": {
+                "list_type": "text_list",
+                "attribute": "unordered",
+                "list_items": [
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "2、【单选题】下列与算法的时间复杂度有关的是"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "A: 问题规模"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "B: 计算机硬件性能"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "C: 编译程序质量"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "D: 程序设计语言"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                361,
+                524,
+                453
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：A"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                473,
+                217,
+                489
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析：时间复杂度只与问题规模n相关,与运行环境无关。"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                511,
+                594,
+                526
+            ]
+        },
+        {
+            "type": "list",
+            "content": {
+                "list_type": "text_list",
+                "attribute": "unordered",
+                "list_items": [
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "3、【单选题】在n个结点的顺序表中,算法的时间复杂度是O(1)的操作是"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "A: 访问第i个结点(1≤i≤n)和求第i个结点的直接前驱(2≤i≤n)"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "B: 在第i个结点后插入一个新结点(1≤i≤n)"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "C: 删除第 i 个结点(1≤i≤n)"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "D: 将n个结点从小到大排序"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                547,
+                714,
+                640
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：A"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                660,
+                217,
+                676
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析：顺序表支持随机访问,访问与求前驱时间复杂度为O(1)。"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                698,
+                635,
+                714
+            ]
+        },
+        {
+            "type": "list",
+            "content": {
+                "list_type": "text_list",
+                "attribute": "unordered",
+                "list_items": [
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "4、【单选题】带头结点的单链表的头指针为head,表为空的判定条件是"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "A: head = NULL"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "B: head->next == NULL"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "C: head != NULL"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "D: head->next == head"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                736,
+                702,
+                828
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：B"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                847,
+                215,
+                863
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析：带头结点单链表为空的条件是头结点后继为空。"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                885,
+                570,
+                900
+            ]
+        }
+    ],
+    [
+        {
+            "type": "list",
+            "content": {
+                "list_type": "text_list",
+                "attribute": "unordered",
+                "list_items": [
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "5、【单选题】已知一个的进栈序列是1,2,3,…n,其输出序列是 "
+                            },
+                            {
+                                "type": "equation_inline",
+                                "content": "\\scriptstyle \\mathsf { p } \\mathbf { 1 } , \\mathsf { p } \\mathbf { 2 } , \\ldots , \\mathsf { p } \\mathbf { n } ,"
+                            },
+                            {
+                                "type": "text",
+                                "content": "若 "
+                            },
+                            {
+                                "type": "equation_inline",
+                                "content": "\\mathbf { p 1 } = \\mathbf { n } _ { 1 }"
+                            },
+                            {
+                                "type": "text",
+                                "content": ",则 pᵢ"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "的值是"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "A: i"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "B: n-i"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "C: n-i+1"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "D: n+1"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                108,
+                854,
+                219
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：C"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                238,
+                217,
+                255
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析：先入栈全部元素再全部出栈,出栈顺序为n,n-1,…1,pᵢ=n-i+1。"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                275,
+                692,
+                292
+            ]
+        },
+        {
+            "type": "list",
+            "content": {
+                "list_type": "text_list",
+                "attribute": "unordered",
+                "list_items": [
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "6、【单选题】若一个栈用数组data[1..n]存储,初始栈顶指针top为n+1,则以下元素x进栈的操作正确的是"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "A: top++; data[top]=x;"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "B: data[top]=x; top++;"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "C: top--; data[top]=x;"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "D: data[top]=x; top--;"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                314,
+                838,
+                425
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：C"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                443,
+                217,
+                459
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析：栈从数组高位向低位增长,先移动指针再存入元素。"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                481,
+                593,
+                497
+            ]
+        },
+        {
+            "type": "list",
+            "content": {
+                "list_type": "text_list",
+                "attribute": "unordered",
+                "list_items": [
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "7、【单选题】在循环队列中元素的排列顺序与"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "A: 元素进队的先后顺序有关"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "B: 元素值的大小有关"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "C: 队头和队尾指针的取值有关"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "D: 队中数组大小有关"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                517,
+                506,
+                609
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：A"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                630,
+                217,
+                646
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析：循环队列按先进先出规则存放,顺序由入队先后决定。"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                667,
+                611,
+                684
+            ]
+        },
+        {
+            "type": "list",
+            "content": {
+                "list_type": "text_list",
+                "attribute": "unordered",
+                "list_items": [
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "8、【单选题】设二维数组a[1..5,1..8],若按列优先的顺序存放数组的元素,则a[4][6]前"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "面元素的个数是"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "A: 6"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "B: 28"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "C: 29"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "D: 40"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                704,
+                838,
+                815
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：B"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                835,
+                215,
+                851
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析：列优先:前5列共5×5=25个,第6列前3个,总计28个。"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                872,
+                648,
+                888
+            ]
+        }
+    ],
+    [
+        {
+            "type": "list",
+            "content": {
+                "list_type": "text_list",
+                "attribute": "unordered",
+                "list_items": [
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "9、【单选题】对矩阵压缩存储是为了"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "A: 方便运算"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "B: 方便存储"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "C: 提高运算速度"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "D: 节省存储空间"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                89,
+                436,
+                181
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：D"
+                    }
+                ]
+            },
+            "bbox": [
+                143,
+                202,
+                217,
+                217
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析：压缩存储用于稀疏矩阵,减少无效空间占用。"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                239,
+                540,
+                256
+            ]
+        },
+        {
+            "type": "list",
+            "content": {
+                "list_type": "text_list",
+                "attribute": "unordered",
+                "list_items": [
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "10、【单选题】串是一种特殊的线性表,其特殊性体现在"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "A: 可以顺序存储"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "B: 数据元素是一个字符"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "C: 可以链式存储"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "D: 数据元素可以是多个字符"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                276,
+                575,
+                369
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：B"
+                    }
+                ]
+            },
+            "bbox": [
+                143,
+                388,
+                215,
+                405
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析：串的每个数据元素固定为单个字符。"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                426,
+                480,
+                443
+            ]
+        },
+        {
+            "type": "list",
+            "content": {
+                "list_type": "text_list",
+                "attribute": "unordered",
+                "list_items": [
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "11、【单选题】设森林F中有3棵树,第一、第二和第三棵树的结点个数分别为m1、m2和"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "m3。与森林F对应的二叉树根结点的右子树上的结点个数是"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "A: m1"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "B: m3"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "C: m1+m2"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "D: m2+m3"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                464,
+                851,
+                575
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：D"
+                    }
+                ]
+            },
+            "bbox": [
+                143,
+                594,
+                217,
+                609
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析：森林转二叉树,第一棵树为左子树,其余树构成右子树。"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                631,
+                617,
+                647
+            ]
+        },
+        {
+            "type": "list",
+            "content": {
+                "list_type": "text_list",
+                "attribute": "unordered",
+                "list_items": [
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "12、【单选题】下列选项中,均为稳定排序方法的是"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "A: 堆排序和起泡排序"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "B: 快速排序和希尔排序"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "C: 简单选择排序和归并排序"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "D: 归并排序和起泡排序"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                667,
+                540,
+                760
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：D"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                781,
+                217,
+                796
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析：归并排序、冒泡排序是稳定排序;堆、快排、希尔、简单选择不稳定。"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                818,
+                738,
+                834
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "13、【单选题】在下列排序方法中,某一趟结束后未必能选出一个元素放在其最终位置上的是A: 堆排序"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                856,
+                849,
+                890
+            ]
+        }
+    ],
+    [
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "B: 冒泡排序C: 直接插入排序D: 快速排序"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                90,
+                269,
+                143
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：C"
+                    }
+                ]
+            },
+            "bbox": [
+                143,
+                165,
+                217,
+                180
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析：直接插入排序每趟不固定元素最终位置。"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                202,
+                516,
+                218
+            ]
+        },
+        {
+            "type": "index",
+            "content": {
+                "list_type": "text_list",
+                "list_items": [
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "14、【单选题】有100个元素的有序表,采用折半查找方法,不成功时最多的比较次数是"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "A: 7"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "B: 10"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "C: 25"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "D: 50"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                239,
+                813,
+                332
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：A"
+                    }
+                ]
+            },
+            "bbox": [
+                143,
+                352,
+                217,
+                367
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析：折半查找判定树高度⌊log₂100⌋+1=7。"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                388,
+                508,
+                406
+            ]
+        },
+        {
+            "type": "list",
+            "content": {
+                "list_type": "text_list",
+                "attribute": "unordered",
+                "list_items": [
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "15、【单选题】哈希表中出现哈希冲突是指"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "A: 两个元素具有相同的序号"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "B: 两个元素的关键字不同,而其他属性相同"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "C: 数据元素过多"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "D: 两个元素的关键字不同,而对应的哈希函数值相同"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                426,
+                534,
+                518
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：D"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                539,
+                217,
+                554
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "解析：哈希冲突即不同关键字得到相同哈希地址。"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                575,
+                534,
+                592
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "16、【问答题】简述递推法的思想。"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                613,
+                423,
+                630
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：根据递推关系,能从已求得的问题规模为1,2,...,i-1的一系列解,构造出问题规模为i的解。求解规模为i的解时,有时可能仅需规模为 "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\bar { 1 , 2 , \\ldots , i - 1 }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "的系列解中的一部分,而不是全部。"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                650,
+                852,
+                704
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "17、【问答题】简述二叉树与度为2的树之间的差别。"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                726,
+                562,
+                742
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：二叉树的子树有严格的左右之分,其次序不能任意颠倒,某个结点即使只有一棵子树,也区分是左子树还是右子树,而在度为2的树中,某个结点只有一棵子树时,是不区分左右的。除此之外,二叉树可以是空树,而度为2的树至少有一个度为2的结点,所以不能为空树。"
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                762,
+                848,
+                835
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "18、【问答题】有一棵树的括号表示为A(B,C(E,F(G)),D),回答下面的问题: (1)指出树的根结点。 (2)指出这棵树的所有叶子结点。 (3)结点C的度是多少? (4)这棵树的高度是多少? (5)结点C的孩子结点是哪些?"
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                856,
+                851,
+                909
+            ]
+        }
+    ],
+    [
+        {
+            "type": "algorithm",
+            "content": {
+                "algorithm_caption": [],
+                "algorithm_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：(1)根结点是A。 (2)叶子结点是B、E、G、D。 (3)度是2。 (4)高度是4。(5)C的孩子结点是E、F。"
+                    }
+                ],
+                "algorithm_footnote": []
+            },
+            "bbox": [
+                142,
+                107,
+                808,
+                145
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "19、【问答题】简述顺序查找方法的基本思想。"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                164,
+                508,
+                181
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：顺序查找方法的基本思想是从顺序表头开始,用给定的目标与表中各记录的关键字值逐个进行比较。如果表中存在目标,则进行若干次比较后,一定能够找到目标。如果表中不存在目标,则比较到表尾也不会出现相等的情况。"
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                202,
+                841,
+                257
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "20、【问答题】阅读下列关于单链表L的算法,并回答问题:"
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                275,
+                612,
+                294
+            ]
+        },
+        {
+            "type": "algorithm",
+            "content": {
+                "algorithm_caption": [],
+                "algorithm_content": [
+                    {
+                        "type": "text",
+                        "content": "void fun(LinkNode *&L){ LinkNode *prep=L, *p, *q;while (true){p=prep->next;if(p==NULL) break;q=p->next;if(q==NULL) break;p->next=q->next;q->next=p;prep->next=q;prep=p;}}(1)指出 fun(L)算法的功能。 (2)当 L=(1,2,3,4,5,6,7,8,9)时,执行 fun(L)后 L 的结果是什么?"
+                    }
+                ],
+                "algorithm_footnote": []
+            },
+            "bbox": [
+                142,
+                337,
+                843,
+                647
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：(1)算法的功能是从前向后将单链表L中的奇数序号结点和相邻的偶数序号结点交换。 (2)L=(2,1,4,3,6,5,8,7,9)。"
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                665,
+                839,
+                703
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "21、【问答题】阅读下列算法,并回答问题:"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                720,
+                488,
+                738
+            ]
+        }
+    ],
+    [
+        {
+            "type": "algorithm",
+            "content": {
+                "algorithm_caption": [],
+                "algorithm_content": [
+                    {
+                        "type": "text",
+                        "content": "void fun(int a[], int n){int i=0, j=0;int tmp;while(j<n){if(a[j]%2==1)//a[j]为奇数{tmp=a[i];a[i]=a[j];a[j]=tmp;//a[i]与a[j]交换i++;j++;1(1)指出算法 fun 的功能。 (2)若 a[0⋯7]={1,2,3,4,5,6,7,8},执行 fun(a,8)后数组 a的结果是什么?"
+                    }
+                ],
+                "algorithm_footnote": []
+            },
+            "bbox": [
+                148,
+                90,
+                836,
+                478
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：(1)算法的功能是将含有n个整数的数组a中的所有奇数元素移到偶数元素的前面。 (2)数组 a 的结果是 a[0⋯7]={1,3,5,7,2,4,6,8}。"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                498,
+                821,
+                536
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "22、【问答题】阅读下列算法(顺序栈的元素类型为ElemType),并回答问题:"
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                554,
+                756,
+                574
+            ]
+        }
+    ],
+    [
+        {
+            "type": "algorithm",
+            "content": {
+                "algorithm_caption": [],
+                "algorithm_content": [
+                    {
+                        "type": "text",
+                        "content": "void fun(SqStack *&st, ElemType x) { SqStack *tmps; ElemType e; InitStack(tmps); while(!StackEmpty(st)) { Pop (st, e) ; if(e!=x) Push(tmps, d); while(!StackEmpty (tmps)) { Pop (tmps, e) ; Push (st, e) ; DestroyStack (tmps) ; 一"
+                    }
+                ],
+                "algorithm_footnote": []
+            },
+            "bbox": [
+                179,
+                90,
+                776,
+                445
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "(1)"
+                    }
+                ]
+            },
+            "bbox": [
+                820,
+                425,
+                848,
+                444
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "写出算法的执行步骤。 (2)指出算法的功能。"
+                    }
+                ]
+            },
+            "bbox": [
+                143,
+                444,
+                498,
+                463
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：(1)步骤如下:建立一个临时栈 tmps 并初始化。退栈 st 中的所有元素,将不为 x 的元素进栈到tmps中。退栈tmps中的所有元素,并进栈到st中。销毁栈tmps。 (2)算法的功能是如果栈st中存在元素x,将其从栈中清除。"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                481,
+                854,
+                537
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "23、【问答题】阅读下列关于排序的算法,并回答问题:"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                555,
+                578,
+                574
+            ]
+        },
+        {
+            "type": "algorithm",
+            "content": {
+                "algorithm_caption": [],
+                "algorithm_content": [
+                    {
+                        "type": "text",
+                        "content": "void fun(int a[], int n) { int i, j, d, tmp; d=n/3; while (true) {for(i=d;i<n;i++) {tmp=a[i]:j=i-d;"
+                    }
+                ],
+                "algorithm_footnote": []
+            },
+            "bbox": [
+                199,
+                579,
+                450,
+                767
+            ]
+        }
+    ],
+    [
+        {
+            "type": "algorithm",
+            "content": {
+                "algorithm_caption": [],
+                "algorithm_content": [
+                    {
+                        "type": "text",
+                        "content": "while (j>=0&&tmp<a[j]) {a[j+d]=a[j];j=j-d; 1 a[j+d]=tmp; } if(d==1) break; else if(d<3)d=1; else d=d/3; 1 1"
+                    }
+                ],
+                "algorithm_footnote": []
+            },
+            "bbox": [
+                217,
+                94,
+                516,
+                410
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "能。 (2)当 a[]={5,1,3,6,2,7,4,8}时,fun(a,8)共执行几趟排序?各趟的排序结果是什么?"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                415,
+                834,
+                453
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：(1)算法的功能是采用增量递减为1/3的希尔排序方法对a数组中的元素进行递增排序。 (2)执行两趟排序。 第一趟 :2,1,3,6,4,7,5,8 第二趟:1,2,3,4,5,6,7,8"
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                472,
+                839,
+                510
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "24、【填空题】算法的每一个步骤都必须有确切的含义,这个特性是算法的 __ 。"
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                529,
+                751,
+                546
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：确定性"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                565,
+                258,
+                583
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "25、【填空题】在计算机科学中, __ 是指所有能输入计算机并被计算机处理的符号的集合。"
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                603,
+                836,
+                621
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：数据"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                641,
+                238,
+                659
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "26、【填空题】线性表是一个有限序列,组成线性表的是 n(n≥0)个 __ 。"
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                678,
+                700,
+                696
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：元素"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                715,
+                238,
+                733
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "27、【填空题】一维数组a采用顺序存储方式,下标从0开始,每个元素占4个存储单元,a[8]的起始地址为100,则a[11]的起始地址为 __ 。"
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                753,
+                794,
+                789
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：112"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                808,
+                238,
+                825
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "28、【填空题】可以进行拓扑排序的有向图一定是 __ 。"
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                845,
+                571,
+                863
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：无环图"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                882,
+                256,
+                900
+            ]
+        }
+    ],
+    [
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "29、【填空题】数据序列(8,7,6,5,4,3,2,1)采用二路归并排序方法进行递增排序,所需要的关键字比较次数是 __ 。"
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                108,
+                852,
+                143
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：12"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                164,
+                228,
+                179
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "30、【填空题】对含有 n 个元素的数据序列进行简单选择排序,总的关键字比较次数是 __ 。"
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                202,
+                839,
+                218
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：n(n-1)/2"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                238,
+                276,
+                255
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "31、【填空题】归并排序是一个 __ 算法,可以使用非递归或递归的方式实现。"
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                276,
+                733,
+                292
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：分治"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                313,
+                240,
+                329
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "32、【填空题】为了实现分块查找,线性表必须采用 __ 方法存储。"
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                351,
+                647,
+                367
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：索引"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                387,
+                238,
+                404
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "33、【填空题】哈希表的查找效率使用 __ 来度量。"
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                425,
+                539,
+                443
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案：平均查找长度"
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                463,
+                312,
+                479
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "34、【设计题】假设无向图采用邻接表存储,设计一个算法,以深度优先搜索来求连通分量的个数并输出各连通分量的顶点集。"
+                    }
+                ]
+            },
+            "bbox": [
+                140,
+                500,
+                839,
+                535
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "答案："
+                    }
+                ]
+            },
+            "bbox": [
+                142,
+                555,
+                192,
+                571
+            ]
+        }
+    ],
+    [
+        {
+            "type": "algorithm",
+            "content": {
+                "algorithm_caption": [],
+                "algorithm_content": [
+                    {
+                        "type": "text",
+                        "content": "intDFSTrave (AdjGraph *G) {int k, num=0; (1分) for(k=0;k<G->n;k++) (1分) visited[k]=0; (1分) for(k=0;k<G->n;k++) if(visited[k]==0)(1分) {num++; (1分) printf(\"第%d 个连通分量顶点集：\", num); (1分) DFS(G,k);//DFS 是《教材》中的深度优先搜索算法 printf(\"\\n\");(1分) return num; (1分)"
+                    }
+                ],
+                "algorithm_footnote": []
+            },
+            "bbox": [
+                222,
+                92,
+                998,
+                560
+            ]
+        }
+    ]
+]
