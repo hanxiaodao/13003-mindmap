@@ -14,3 +14,8 @@ shots/
 # 系统杂项
 Thumbs.db
 Desktop.ini
+
+# 设备码授权的临时文件
+.token.tmp
+.dcode.tmp
+.payload.tmp
