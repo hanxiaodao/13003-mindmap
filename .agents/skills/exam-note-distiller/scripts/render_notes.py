@@ -53,12 +53,18 @@ def render_blocks(lines):
             i += 1
             continue
         if stripped.startswith('```'):
-            kind = stripped[3:].strip()  # f / err / tip / ok / ''
+            kind = stripped[3:].strip()  # f / err / tip / ok / d / ''
             buf, i = [], i + 1
             while i < n and not lines[i].strip().startswith('```'):
                 buf.append(lines[i])
                 i += 1
             i += 1  # 跳过结束 ```
+            if kind == 'd':
+                # 图示块：内容是完整 <svg>…</svg>，原样内嵌不转义（SVG 由笔记作者维护，
+                # 配色走模板 .diagram/.dg-* 类实现深浅主题自适应；模板的 Word 导出会把
+                # SVG 栅格化、Markdown 导出与搜索高亮都会跳过 SVG 子树）。
+                out.append('<figure class="diagram">' + '\n'.join(buf) + '</figure>')
+                continue
             body = '\n'.join(html.escape(l, quote=False) for l in buf)
             if kind in ('err', 'tip', 'ok'):
                 out.append(f'<span class="callout {kind}">{body}</span>')

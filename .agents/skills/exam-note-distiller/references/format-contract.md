@@ -105,6 +105,28 @@ P ∧ Q → R  ≡  ¬P ∨ (Q → R)
 
 `- ` 开头，每行一项。**不支持嵌套列表**——需要层级时改用多个子主题或表格。
 
+### 3.6 图示块（```d）
+
+结构类知识点的示意图（链表指针、树、环形队列、图的存储等）放在图示块里，内容是**完整的 `<svg>…</svg>`**，渲染器原样内嵌为 `<figure class="diagram">`：
+
+````markdown
+```d
+<svg viewBox="0 0 320 70" width="320" height="70" xmlns="http://www.w3.org/2000/svg">
+  <rect class="dg-box" x="10" y="20" width="34" height="28" rx="4"/>
+  <text x="27" y="34" class="dg-t" text-anchor="middle" dominant-baseline="central">a₁</text>
+  …
+</svg>
+```
+````
+
+写作规则：
+
+- **配色禁止写死**：一律使用模板预置的 `dg-*` 类（`dg-box`/`dg-box2`/`dg-circ`/`dg-circ2` 主/次结点，`dg-t`/`dg-s`/`dg-lab`/`dg-hl` 文字，`dg-edge`/`dg-flow`/`dg-dash` 连线，`dg-head`/`dg-headf` 箭头，`dg-fill` 高亮底色，`dg-bad`/`dg-badt`/`dg-okt`/`dg-tipt` 红绿黄标注），深浅主题与章节色自动适配；模板的 Word 导出按计算样式把 SVG 栅格化，写死颜色会破坏主题。
+- 文字元素统一带 `text-anchor="middle" dominant-baseline="central"`（按视觉中心定位，y 直接给中心坐标）。
+- 给 `svg` 显式 `viewBox` 与 `width`/`height`（页面按 `max-width:100%` 缩放）。
+- 前后各空一行；图前可加一行灰字说明读图要点（普通正文行）。
+- 图只放讲解子主题里，不放真题/速记区块；一图说一件事，宽度控制在 720px 内。
+
 ---
 
 ## 4. 总览专题（特殊章节）

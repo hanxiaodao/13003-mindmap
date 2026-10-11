@@ -31,6 +31,8 @@ Exam Note Distiller · 思维导图 HTML 模板（资产）
 ```f 块      → <span class="formula">…（换行保留，多行直接放 
 ）</span>
 ```err/tip/ok → <span class="callout err|tip|ok">…</span>
+```d 块      → <figure class="diagram">…原样内嵌 <svg>…</svg>…</figure>（图示块：SVG 手写在 md 里，
+                配色必须走 .dg-* 类（本模板 CSS），深浅主题自动适配；不要在 SVG 里写死颜色）
 | 表格        → <table><tr><th>表头…</th></tr><tr><td>…</td></tr></table>（单元格内同样处理 **bold**）
 - 列表        → <ul><li>…</li></ul>
 
@@ -330,6 +332,45 @@ header h1 {
 .callout.ok  { color:var(--ok);  background:rgba(52,211,153,.07); border-color:var(--ok); }
 .callout b { color:inherit; }
 
+/* ── 图示块（```d 内嵌 SVG）：配色全部走 CSS 类 → 深浅主题与章节色自动适配 ── */
+.diagram {
+  display:block;
+  margin:10px 0;
+  padding:10px 12px 8px;
+  background:var(--detail-bg);
+  border:1px solid var(--border);
+  border-radius:8px;
+  overflow-x:auto;
+}
+.diagram svg {
+  display:block;
+  margin:0 auto;
+  max-width:100%;
+  height:auto;
+  font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
+}
+.diagram .dg-box  { fill:var(--surface); stroke:var(--accent); stroke-width:1.4; }          /* 主结点（矩形） */
+.diagram .dg-box2 { fill:none; stroke:var(--muted); stroke-width:1.2; }                     /* 次要结点 */
+.diagram .dg-circ { fill:var(--surface); stroke:var(--accent); stroke-width:1.4; }          /* 主结点（圆形，树） */
+.diagram .dg-circ2{ fill:none; stroke:var(--muted); stroke-width:1.2; }
+.diagram .dg-fill { fill:var(--accent); opacity:.14; stroke:none; }                         /* 高亮底色 */
+.diagram .dg-t    { fill:var(--heading); font-size:13px; font-weight:600; }                 /* 结点标签 */
+.diagram .dg-s    { fill:var(--text); font-size:11px; }                                     /* 小号结点标签 */
+.diagram .dg-lab  { fill:var(--muted); font-size:11.5px; }                                  /* 灰色注释 */
+.diagram .dg-hl   { fill:var(--accent); font-weight:700; font-size:12.5px; }                /* 章节色强调文字 */
+:root[data-theme="light"] .diagram .dg-hl { fill:var(--accent-light, var(--accent)); }
+.diagram .dg-edge { stroke:var(--muted); stroke-width:1.3; fill:none; }                     /* 普通连线/树边 */
+.diagram .dg-flow { stroke:var(--accent); stroke-width:1.7; fill:none; }                    /* 强调流向 */
+:root[data-theme="light"] .diagram .dg-flow { stroke:var(--accent-light, var(--accent)); }
+.diagram .dg-dash { stroke:var(--faint); stroke-width:1.2; stroke-dasharray:4 3; fill:none; }/* 虚线：新指针/删除 */
+.diagram .dg-head { fill:var(--muted); stroke:none; }                                       /* 箭头头部（普通） */
+.diagram .dg-headf{ fill:var(--accent); stroke:none; }                                      /* 箭头头部（强调） */
+:root[data-theme="light"] .diagram .dg-headf { fill:var(--accent-light, var(--accent)); }
+.diagram .dg-bad  { stroke:var(--err); stroke-width:1.5; fill:none; }                       /* 错误/删除标记 */
+.diagram .dg-badt { fill:var(--err); }
+.diagram .dg-okt  { fill:var(--ok); }
+.diagram .dg-tipt { fill:var(--tip); }
+
 /* 表格 */
 .kp-detail table, .ch-intro table {
   width:100%;
@@ -610,7 +651,7 @@ function toggleCh(el){var ch=el.closest('.ch'),isOpen=ch.classList.contains('ope
 function toggleKp(el){var kp=el.closest('.kp'),isOpen=kp.classList.contains('open');kp.classList.toggle('open');el.setAttribute('aria-expanded',String(!isOpen));kp.querySelector('.kp-detail').style.display=isOpen?'none':'block'}
 function mdInline(n){if(n.nodeType===3)return n.textContent;if(n.nodeType!==1)return '';if(n.tagName==='BR')return '\n';var s='';for(var i=0;i<n.childNodes.length;i++)s+=mdInline(n.childNodes[i]);var t=n.tagName;if(t==='B'||t==='STRONG')return '**'+s.trim()+'**';return s}
 function mdTable(t){var rows=[].map.call(t.rows,function(r){return [].map.call(r.cells,function(c){return mdInline(c).trim().replace(/\|/g,'\\|').replace(/\n/g,' ')})});if(!rows.length)return '';function line(cs){return '| '+cs.join(' | ')+' |'}var out=[line(rows[0]),line(rows[0].map(function(){return '---'}))];for(var i=1;i<rows.length;i++)out.push(line(rows[i]));return out.join('\n')}
-function mdDetail(el){var lines=[],cur='';function flush(){cur=cur.trim();if(cur)lines.push(cur);cur=''}[].forEach.call(el.childNodes,function(n){if(n.nodeType===3){cur+=n.textContent.replace(/\s+/g,' ');return}if(n.nodeType!==1)return;var tag=n.tagName;if(tag==='svg'){return}if(tag==='BR'){flush();return}if(tag==='TABLE'){flush();lines.push(mdTable(n));return}if(tag==='UL'){flush();[].forEach.call(n.children,function(li){lines.push('- '+mdInline(li).trim())});return}var txt=mdInline(n).trim();if(!txt)return;if(n.classList.contains('kp-sub')){flush();lines.push('#### '+txt);return}if(n.classList.contains('formula')){flush();txt.split('\n').forEach(function(l){lines.push('> '+l)});return}if(n.classList.contains('callout')){flush();txt.split('\n').forEach(function(l){lines.push('> '+l)});return}cur+=mdInline(n)});flush();return lines.join('\n\n')}
+function mdDetail(el){var lines=[],cur='';function flush(){cur=cur.trim();if(cur)lines.push(cur);cur=''}[].forEach.call(el.childNodes,function(n){if(n.nodeType===3){cur+=n.textContent.replace(/\s+/g,' ');return}if(n.nodeType!==1)return;var tag=n.tagName;if(tag==='svg'){return}if(n.classList&&n.classList.contains('diagram')){flush();lines.push('〔图示：见网页版〕');return}if(tag==='BR'){flush();return}if(tag==='TABLE'){flush();lines.push(mdTable(n));return}if(tag==='UL'){flush();[].forEach.call(n.children,function(li){lines.push('- '+mdInline(li).trim())});return}var txt=mdInline(n).trim();if(!txt)return;if(n.classList.contains('kp-sub')){flush();lines.push('#### '+txt);return}if(n.classList.contains('formula')){flush();txt.split('\n').forEach(function(l){lines.push('> '+l)});return}if(n.classList.contains('callout')){flush();txt.split('\n').forEach(function(l){lines.push('> '+l)});return}cur+=mdInline(n)});flush();return lines.join('\n\n')}
 function exportMarkdown(){var parts=[];var h1=document.querySelector('header h1');parts.push('# '+(h1?h1.textContent.trim():'考点笔记'));var stats=[].map.call(document.querySelectorAll('.header-stat'),function(s){return s.textContent.replace(/\s+/g,' ').trim()});if(stats.length)parts.push('> '+stats.join(' · '));[].forEach.call(document.querySelectorAll('.ch'),function(ch){var ts=ch.querySelector('.ch-title span');var title='';if(ts){var c=ts.cloneNode(true);[].forEach.call(c.querySelectorAll('.badge'),function(b){b.remove()});title=c.textContent.trim()}parts.push('## '+title);[].forEach.call(ch.querySelectorAll('.kp'),function(kp){var num=kp.querySelector('.kp-num'),name=kp.querySelector('.kp-name');var head=((num?num.textContent.trim():'')+' '+(name?name.textContent.trim():'')).trim();parts.push('### '+head);var d=kp.querySelector('.kp-detail');var dt=d?mdDetail(d):'';if(dt)parts.push(dt)})});parts.push('---');parts.push('*导出于 '+new Date().toLocaleString('zh-CN',{hour12:false})+'*');var md=parts.join('\n\n');var blob=new Blob(['\ufeff'+md],{type:'text/markdown;charset=utf-8'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='@@EXPORT_NAME@@';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1000);return md}
 function downloadBlob(blob,name){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1000)}
 function showToast(msg,ms){var t=document.getElementById('exportToast');if(!t){t=document.createElement('div');t.className='export-toast';t.id='exportToast';document.body.appendChild(t)}t.style.display='block';t.textContent=msg;clearTimeout(showToast._t);if(ms)showToast._t=setTimeout(function(){t.style.display='none'},ms);return t}

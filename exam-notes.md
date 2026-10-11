@@ -420,6 +420,42 @@ meta: level=S; freq=2024.10、2025.10、2026.04
 - 头指针 head：指向头结点（不带头结点时指向首结点）；单链表由头指针标识（不能只用尾指针）
 - 尾结点判定：p->next == NULL
 
+单链表（带头结点）的图景：head 只是存地址的指针变量；头结点不存数据；尾结点指针域为空。
+
+```d
+<svg viewBox="0 0 640 96" width="640" height="96" xmlns="http://www.w3.org/2000/svg">
+  <text x="26" y="34" class="dg-hl" text-anchor="middle" dominant-baseline="central">head</text>
+  <line class="dg-flow" x1="46" y1="34" x2="62" y2="34"/>
+  <path class="dg-headf" d="M72 34l-9-4.5v9z"/>
+  <rect class="dg-box2" x="74" y="20" width="58" height="28" rx="4"/>
+  <line class="dg-edge" x1="108" y1="20" x2="108" y2="48"/>
+  <text x="91" y="34" class="dg-lab" text-anchor="middle" dominant-baseline="central">—</text>
+  <rect class="dg-box" x="170" y="20" width="58" height="28" rx="4"/>
+  <line class="dg-edge" x1="204" y1="20" x2="204" y2="48"/>
+  <text x="187" y="34" class="dg-t" text-anchor="middle" dominant-baseline="central">a₁</text>
+  <rect class="dg-box" x="266" y="20" width="58" height="28" rx="4"/>
+  <line class="dg-edge" x1="300" y1="20" x2="300" y2="48"/>
+  <text x="283" y="34" class="dg-t" text-anchor="middle" dominant-baseline="central">a₂</text>
+  <rect class="dg-box" x="362" y="20" width="58" height="28" rx="4"/>
+  <line class="dg-edge" x1="396" y1="20" x2="396" y2="48"/>
+  <text x="379" y="34" class="dg-t" text-anchor="middle" dominant-baseline="central">a₃</text>
+  <line class="dg-flow" x1="126" y1="34" x2="160" y2="34"/>
+  <path class="dg-headf" d="M170 34l-9-4.5v9z"/>
+  <line class="dg-flow" x1="222" y1="34" x2="256" y2="34"/>
+  <path class="dg-headf" d="M266 34l-9-4.5v9z"/>
+  <line class="dg-flow" x1="318" y1="34" x2="352" y2="34"/>
+  <path class="dg-headf" d="M362 34l-9-4.5v9z"/>
+  <line class="dg-flow" x1="414" y1="34" x2="456" y2="34"/>
+  <path class="dg-headf" d="M466 34l-9-4.5v9z"/>
+  <text x="480" y="34" class="dg-lab" text-anchor="middle" dominant-baseline="central">∧</text>
+  <text x="26" y="64" class="dg-lab" text-anchor="middle" dominant-baseline="central">头指针</text>
+  <text x="103" y="64" class="dg-lab" text-anchor="middle" dominant-baseline="central">头结点</text>
+  <text x="199" y="64" class="dg-lab" text-anchor="middle" dominant-baseline="central">首结点</text>
+  <text x="391" y="64" class="dg-lab" text-anchor="middle" dominant-baseline="central">尾结点</text>
+  <text x="320" y="86" class="dg-lab" text-anchor="middle" dominant-baseline="central">链表由头指针标识；头结点不存数据；尾结点的指针域为空（∧）</text>
+</svg>
+```
+
 #### 9.2 必背判定
 
 ```f
@@ -467,6 +503,32 @@ p->next = s;          // 第二步：再接前驱
 - 若前后两结点都有独立指针：两步顺序可颠倒
 - 后继只能经 p->next 访问时：顺序**绝不可颠倒**，否则断链、丢失后继结点
 
+图示：在 p 与其后继之间插入 s 所指结点。① 先让 s 挂上后继，② 再让 p 挂上 s，最后才断旧链。
+
+```d
+<svg viewBox="0 0 460 175" width="460" height="175" xmlns="http://www.w3.org/2000/svg">
+  <text x="120" y="46" class="dg-hl" text-anchor="middle" dominant-baseline="central">s</text>
+  <line class="dg-flow" x1="130" y1="46" x2="139" y2="46"/>
+  <path class="dg-headf" d="M149 46l-9-4.5v9z"/>
+  <rect class="dg-box" x="150" y="30" width="58" height="32" rx="4"/>
+  <text x="179" y="46" class="dg-t" text-anchor="middle" dominant-baseline="central">x</text>
+  <text x="40" y="86" class="dg-hl" text-anchor="middle" dominant-baseline="central">p</text>
+  <rect class="dg-box" x="40" y="95" width="58" height="32" rx="4"/>
+  <text x="69" y="111" class="dg-t" text-anchor="middle" dominant-baseline="central">aᵢ</text>
+  <rect class="dg-box" x="300" y="95" width="58" height="32" rx="4"/>
+  <text x="329" y="111" class="dg-t" text-anchor="middle" dominant-baseline="central">aᵢ₊₁</text>
+  <line class="dg-dash" x1="98" y1="111" x2="290" y2="111"/>
+  <path class="dg-bad" d="M189 106l10 10M199 106l-10 10"/>
+  <line class="dg-flow" x1="208" y1="55" x2="303" y2="90"/>
+  <path class="dg-headf" transform="translate(305 92) rotate(20.9)" d="M0 0l-9-4.5v9z"/>
+  <text x="262" y="62" class="dg-hl" text-anchor="middle" dominant-baseline="central">①</text>
+  <line class="dg-flow" x1="98" y1="95" x2="150" y2="62"/>
+  <path class="dg-headf" transform="translate(152 60) rotate(-32.4)" d="M0 0l-9-4.5v9z"/>
+  <text x="108" y="68" class="dg-hl" text-anchor="middle" dominant-baseline="central">②</text>
+  <text x="230" y="160" class="dg-lab" text-anchor="middle" dominant-baseline="central">①先接后继 ②再接前驱；顺序颠倒会断链</text>
+</svg>
+```
+
 #### 10.2 删除：跨过被删结点
 
 删除 p 的后继结点 q：
@@ -474,6 +536,28 @@ p->next = s;          // 第二步：再接前驱
 ```f
 p->next = q->next;    // 前驱跨过 q（即 p->next = p->next->next）
 free(q);              // 释放结点空间，防止内存泄漏
+```
+
+图示：删除 p 的后继 q——前驱直接跨过 q 指向后继的后继。
+
+```d
+<svg viewBox="0 0 460 150" width="460" height="150" xmlns="http://www.w3.org/2000/svg">
+  <path class="dg-flow" d="M69 45C150 -2 290 -2 369 45"/>
+  <path class="dg-headf" transform="translate(369 45) rotate(30.7)" d="M0 0l-9-4.5v9z"/>
+  <text x="40" y="36" class="dg-hl" text-anchor="middle" dominant-baseline="central">p</text>
+  <rect class="dg-box" x="40" y="45" width="58" height="32" rx="4"/>
+  <text x="69" y="61" class="dg-t" text-anchor="middle" dominant-baseline="central">aᵢ</text>
+  <text x="190" y="36" class="dg-hl" text-anchor="middle" dominant-baseline="central">q</text>
+  <rect class="dg-box2" x="190" y="45" width="58" height="32" rx="4"/>
+  <text x="219" y="61" class="dg-t" text-anchor="middle" dominant-baseline="central">aᵢ₊₁</text>
+  <path class="dg-bad" d="M209 51l20 20M229 51l-20 20"/>
+  <rect class="dg-box" x="340" y="45" width="58" height="32" rx="4"/>
+  <text x="369" y="61" class="dg-t" text-anchor="middle" dominant-baseline="central">aᵢ₊₂</text>
+  <line class="dg-dash" x1="98" y1="61" x2="180" y2="61"/>
+  <line class="dg-dash" x1="248" y1="61" x2="330" y2="61"/>
+  <text x="219" y="118" class="dg-hl" text-anchor="middle" dominant-baseline="central">p->next = q->next（跨过 q）</text>
+  <text x="219" y="138" class="dg-lab" text-anchor="middle" dominant-baseline="central">再 free(q) 释放结点空间，防止内存泄漏</text>
+</svg>
 ```
 
 #### 10.3 算法阅读常见问法
@@ -773,6 +857,31 @@ meta: level=S; freq=2024.10、2025.04、2025.10、2026.04
 - 形象模型：有底的桶、一摞盘子——底部元素被压住，只能等上面全走
 - 栈是"受限的线性表"（逻辑结构），存储结构未定
 
+图示：栈只有栈顶一个出入口，后进的压在上面、先出。
+
+```d
+<svg viewBox="0 0 300 190" width="300" height="190" xmlns="http://www.w3.org/2000/svg">
+  <text x="98" y="10" class="dg-lab" text-anchor="middle" dominant-baseline="central">出栈</text>
+  <line class="dg-flow" x1="135" y1="16" x2="135" y2="6"/>
+  <path class="dg-headf" d="M135 2l-4.5 9h9z"/>
+  <text x="202" y="10" class="dg-lab" text-anchor="middle" dominant-baseline="central">入栈</text>
+  <line class="dg-flow" x1="165" y1="6" x2="165" y2="14"/>
+  <path class="dg-headf" d="M165 18l-4.5-9h9z"/>
+  <rect class="dg-box2" x="115" y="20" width="70" height="30" rx="4"/>
+  <rect class="dg-box" x="115" y="55" width="70" height="30" rx="4"/>
+  <text x="150" y="70" class="dg-t" text-anchor="middle" dominant-baseline="central">a₃</text>
+  <rect class="dg-box" x="115" y="90" width="70" height="30" rx="4"/>
+  <text x="150" y="105" class="dg-t" text-anchor="middle" dominant-baseline="central">a₂</text>
+  <rect class="dg-box" x="115" y="125" width="70" height="30" rx="4"/>
+  <text x="150" y="140" class="dg-t" text-anchor="middle" dominant-baseline="central">a₁</text>
+  <text x="245" y="70" class="dg-hl" text-anchor="middle" dominant-baseline="central">top</text>
+  <line class="dg-flow" x1="228" y1="70" x2="200" y2="70"/>
+  <path class="dg-headf" d="M193 70l9-4.5v9z"/>
+  <text x="245" y="88" class="dg-lab" text-anchor="middle" dominant-baseline="central">栈顶指针</text>
+  <text x="150" y="172" class="dg-lab" text-anchor="middle" dominant-baseline="central">栈底（固定不动）</text>
+</svg>
+```
+
 #### 15.2 出栈序列判断法（核心考法）
 
 按目标序列依次模拟：要出的元素不在栈顶时，把它之前的元素全部压栈；压不出来（被压住）→该序列不可能。
@@ -910,6 +1019,34 @@ meta: level=B; freq=2025.10、2026.04
 - 栈和队列的共同点：都**只允许在端点处**插入和删除
 - 队列不是"只能插"或"只能删"，而是插入位置固定在队尾、删除固定在队头
 
+图示：队列两端分工——队尾只进、队头只出（front 指队头元素，rear 指队尾元素的下一空位）。
+
+```d
+<svg viewBox="0 0 560 108" width="560" height="108" xmlns="http://www.w3.org/2000/svg">
+  <text x="280" y="14" class="dg-lab" text-anchor="middle" dominant-baseline="central">先进先出 FIFO：从队尾进、队头出</text>
+  <rect class="dg-box" x="150" y="33" width="58" height="30" rx="4"/>
+  <text x="179" y="48" class="dg-t" text-anchor="middle" dominant-baseline="central">a₁</text>
+  <rect class="dg-box" x="214" y="33" width="58" height="30" rx="4"/>
+  <text x="243" y="48" class="dg-t" text-anchor="middle" dominant-baseline="central">a₂</text>
+  <rect class="dg-box" x="278" y="33" width="58" height="30" rx="4"/>
+  <text x="307" y="48" class="dg-t" text-anchor="middle" dominant-baseline="central">a₃</text>
+  <rect class="dg-box2" x="342" y="33" width="58" height="30" rx="4"/>
+  <text x="72" y="48" class="dg-lab" text-anchor="middle" dominant-baseline="central">出队</text>
+  <line class="dg-flow" x1="88" y1="48" x2="140" y2="48"/>
+  <path class="dg-headf" d="M150 48l-9-4.5v9z"/>
+  <text x="488" y="48" class="dg-lab" text-anchor="middle" dominant-baseline="central">入队</text>
+  <line class="dg-flow" x1="470" y1="48" x2="412" y2="48"/>
+  <path class="dg-headf" d="M404 48l9-4.5v9z"/>
+  <line class="dg-edge" x1="179" y1="76" x2="179" y2="68"/>
+  <path class="dg-head" d="M179 63l-4.5 9h9z"/>
+  <text x="179" y="90" class="dg-hl" text-anchor="middle" dominant-baseline="central">front</text>
+  <line class="dg-edge" x1="371" y1="76" x2="371" y2="68"/>
+  <path class="dg-head" d="M371 63l-4.5 9h9z"/>
+  <text x="371" y="90" class="dg-hl" text-anchor="middle" dominant-baseline="central">rear</text>
+  <text x="280" y="102" class="dg-lab" text-anchor="middle" dominant-baseline="central">front 指向队头元素；rear 指向队尾元素的下一个空位</text>
+</svg>
+```
+
 #### 17.2 真题
 
 **【2025.10·第5题·单选】** 栈和队列的共同点是（　）
@@ -948,6 +1085,47 @@ meta: level=S; freq=2025.04、2025.10、2026.04
 判空：front == rear
 判满：(rear + 1) % m == front          ← 牺牲一个单元区分空/满
 元素个数：(rear − front + m) % m       ← 统一公式，分界情况也适用
+```
+
+图示：循环队列——下标走到底取模回绕，rear 与 front 之间留一个空位作"牺牲单元"区分空/满。
+
+```d
+<svg viewBox="0 0 560 245" width="560" height="245" xmlns="http://www.w3.org/2000/svg">
+  <rect class="dg-fill" x="212" y="116" width="40" height="28" rx="4"/>
+  <rect class="dg-box2" x="150" y="54" width="40" height="28" rx="4"/>
+  <text x="170" y="68" class="dg-s" text-anchor="middle" dominant-baseline="central">0</text>
+  <rect class="dg-box" x="194" y="72" width="40" height="28" rx="4"/>
+  <text x="214" y="86" class="dg-s" text-anchor="middle" dominant-baseline="central">1</text>
+  <rect class="dg-box2" x="212" y="116" width="40" height="28" rx="4"/>
+  <text x="232" y="130" class="dg-s" text-anchor="middle" dominant-baseline="central">2</text>
+  <rect class="dg-box" x="194" y="160" width="40" height="28" rx="4"/>
+  <text x="214" y="174" class="dg-s" text-anchor="middle" dominant-baseline="central">3</text>
+  <rect class="dg-box" x="150" y="178" width="40" height="28" rx="4"/>
+  <text x="170" y="192" class="dg-s" text-anchor="middle" dominant-baseline="central">4</text>
+  <rect class="dg-box" x="106" y="160" width="40" height="28" rx="4"/>
+  <text x="126" y="174" class="dg-s" text-anchor="middle" dominant-baseline="central">5</text>
+  <rect class="dg-box" x="88" y="116" width="40" height="28" rx="4"/>
+  <text x="108" y="130" class="dg-s" text-anchor="middle" dominant-baseline="central">6</text>
+  <rect class="dg-box" x="106" y="72" width="40" height="28" rx="4"/>
+  <text x="126" y="86" class="dg-s" text-anchor="middle" dominant-baseline="central">7</text>
+  <path class="dg-flow" d="M170 92A38 38 0 0 1 208 130"/>
+  <path class="dg-headf" transform="translate(208 132) rotate(90)" d="M0 0l-9-4.5v9z"/>
+  <text x="170" y="124" class="dg-lab" text-anchor="middle" dominant-baseline="central">入队方向</text>
+  <text x="170" y="148" class="dg-lab" text-anchor="middle" dominant-baseline="central">容量 m</text>
+  <text x="300" y="105" class="dg-hl" text-anchor="middle" dominant-baseline="central">rear</text>
+  <line class="dg-flow" x1="295" y1="108" x2="262" y2="126"/>
+  <path class="dg-headf" transform="translate(258 128) rotate(151.4)" d="M0 0l-9-4.5v9z"/>
+  <text x="300" y="195" class="dg-hl" text-anchor="middle" dominant-baseline="central">front</text>
+  <line class="dg-flow" x1="295" y1="190" x2="246" y2="178"/>
+  <path class="dg-headf" transform="translate(242 177) rotate(-166.2)" d="M0 0l-9-4.5v9z"/>
+  <text x="430" y="80" class="dg-s" text-anchor="middle" dominant-baseline="central">front 指向队头元素</text>
+  <text x="430" y="100" class="dg-s" text-anchor="middle" dominant-baseline="central">rear 指向队尾元素的下一个空位</text>
+  <text x="430" y="120" class="dg-s" text-anchor="middle" dominant-baseline="central">判满：(rear+1) mod m == front</text>
+  <text x="430" y="140" class="dg-lab" text-anchor="middle" dominant-baseline="central">牺牲一格区分空/满</text>
+  <text x="430" y="170" class="dg-lab" text-anchor="middle" dominant-baseline="central">示例：7 个元素占 3~7、0、1 号位</text>
+  <text x="430" y="190" class="dg-lab" text-anchor="middle" dominant-baseline="central">rear 停在空位 2</text>
+  <text x="280" y="228" class="dg-lab" text-anchor="middle" dominant-baseline="central">指针走到 m−1 再回绕到 0（取模复用空间）</text>
+</svg>
 ```
 
 #### 18.3 易错
@@ -1121,6 +1299,68 @@ meta: level=S; freq=2025.04、2025.10、2026.04
 行主序：LOC(a[i][j]) = LOC₀ + (i×n + j)×d
 列主序：LOC(a[i][j]) = LOC₀ + (j×m + i)×d
 一维：LOC(a[i]) = LOC(a[k]) + (i−k)×d   ← 任意起点按差值算
+```
+
+图示：同一个 a[2][1]，行主序排第 9 个、列主序排第 5 个——次序不同，偏移公式就不同。
+
+```d
+<svg viewBox="0 0 640 180" width="640" height="180" xmlns="http://www.w3.org/2000/svg">
+  <text x="320" y="18" class="dg-lab" text-anchor="middle" dominant-baseline="central">同一元素 a[2][1] 在两种存放次序下的序号不同</text>
+  <rect class="dg-box2" x="60" y="30" width="38" height="38" rx="4"/>
+  <text x="79" y="49" class="dg-t" text-anchor="middle" dominant-baseline="central">0</text>
+  <rect class="dg-box2" x="98" y="30" width="38" height="38" rx="4"/>
+  <text x="117" y="49" class="dg-t" text-anchor="middle" dominant-baseline="central">1</text>
+  <rect class="dg-box2" x="136" y="30" width="38" height="38" rx="4"/>
+  <text x="155" y="49" class="dg-t" text-anchor="middle" dominant-baseline="central">2</text>
+  <rect class="dg-box2" x="174" y="30" width="38" height="38" rx="4"/>
+  <text x="193" y="49" class="dg-t" text-anchor="middle" dominant-baseline="central">3</text>
+  <rect class="dg-box2" x="60" y="68" width="38" height="38" rx="4"/>
+  <text x="79" y="87" class="dg-t" text-anchor="middle" dominant-baseline="central">4</text>
+  <rect class="dg-box2" x="98" y="68" width="38" height="38" rx="4"/>
+  <text x="117" y="87" class="dg-t" text-anchor="middle" dominant-baseline="central">5</text>
+  <rect class="dg-box2" x="136" y="68" width="38" height="38" rx="4"/>
+  <text x="155" y="87" class="dg-t" text-anchor="middle" dominant-baseline="central">6</text>
+  <rect class="dg-box2" x="174" y="68" width="38" height="38" rx="4"/>
+  <text x="193" y="87" class="dg-t" text-anchor="middle" dominant-baseline="central">7</text>
+  <rect class="dg-box2" x="60" y="106" width="38" height="38" rx="4"/>
+  <text x="79" y="125" class="dg-t" text-anchor="middle" dominant-baseline="central">8</text>
+  <rect class="dg-fill" x="98" y="106" width="38" height="38" rx="4"/>
+  <rect class="dg-box2" x="98" y="106" width="38" height="38" rx="4"/>
+  <text x="117" y="125" class="dg-t" text-anchor="middle" dominant-baseline="central">9</text>
+  <rect class="dg-box2" x="136" y="106" width="38" height="38" rx="4"/>
+  <text x="155" y="125" class="dg-t" text-anchor="middle" dominant-baseline="central">10</text>
+  <rect class="dg-box2" x="174" y="106" width="38" height="38" rx="4"/>
+  <text x="193" y="125" class="dg-t" text-anchor="middle" dominant-baseline="central">11</text>
+  <text x="117" y="155" class="dg-hl" text-anchor="middle" dominant-baseline="central">a[2][1] = 第 9 个</text>
+  <rect class="dg-box2" x="380" y="30" width="38" height="38" rx="4"/>
+  <text x="399" y="49" class="dg-t" text-anchor="middle" dominant-baseline="central">0</text>
+  <rect class="dg-box2" x="418" y="30" width="38" height="38" rx="4"/>
+  <text x="437" y="49" class="dg-t" text-anchor="middle" dominant-baseline="central">3</text>
+  <rect class="dg-box2" x="456" y="30" width="38" height="38" rx="4"/>
+  <text x="475" y="49" class="dg-t" text-anchor="middle" dominant-baseline="central">6</text>
+  <rect class="dg-box2" x="494" y="30" width="38" height="38" rx="4"/>
+  <text x="513" y="49" class="dg-t" text-anchor="middle" dominant-baseline="central">9</text>
+  <rect class="dg-box2" x="380" y="68" width="38" height="38" rx="4"/>
+  <text x="399" y="87" class="dg-t" text-anchor="middle" dominant-baseline="central">1</text>
+  <rect class="dg-box2" x="418" y="68" width="38" height="38" rx="4"/>
+  <text x="437" y="87" class="dg-t" text-anchor="middle" dominant-baseline="central">4</text>
+  <rect class="dg-box2" x="456" y="68" width="38" height="38" rx="4"/>
+  <text x="475" y="87" class="dg-t" text-anchor="middle" dominant-baseline="central">7</text>
+  <rect class="dg-box2" x="494" y="68" width="38" height="38" rx="4"/>
+  <text x="513" y="87" class="dg-t" text-anchor="middle" dominant-baseline="central">10</text>
+  <rect class="dg-box2" x="380" y="106" width="38" height="38" rx="4"/>
+  <text x="399" y="125" class="dg-t" text-anchor="middle" dominant-baseline="central">2</text>
+  <rect class="dg-fill" x="418" y="106" width="38" height="38" rx="4"/>
+  <rect class="dg-box2" x="418" y="106" width="38" height="38" rx="4"/>
+  <text x="437" y="125" class="dg-t" text-anchor="middle" dominant-baseline="central">5</text>
+  <rect class="dg-box2" x="456" y="106" width="38" height="38" rx="4"/>
+  <text x="475" y="125" class="dg-t" text-anchor="middle" dominant-baseline="central">8</text>
+  <rect class="dg-box2" x="494" y="106" width="38" height="38" rx="4"/>
+  <text x="513" y="125" class="dg-t" text-anchor="middle" dominant-baseline="central">11</text>
+  <text x="437" y="155" class="dg-hl" text-anchor="middle" dominant-baseline="central">a[2][1] = 第 5 个</text>
+  <text x="155" y="175" class="dg-lab" text-anchor="middle" dominant-baseline="central">行主序：一行存完再存下一行</text>
+  <text x="475" y="175" class="dg-lab" text-anchor="middle" dominant-baseline="central">列主序：一列存完再存下一列</text>
+</svg>
 ```
 
 #### 22.3 怎么算
@@ -1447,6 +1687,55 @@ meta: level=A; freq=2025.10
 - 完全二叉树：除最后一层外各层全满，最后一层结点**从左到右连续排列**（不许跳空）
 - 关系：满二叉树一定是完全二叉树；完全二叉树不一定是满二叉树
 
+图示：满二叉树层层全满；完全二叉树只要求"最后一层从左到右连续"，右边可以缺。
+
+```d
+<svg viewBox="0 0 640 190" width="640" height="190" xmlns="http://www.w3.org/2000/svg">
+  <line class="dg-edge" x1="140" y1="40" x2="95" y2="85"/>
+  <line class="dg-edge" x1="140" y1="40" x2="185" y2="85"/>
+  <line class="dg-edge" x1="95" y1="85" x2="65" y2="130"/>
+  <line class="dg-edge" x1="95" y1="85" x2="115" y2="130"/>
+  <line class="dg-edge" x1="185" y1="85" x2="165" y2="130"/>
+  <line class="dg-edge" x1="185" y1="85" x2="215" y2="130"/>
+  <circle class="dg-circ" cx="140" cy="40" r="15"/>
+  <text x="140" y="40" class="dg-t" text-anchor="middle" dominant-baseline="central">A</text>
+  <circle class="dg-circ" cx="95" cy="85" r="15"/>
+  <text x="95" y="85" class="dg-t" text-anchor="middle" dominant-baseline="central">B</text>
+  <circle class="dg-circ" cx="185" cy="85" r="15"/>
+  <text x="185" y="85" class="dg-t" text-anchor="middle" dominant-baseline="central">C</text>
+  <circle class="dg-circ" cx="65" cy="130" r="15"/>
+  <text x="65" y="130" class="dg-t" text-anchor="middle" dominant-baseline="central">D</text>
+  <circle class="dg-circ" cx="115" cy="130" r="15"/>
+  <text x="115" y="130" class="dg-t" text-anchor="middle" dominant-baseline="central">E</text>
+  <circle class="dg-circ" cx="165" cy="130" r="15"/>
+  <text x="165" y="130" class="dg-t" text-anchor="middle" dominant-baseline="central">F</text>
+  <circle class="dg-circ" cx="215" cy="130" r="15"/>
+  <text x="215" y="130" class="dg-t" text-anchor="middle" dominant-baseline="central">G</text>
+  <text x="140" y="175" class="dg-lab" text-anchor="middle" dominant-baseline="central">满二叉树：每层都满</text>
+  <line class="dg-edge" x1="460" y1="40" x2="415" y2="85"/>
+  <line class="dg-edge" x1="460" y1="40" x2="505" y2="85"/>
+  <line class="dg-edge" x1="415" y1="85" x2="390" y2="130"/>
+  <line class="dg-edge" x1="415" y1="85" x2="440" y2="130"/>
+  <circle class="dg-circ" cx="460" cy="40" r="15"/>
+  <text x="460" y="40" class="dg-t" text-anchor="middle" dominant-baseline="central">A</text>
+  <circle class="dg-circ" cx="415" cy="85" r="15"/>
+  <text x="415" y="85" class="dg-t" text-anchor="middle" dominant-baseline="central">B</text>
+  <circle class="dg-circ" cx="505" cy="85" r="15"/>
+  <text x="505" y="85" class="dg-t" text-anchor="middle" dominant-baseline="central">C</text>
+  <circle class="dg-fill" cx="390" cy="130" r="19"/>
+  <circle class="dg-circ" cx="390" cy="130" r="15"/>
+  <text x="390" y="130" class="dg-t" text-anchor="middle" dominant-baseline="central">D</text>
+  <circle class="dg-fill" cx="440" cy="130" r="19"/>
+  <circle class="dg-circ" cx="440" cy="130" r="15"/>
+  <text x="440" y="130" class="dg-t" text-anchor="middle" dominant-baseline="central">E</text>
+  <circle class="dg-circ2" cx="480" cy="130" r="15" stroke-dasharray="4 3"/>
+  <circle class="dg-circ2" cx="530" cy="130" r="15" stroke-dasharray="4 3"/>
+  <text x="480" y="130" class="dg-lab" text-anchor="middle" dominant-baseline="central">×</text>
+  <text x="530" y="130" class="dg-lab" text-anchor="middle" dominant-baseline="central">×</text>
+  <text x="460" y="175" class="dg-lab" text-anchor="middle" dominant-baseline="central">完全二叉树：最后一层从左到右连续（右缺可以，跳空不行）</text>
+</svg>
+```
+
 #### 29.2 常用计算
 
 - 完全二叉树按层连续存数组（顺序存储也是按完全二叉树处理）：b7 的父结点在 b3
@@ -1495,6 +1784,38 @@ meta: level=S; freq=2024.10、2025.04、2025.10
 
 - 先序：**根**左右；中序：左**根**右；后序：左右**根**；层序：自上而下逐层从左到右
 - 遍历原则：不漏（全访问）、不重（只访问一次）
+
+图示：同一棵树的三种遍历——三种次序里根 A 的位置各不相同（先序最前、中序居中、后序最后）。
+
+```d
+<svg viewBox="0 0 680 200" width="680" height="200" xmlns="http://www.w3.org/2000/svg">
+  <line class="dg-edge" x1="110" y1="45" x2="60" y2="100"/>
+  <line class="dg-edge" x1="110" y1="45" x2="160" y2="100"/>
+  <line class="dg-edge" x1="60" y1="100" x2="30" y2="155"/>
+  <line class="dg-edge" x1="60" y1="100" x2="90" y2="155"/>
+  <line class="dg-edge" x1="160" y1="100" x2="135" y2="155"/>
+  <line class="dg-edge" x1="160" y1="100" x2="185" y2="155"/>
+  <circle class="dg-circ" cx="110" cy="45" r="15"/>
+  <text x="110" y="45" class="dg-t" text-anchor="middle" dominant-baseline="central">A</text>
+  <circle class="dg-circ" cx="60" cy="100" r="15"/>
+  <text x="60" y="100" class="dg-t" text-anchor="middle" dominant-baseline="central">B</text>
+  <circle class="dg-circ" cx="160" cy="100" r="15"/>
+  <text x="160" y="100" class="dg-t" text-anchor="middle" dominant-baseline="central">C</text>
+  <circle class="dg-circ" cx="30" cy="155" r="15"/>
+  <text x="30" y="155" class="dg-t" text-anchor="middle" dominant-baseline="central">D</text>
+  <circle class="dg-circ" cx="90" cy="155" r="15"/>
+  <text x="90" y="155" class="dg-t" text-anchor="middle" dominant-baseline="central">E</text>
+  <circle class="dg-circ" cx="135" cy="155" r="15"/>
+  <text x="135" y="155" class="dg-t" text-anchor="middle" dominant-baseline="central">F</text>
+  <circle class="dg-circ" cx="185" cy="155" r="15"/>
+  <text x="185" y="155" class="dg-t" text-anchor="middle" dominant-baseline="central">G</text>
+  <text x="490" y="35" class="dg-lab" text-anchor="middle" dominant-baseline="central">同一棵树 · 三种次序</text>
+  <text x="310" y="75" text-anchor="start" dominant-baseline="central"><tspan class="dg-lab">先序（根·左右）：</tspan><tspan class="dg-hl">A</tspan><tspan class="dg-t"> B D E C F G</tspan></text>
+  <text x="310" y="110" text-anchor="start" dominant-baseline="central"><tspan class="dg-lab">中序（左·根·右）：</tspan><tspan class="dg-t">D B E </tspan><tspan class="dg-hl">A</tspan><tspan class="dg-t"> F C G</tspan></text>
+  <text x="310" y="145" text-anchor="start" dominant-baseline="central"><tspan class="dg-lab">后序（左·右·根）：</tspan><tspan class="dg-t">D E B F G C </tspan><tspan class="dg-hl">A</tspan></text>
+  <text x="490" y="182" class="dg-lab" text-anchor="middle" dominant-baseline="central">整体法：先定位根，再对左右子树递归重复</text>
+</svg>
+```
 
 #### 31.2 手算方法
 
@@ -1591,6 +1912,42 @@ meta: level=A; freq=2024.10、2025.04
 
 先序第一个元素（或后序最后一个元素）= 根 → 在中序中定位根，左侧为左子树、右侧为右子树 → 对左右子树递归重复。
 
+图示：先序 abdgcefh + 中序 dgbaechf 的还原过程（即 2024.10 第 12 题的数据）。
+
+```d
+<svg viewBox="0 0 640 225" width="640" height="225" xmlns="http://www.w3.org/2000/svg">
+  <text x="320" y="16" class="dg-lab" text-anchor="middle" dominant-baseline="central">先序 a b d g c e f h　＋　中序 d g b a e c h f</text>
+  <line class="dg-edge" x1="200" y1="45" x2="130" y2="95"/>
+  <line class="dg-edge" x1="200" y1="45" x2="270" y2="95"/>
+  <line class="dg-edge" x1="130" y1="95" x2="90" y2="145"/>
+  <line class="dg-edge" x1="90" y1="145" x2="90" y2="190"/>
+  <line class="dg-edge" x1="270" y1="95" x2="240" y2="145"/>
+  <line class="dg-edge" x1="270" y1="95" x2="310" y2="145"/>
+  <line class="dg-edge" x1="310" y1="145" x2="310" y2="190"/>
+  <circle class="dg-circ" cx="200" cy="45" r="14"/>
+  <text x="200" y="45" class="dg-t" text-anchor="middle" dominant-baseline="central">a</text>
+  <circle class="dg-circ" cx="130" cy="95" r="14"/>
+  <text x="130" y="95" class="dg-t" text-anchor="middle" dominant-baseline="central">b</text>
+  <circle class="dg-circ" cx="270" cy="95" r="14"/>
+  <text x="270" y="95" class="dg-t" text-anchor="middle" dominant-baseline="central">c</text>
+  <circle class="dg-circ" cx="90" cy="145" r="14"/>
+  <text x="90" y="145" class="dg-t" text-anchor="middle" dominant-baseline="central">d</text>
+  <circle class="dg-circ" cx="240" cy="145" r="14"/>
+  <text x="240" y="145" class="dg-t" text-anchor="middle" dominant-baseline="central">e</text>
+  <circle class="dg-circ" cx="310" cy="145" r="14"/>
+  <text x="310" y="145" class="dg-t" text-anchor="middle" dominant-baseline="central">f</text>
+  <circle class="dg-circ" cx="90" cy="190" r="14"/>
+  <text x="90" y="190" class="dg-t" text-anchor="middle" dominant-baseline="central">g</text>
+  <circle class="dg-circ" cx="310" cy="190" r="14"/>
+  <text x="310" y="190" class="dg-t" text-anchor="middle" dominant-baseline="central">h</text>
+  <text x="430" y="65" text-anchor="start" dominant-baseline="central"><tspan class="dg-hl">①</tspan><tspan class="dg-s"> 先序第一个就是根：a</tspan></text>
+  <text x="430" y="90" text-anchor="start" dominant-baseline="central"><tspan class="dg-hl">②</tspan><tspan class="dg-s"> 中序中 a 的左边（dgb）→ 左子树</tspan></text>
+  <text x="430" y="115" text-anchor="start" dominant-baseline="central"><tspan class="dg-s">　　右边（echf）→ 右子树</tspan></text>
+  <text x="430" y="145" text-anchor="start" dominant-baseline="central"><tspan class="dg-hl">③</tspan><tspan class="dg-s"> 对左右子树递归重复</tspan></text>
+  <text x="200" y="220" class="dg-lab" text-anchor="middle" dominant-baseline="central">先序/中序/后序两两组合，必须含中序才能还原</text>
+</svg>
+```
+
 #### 32.3 选择题捷径
 
 不必画完整棵树：后序末位必为整树根；先序首位必为根；用整体法判断序列前段的归属即可排除选项。
@@ -1619,6 +1976,57 @@ meta: level=A; freq=2025.04、2025.10
 堆：完全二叉树 + 堆序性——大根堆（最大堆）：任意父 ≥ 孩子；小根堆（最小堆）：任意父 ≤ 孩子。
 
 - 只约束"父子关系"，兄弟之间无序；堆顶是根
+
+图示：大根堆的树形与它按层存入数组的对应关系（下标从 0 起，父 = ⌊(i−1)/2⌋）。
+
+```d
+<svg viewBox="0 0 640 195" width="640" height="195" xmlns="http://www.w3.org/2000/svg">
+  <line class="dg-edge" x1="120" y1="40" x2="70" y2="95"/>
+  <line class="dg-edge" x1="120" y1="40" x2="170" y2="95"/>
+  <line class="dg-edge" x1="70" y1="95" x2="40" y2="150"/>
+  <line class="dg-edge" x1="70" y1="95" x2="100" y2="150"/>
+  <line class="dg-edge" x1="170" y1="95" x2="140" y2="150"/>
+  <line class="dg-edge" x1="170" y1="95" x2="200" y2="150"/>
+  <circle class="dg-circ" cx="120" cy="40" r="16"/>
+  <text x="120" y="40" class="dg-t" text-anchor="middle" dominant-baseline="central">90</text>
+  <circle class="dg-circ" cx="70" cy="95" r="16"/>
+  <text x="70" y="95" class="dg-t" text-anchor="middle" dominant-baseline="central">80</text>
+  <circle class="dg-circ" cx="170" cy="95" r="16"/>
+  <text x="170" y="95" class="dg-t" text-anchor="middle" dominant-baseline="central">70</text>
+  <circle class="dg-circ" cx="40" cy="150" r="16"/>
+  <text x="40" y="150" class="dg-t" text-anchor="middle" dominant-baseline="central">60</text>
+  <circle class="dg-circ" cx="100" cy="150" r="16"/>
+  <text x="100" y="150" class="dg-t" text-anchor="middle" dominant-baseline="central">50</text>
+  <circle class="dg-circ" cx="140" cy="150" r="16"/>
+  <text x="140" y="150" class="dg-t" text-anchor="middle" dominant-baseline="central">40</text>
+  <circle class="dg-circ" cx="200" cy="150" r="16"/>
+  <text x="200" y="150" class="dg-t" text-anchor="middle" dominant-baseline="central">30</text>
+  <text x="120" y="187" class="dg-lab" text-anchor="middle" dominant-baseline="central">大根堆：任意父 ≥ 孩子（兄弟之间无序）</text>
+  <text x="483" y="40" class="dg-lab" text-anchor="middle" dominant-baseline="central">按层存入数组</text>
+  <text x="351" y="52" class="dg-lab" text-anchor="middle" dominant-baseline="central">0</text>
+  <text x="395" y="52" class="dg-lab" text-anchor="middle" dominant-baseline="central">1</text>
+  <text x="439" y="52" class="dg-lab" text-anchor="middle" dominant-baseline="central">2</text>
+  <text x="483" y="52" class="dg-lab" text-anchor="middle" dominant-baseline="central">3</text>
+  <text x="527" y="52" class="dg-lab" text-anchor="middle" dominant-baseline="central">4</text>
+  <text x="571" y="52" class="dg-lab" text-anchor="middle" dominant-baseline="central">5</text>
+  <text x="615" y="52" class="dg-lab" text-anchor="middle" dominant-baseline="central">6</text>
+  <rect class="dg-box" x="330" y="60" width="42" height="32" rx="4"/>
+  <text x="351" y="76" class="dg-t" text-anchor="middle" dominant-baseline="central">90</text>
+  <rect class="dg-box" x="374" y="60" width="42" height="32" rx="4"/>
+  <text x="395" y="76" class="dg-t" text-anchor="middle" dominant-baseline="central">80</text>
+  <rect class="dg-box" x="418" y="60" width="42" height="32" rx="4"/>
+  <text x="439" y="76" class="dg-t" text-anchor="middle" dominant-baseline="central">70</text>
+  <rect class="dg-box" x="462" y="60" width="42" height="32" rx="4"/>
+  <text x="483" y="76" class="dg-t" text-anchor="middle" dominant-baseline="central">60</text>
+  <rect class="dg-box" x="506" y="60" width="42" height="32" rx="4"/>
+  <text x="527" y="76" class="dg-t" text-anchor="middle" dominant-baseline="central">50</text>
+  <rect class="dg-box" x="550" y="60" width="42" height="32" rx="4"/>
+  <text x="571" y="76" class="dg-t" text-anchor="middle" dominant-baseline="central">40</text>
+  <rect class="dg-box" x="594" y="60" width="42" height="32" rx="4"/>
+  <text x="615" y="76" class="dg-t" text-anchor="middle" dominant-baseline="central">30</text>
+  <text x="483" y="120" class="dg-lab" text-anchor="middle" dominant-baseline="central">下标 i 的孩子：2i+1、2i+2；父：⌊(i−1)/2⌋</text>
+</svg>
+```
 
 #### 33.2 判定方法（高频）
 
@@ -1663,6 +2071,43 @@ meta: level=A; freq=2026.04
 - 二叉树→树：右孩子链**升级**为兄弟
 - 森林→二叉树：每棵树先转二叉树；第 2 棵作第 1 棵的**右子树**，第 3 棵作第 2 棵的右子树，依次串联
 - 二叉树→森林：分离所有右子树，每棵再按"二叉树→树"还原
+
+图示：兄弟降级——第一个孩子作左孩子，兄弟依次串成右孩子链。
+
+```d
+<svg viewBox="0 0 680 225" width="680" height="225" xmlns="http://www.w3.org/2000/svg">
+  <line class="dg-edge" x1="140" y1="55" x2="85" y2="120"/>
+  <line class="dg-edge" x1="140" y1="55" x2="140" y2="120"/>
+  <line class="dg-edge" x1="140" y1="55" x2="195" y2="120"/>
+  <circle class="dg-circ" cx="140" cy="55" r="15"/>
+  <text x="140" y="55" class="dg-t" text-anchor="middle" dominant-baseline="central">A</text>
+  <circle class="dg-circ" cx="85" cy="120" r="15"/>
+  <text x="85" y="120" class="dg-t" text-anchor="middle" dominant-baseline="central">B</text>
+  <circle class="dg-circ" cx="140" cy="120" r="15"/>
+  <text x="140" y="120" class="dg-t" text-anchor="middle" dominant-baseline="central">C</text>
+  <circle class="dg-circ" cx="195" cy="120" r="15"/>
+  <text x="195" y="120" class="dg-t" text-anchor="middle" dominant-baseline="central">D</text>
+  <text x="140" y="175" class="dg-lab" text-anchor="middle" dominant-baseline="central">普通的树：B、C、D 是 A 的兄弟孩子</text>
+  <text x="280" y="90" class="dg-hl" text-anchor="middle" dominant-baseline="central">兄弟降级</text>
+  <line class="dg-flow" x1="245" y1="110" x2="303" y2="110"/>
+  <path class="dg-headf" d="M315 110l-9-4.5v9z"/>
+  <line class="dg-edge" x1="480" y1="50" x2="425" y2="115"/>
+  <text x="440" y="76" class="dg-s" text-anchor="middle" dominant-baseline="central">左</text>
+  <line class="dg-flow" x1="425" y1="115" x2="495" y2="150"/>
+  <text x="470" y="126" class="dg-s" text-anchor="middle" dominant-baseline="central">右</text>
+  <line class="dg-flow" x1="495" y1="150" x2="560" y2="185"/>
+  <text x="538" y="160" class="dg-s" text-anchor="middle" dominant-baseline="central">右</text>
+  <circle class="dg-circ" cx="480" cy="50" r="15"/>
+  <text x="480" y="50" class="dg-t" text-anchor="middle" dominant-baseline="central">A</text>
+  <circle class="dg-circ" cx="425" cy="115" r="15"/>
+  <text x="425" y="115" class="dg-t" text-anchor="middle" dominant-baseline="central">B</text>
+  <circle class="dg-circ" cx="495" cy="150" r="15"/>
+  <text x="495" y="150" class="dg-t" text-anchor="middle" dominant-baseline="central">C</text>
+  <circle class="dg-circ" cx="560" cy="185" r="15"/>
+  <text x="560" y="185" class="dg-t" text-anchor="middle" dominant-baseline="central">D</text>
+  <text x="490" y="215" class="dg-lab" text-anchor="middle" dominant-baseline="central">二叉树：第一个孩子作左孩子，C、D 依次作右孩子</text>
+</svg>
+```
 
 #### 34.2 常用结论
 
@@ -1722,6 +2167,44 @@ n 个叶结点的哈夫曼树：总结点数 = 2n − 1；分支结点数 = n �
 ```
 
 例：权 {1,3,5,7}：1+3=4 → 4+5=9 → 7+9=16；WPL = 7×1 + 5×2 + (1+3)×3 = 29。
+
+图示：权 {1,3,5,7} 的哈夫曼树——叶子是圆、合并出的结点是方块，左边标 0 右边标 1。
+
+```d
+<svg viewBox="0 0 640 250" width="640" height="250" xmlns="http://www.w3.org/2000/svg">
+  <text x="20" y="55" class="dg-lab" text-anchor="start" dominant-baseline="central">合并次序（每次取最小两个）</text>
+  <text x="20" y="85" class="dg-s" text-anchor="start" dominant-baseline="central">① 1+3=4</text>
+  <text x="20" y="110" class="dg-s" text-anchor="start" dominant-baseline="central">② 4+5=9</text>
+  <text x="20" y="135" class="dg-s" text-anchor="start" dominant-baseline="central">③ 9+7=16</text>
+  <line class="dg-edge" x1="250" y1="45" x2="190" y2="100"/>
+  <line class="dg-edge" x1="298" y1="45" x2="330" y2="85"/>
+  <line class="dg-edge" x1="330" y1="100" x2="290" y2="160"/>
+  <line class="dg-edge" x1="378" y1="100" x2="390" y2="145"/>
+  <line class="dg-edge" x1="390" y1="175" x2="360" y2="215"/>
+  <line class="dg-edge" x1="438" y1="175" x2="430" y2="215"/>
+  <rect class="dg-box" x="250" y="30" width="48" height="30" rx="4"/>
+  <text x="274" y="45" class="dg-t" text-anchor="middle" dominant-baseline="central">16</text>
+  <circle class="dg-circ" cx="190" cy="100" r="17"/>
+  <text x="190" y="100" class="dg-t" text-anchor="middle" dominant-baseline="central">7</text>
+  <rect class="dg-box" x="330" y="85" width="48" height="30" rx="4"/>
+  <text x="354" y="100" class="dg-t" text-anchor="middle" dominant-baseline="central">9</text>
+  <circle class="dg-circ" cx="290" cy="160" r="17"/>
+  <text x="290" y="160" class="dg-t" text-anchor="middle" dominant-baseline="central">5</text>
+  <rect class="dg-box" x="390" y="145" width="48" height="30" rx="4"/>
+  <text x="414" y="160" class="dg-t" text-anchor="middle" dominant-baseline="central">4</text>
+  <circle class="dg-circ" cx="360" cy="215" r="17"/>
+  <text x="360" y="215" class="dg-t" text-anchor="middle" dominant-baseline="central">1</text>
+  <circle class="dg-circ" cx="430" cy="215" r="17"/>
+  <text x="430" y="215" class="dg-t" text-anchor="middle" dominant-baseline="central">3</text>
+  <text x="225" y="66" class="dg-s" text-anchor="middle" dominant-baseline="central">0</text>
+  <text x="322" y="66" class="dg-s" text-anchor="middle" dominant-baseline="central">1</text>
+  <text x="305" y="130" class="dg-s" text-anchor="middle" dominant-baseline="central">0</text>
+  <text x="390" y="126" class="dg-s" text-anchor="middle" dominant-baseline="central">1</text>
+  <text x="368" y="192" class="dg-s" text-anchor="middle" dominant-baseline="central">0</text>
+  <text x="432" y="192" class="dg-s" text-anchor="middle" dominant-baseline="central">1</text>
+  <text x="320" y="245" class="dg-lab" text-anchor="middle" dominant-baseline="central">WPL = 7×1 + 5×2 + 1×3 + 3×3 = 29（带权路径长度之和最小）</text>
+</svg>
+```
 
 #### 36.3 哈夫曼编码
 
@@ -1816,6 +2299,121 @@ n×n 矩阵：有边填 1（带权图填权值，无边填 ∞）。
 - 无向图每条边存两次 → 指针总数 n+2e（空指针也算）
 - 有向图邻接表只挂出边；逆邻接表挂入边
 
+图示：同一个无向图 G 的两种存储——矩阵对称、1 的个数 = 2e；邻接表每条边存两次。
+
+```d
+<svg viewBox="0 0 640 185" width="640" height="185" xmlns="http://www.w3.org/2000/svg">
+  <text x="115" y="20" class="dg-lab" text-anchor="middle" dominant-baseline="central">无向图 G（4 顶点 4 条边）</text>
+  <line class="dg-edge" x1="70" y1="55" x2="160" y2="55"/>
+  <line class="dg-edge" x1="70" y1="55" x2="70" y2="135"/>
+  <line class="dg-edge" x1="160" y1="55" x2="160" y2="135"/>
+  <line class="dg-edge" x1="70" y1="135" x2="160" y2="135"/>
+  <circle class="dg-circ" cx="70" cy="55" r="16"/>
+  <text x="70" y="55" class="dg-t" text-anchor="middle" dominant-baseline="central">A</text>
+  <circle class="dg-circ" cx="160" cy="55" r="16"/>
+  <text x="160" y="55" class="dg-t" text-anchor="middle" dominant-baseline="central">B</text>
+  <circle class="dg-circ" cx="70" cy="135" r="16"/>
+  <text x="70" y="135" class="dg-t" text-anchor="middle" dominant-baseline="central">C</text>
+  <circle class="dg-circ" cx="160" cy="135" r="16"/>
+  <text x="160" y="135" class="dg-t" text-anchor="middle" dominant-baseline="central">D</text>
+  <text x="315" y="20" class="dg-lab" text-anchor="middle" dominant-baseline="central">邻接矩阵（对称）</text>
+  <text x="279" y="48" class="dg-s" text-anchor="middle" dominant-baseline="central">A</text>
+  <text x="305" y="48" class="dg-s" text-anchor="middle" dominant-baseline="central">B</text>
+  <text x="331" y="48" class="dg-s" text-anchor="middle" dominant-baseline="central">C</text>
+  <text x="357" y="48" class="dg-s" text-anchor="middle" dominant-baseline="central">D</text>
+  <text x="253" y="74" class="dg-s" text-anchor="middle" dominant-baseline="central">A</text>
+  <text x="253" y="100" class="dg-s" text-anchor="middle" dominant-baseline="central">B</text>
+  <text x="253" y="126" class="dg-s" text-anchor="middle" dominant-baseline="central">C</text>
+  <text x="253" y="152" class="dg-s" text-anchor="middle" dominant-baseline="central">D</text>
+  <rect class="dg-box2" x="266" y="61" width="26" height="26" rx="3"/>
+  <text x="279" y="74" class="dg-lab" text-anchor="middle" dominant-baseline="central">0</text>
+  <rect class="dg-fill" x="292" y="61" width="26" height="26" rx="3"/>
+  <rect class="dg-box2" x="292" y="61" width="26" height="26" rx="3"/>
+  <text x="305" y="74" class="dg-s" text-anchor="middle" dominant-baseline="central">1</text>
+  <rect class="dg-fill" x="318" y="61" width="26" height="26" rx="3"/>
+  <rect class="dg-box2" x="318" y="61" width="26" height="26" rx="3"/>
+  <text x="331" y="74" class="dg-s" text-anchor="middle" dominant-baseline="central">1</text>
+  <rect class="dg-box2" x="344" y="61" width="26" height="26" rx="3"/>
+  <text x="357" y="74" class="dg-lab" text-anchor="middle" dominant-baseline="central">0</text>
+  <rect class="dg-fill" x="266" y="87" width="26" height="26" rx="3"/>
+  <rect class="dg-box2" x="266" y="87" width="26" height="26" rx="3"/>
+  <text x="279" y="100" class="dg-s" text-anchor="middle" dominant-baseline="central">1</text>
+  <rect class="dg-box2" x="292" y="87" width="26" height="26" rx="3"/>
+  <text x="305" y="100" class="dg-lab" text-anchor="middle" dominant-baseline="central">0</text>
+  <rect class="dg-box2" x="318" y="87" width="26" height="26" rx="3"/>
+  <text x="331" y="100" class="dg-lab" text-anchor="middle" dominant-baseline="central">0</text>
+  <rect class="dg-fill" x="344" y="87" width="26" height="26" rx="3"/>
+  <rect class="dg-box2" x="344" y="87" width="26" height="26" rx="3"/>
+  <text x="357" y="100" class="dg-s" text-anchor="middle" dominant-baseline="central">1</text>
+  <rect class="dg-fill" x="266" y="113" width="26" height="26" rx="3"/>
+  <rect class="dg-box2" x="266" y="113" width="26" height="26" rx="3"/>
+  <text x="279" y="126" class="dg-s" text-anchor="middle" dominant-baseline="central">1</text>
+  <rect class="dg-box2" x="292" y="113" width="26" height="26" rx="3"/>
+  <text x="305" y="126" class="dg-lab" text-anchor="middle" dominant-baseline="central">0</text>
+  <rect class="dg-box2" x="318" y="113" width="26" height="26" rx="3"/>
+  <text x="331" y="126" class="dg-lab" text-anchor="middle" dominant-baseline="central">0</text>
+  <rect class="dg-fill" x="344" y="113" width="26" height="26" rx="3"/>
+  <rect class="dg-box2" x="344" y="113" width="26" height="26" rx="3"/>
+  <text x="357" y="126" class="dg-s" text-anchor="middle" dominant-baseline="central">1</text>
+  <rect class="dg-box2" x="266" y="139" width="26" height="26" rx="3"/>
+  <text x="279" y="152" class="dg-lab" text-anchor="middle" dominant-baseline="central">0</text>
+  <rect class="dg-fill" x="292" y="139" width="26" height="26" rx="3"/>
+  <rect class="dg-box2" x="292" y="139" width="26" height="26" rx="3"/>
+  <text x="305" y="152" class="dg-s" text-anchor="middle" dominant-baseline="central">1</text>
+  <rect class="dg-fill" x="318" y="139" width="26" height="26" rx="3"/>
+  <rect class="dg-box2" x="318" y="139" width="26" height="26" rx="3"/>
+  <text x="331" y="152" class="dg-s" text-anchor="middle" dominant-baseline="central">1</text>
+  <rect class="dg-box2" x="344" y="139" width="26" height="26" rx="3"/>
+  <text x="357" y="152" class="dg-lab" text-anchor="middle" dominant-baseline="central">0</text>
+  <text x="510" y="20" class="dg-lab" text-anchor="middle" dominant-baseline="central">邻接表</text>
+  <rect class="dg-box" x="440" y="45" width="30" height="24" rx="3"/>
+  <text x="455" y="57" class="dg-s" text-anchor="middle" dominant-baseline="central">A</text>
+  <line class="dg-flow" x1="470" y1="57" x2="477" y2="57"/>
+  <path class="dg-headf" d="M484 57l-9-4.5v9z"/>
+  <rect class="dg-box2" x="484" y="45" width="30" height="24" rx="3"/>
+  <text x="499" y="57" class="dg-s" text-anchor="middle" dominant-baseline="central">B</text>
+  <line class="dg-flow" x1="514" y1="57" x2="523" y2="57"/>
+  <path class="dg-headf" d="M530 57l-9-4.5v9z"/>
+  <rect class="dg-box2" x="530" y="45" width="30" height="24" rx="3"/>
+  <text x="545" y="57" class="dg-s" text-anchor="middle" dominant-baseline="central">C</text>
+  <text x="585" y="57" class="dg-lab" text-anchor="middle" dominant-baseline="central">∧</text>
+  <rect class="dg-box" x="440" y="75" width="30" height="24" rx="3"/>
+  <text x="455" y="87" class="dg-s" text-anchor="middle" dominant-baseline="central">B</text>
+  <line class="dg-flow" x1="470" y1="87" x2="477" y2="87"/>
+  <path class="dg-headf" d="M484 87l-9-4.5v9z"/>
+  <rect class="dg-box2" x="484" y="75" width="30" height="24" rx="3"/>
+  <text x="499" y="87" class="dg-s" text-anchor="middle" dominant-baseline="central">A</text>
+  <line class="dg-flow" x1="514" y1="87" x2="523" y2="87"/>
+  <path class="dg-headf" d="M530 87l-9-4.5v9z"/>
+  <rect class="dg-box2" x="530" y="75" width="30" height="24" rx="3"/>
+  <text x="545" y="87" class="dg-s" text-anchor="middle" dominant-baseline="central">D</text>
+  <text x="585" y="87" class="dg-lab" text-anchor="middle" dominant-baseline="central">∧</text>
+  <rect class="dg-box" x="440" y="105" width="30" height="24" rx="3"/>
+  <text x="455" y="117" class="dg-s" text-anchor="middle" dominant-baseline="central">C</text>
+  <line class="dg-flow" x1="470" y1="117" x2="477" y2="117"/>
+  <path class="dg-headf" d="M484 117l-9-4.5v9z"/>
+  <rect class="dg-box2" x="484" y="105" width="30" height="24" rx="3"/>
+  <text x="499" y="117" class="dg-s" text-anchor="middle" dominant-baseline="central">A</text>
+  <line class="dg-flow" x1="514" y1="117" x2="523" y2="117"/>
+  <path class="dg-headf" d="M530 117l-9-4.5v9z"/>
+  <rect class="dg-box2" x="530" y="105" width="30" height="24" rx="3"/>
+  <text x="545" y="117" class="dg-s" text-anchor="middle" dominant-baseline="central">D</text>
+  <text x="585" y="117" class="dg-lab" text-anchor="middle" dominant-baseline="central">∧</text>
+  <rect class="dg-box" x="440" y="135" width="30" height="24" rx="3"/>
+  <text x="455" y="147" class="dg-s" text-anchor="middle" dominant-baseline="central">D</text>
+  <line class="dg-flow" x1="470" y1="147" x2="477" y2="147"/>
+  <path class="dg-headf" d="M484 147l-9-4.5v9z"/>
+  <rect class="dg-box2" x="484" y="135" width="30" height="24" rx="3"/>
+  <text x="499" y="147" class="dg-s" text-anchor="middle" dominant-baseline="central">B</text>
+  <line class="dg-flow" x1="514" y1="147" x2="523" y2="147"/>
+  <path class="dg-headf" d="M530 147l-9-4.5v9z"/>
+  <rect class="dg-box2" x="530" y="135" width="30" height="24" rx="3"/>
+  <text x="545" y="147" class="dg-s" text-anchor="middle" dominant-baseline="central">C</text>
+  <text x="585" y="147" class="dg-lab" text-anchor="middle" dominant-baseline="central">∧</text>
+  <text x="510" y="178" class="dg-lab" text-anchor="middle" dominant-baseline="central">表头数组 + 单链表；无向图每条边存两次</text>
+</svg>
+```
+
 #### 38.3 真题
 
 **【2024.10·第19题·填空】** 在图的存储结构中，链式存储结构以＿＿为代表。
@@ -1884,6 +2482,61 @@ meta: level=A; freq=2025.10、2026.04
 
 - 辅助结构：**队列**；每个顶点入队恰好 **1 次**（2025.10-13）
 - 必须等当前层全部访问完才进入下一层——起点的所有邻接点要连续排在前部
+
+图示：从 A 出发，DFS 的一条路走到底再回溯，BFS 先访问全部邻接点再逐层扩展（序号 = 访问次序）。
+
+```d
+<svg viewBox="0 0 560 200" width="560" height="200" xmlns="http://www.w3.org/2000/svg">
+  <text x="110" y="20" class="dg-hl" text-anchor="middle" dominant-baseline="central">DFS（栈 / 递归）</text>
+  <line class="dg-edge" x1="70" y1="70" x2="150" y2="70"/>
+  <line class="dg-edge" x1="70" y1="70" x2="70" y2="140"/>
+  <line class="dg-edge" x1="150" y1="70" x2="150" y2="140"/>
+  <line class="dg-edge" x1="70" y1="140" x2="150" y2="140"/>
+  <line class="dg-flow" x1="88" y1="70" x2="140" y2="70"/>
+  <path class="dg-headf" d="M148 70l-9-4.5v9z"/>
+  <line class="dg-flow" x1="150" y1="88" x2="150" y2="132"/>
+  <path class="dg-headf" d="M150 148l-4.5-9h9z"/>
+  <line class="dg-flow" x1="132" y1="140" x2="88" y2="140"/>
+  <path class="dg-headf" d="M88 140l9-4.5v9z"/>
+  <circle class="dg-circ" cx="70" cy="70" r="16"/>
+  <text x="70" y="70" class="dg-t" text-anchor="middle" dominant-baseline="central">A</text>
+  <circle class="dg-circ" cx="150" cy="70" r="16"/>
+  <text x="150" y="70" class="dg-t" text-anchor="middle" dominant-baseline="central">B</text>
+  <circle class="dg-circ" cx="70" cy="140" r="16"/>
+  <text x="70" y="140" class="dg-t" text-anchor="middle" dominant-baseline="central">C</text>
+  <circle class="dg-circ" cx="150" cy="140" r="16"/>
+  <text x="150" y="140" class="dg-t" text-anchor="middle" dominant-baseline="central">D</text>
+  <text x="42" y="46" class="dg-hl" text-anchor="middle" dominant-baseline="central">①</text>
+  <text x="178" y="46" class="dg-hl" text-anchor="middle" dominant-baseline="central">②</text>
+  <text x="178" y="166" class="dg-hl" text-anchor="middle" dominant-baseline="central">③</text>
+  <text x="42" y="166" class="dg-hl" text-anchor="middle" dominant-baseline="central">④</text>
+  <text x="110" y="188" class="dg-lab" text-anchor="middle" dominant-baseline="central">访问序 A B D C：走不通才回溯</text>
+  <text x="430" y="20" class="dg-hl" text-anchor="middle" dominant-baseline="central">BFS（队列）</text>
+  <line class="dg-edge" x1="390" y1="70" x2="470" y2="70"/>
+  <line class="dg-edge" x1="390" y1="70" x2="390" y2="140"/>
+  <line class="dg-edge" x1="470" y1="70" x2="470" y2="140"/>
+  <line class="dg-edge" x1="390" y1="140" x2="470" y2="140"/>
+  <line class="dg-flow" x1="408" y1="70" x2="462" y2="70"/>
+  <path class="dg-headf" d="M468 70l-9-4.5v9z"/>
+  <line class="dg-flow" x1="390" y1="88" x2="390" y2="132"/>
+  <path class="dg-headf" d="M390 148l-4.5-9h9z"/>
+  <line class="dg-flow" x1="470" y1="88" x2="470" y2="132"/>
+  <path class="dg-headf" d="M470 148l-4.5-9h9z"/>
+  <circle class="dg-circ" cx="390" cy="70" r="16"/>
+  <text x="390" y="70" class="dg-t" text-anchor="middle" dominant-baseline="central">A</text>
+  <circle class="dg-circ" cx="470" cy="70" r="16"/>
+  <text x="470" y="70" class="dg-t" text-anchor="middle" dominant-baseline="central">B</text>
+  <circle class="dg-circ" cx="390" cy="140" r="16"/>
+  <text x="390" y="140" class="dg-t" text-anchor="middle" dominant-baseline="central">C</text>
+  <circle class="dg-circ" cx="470" cy="140" r="16"/>
+  <text x="470" y="140" class="dg-t" text-anchor="middle" dominant-baseline="central">D</text>
+  <text x="362" y="46" class="dg-hl" text-anchor="middle" dominant-baseline="central">①</text>
+  <text x="498" y="46" class="dg-hl" text-anchor="middle" dominant-baseline="central">②</text>
+  <text x="362" y="166" class="dg-hl" text-anchor="middle" dominant-baseline="central">③</text>
+  <text x="498" y="166" class="dg-hl" text-anchor="middle" dominant-baseline="central">④</text>
+  <text x="430" y="188" class="dg-lab" text-anchor="middle" dominant-baseline="central">访问序 A B C D：先邻接点、再下一层</text>
+</svg>
+```
 
 #### 39.3 真题
 
@@ -1984,6 +2637,40 @@ meta: level=A; freq=2025.10、2026.04
 
 - 选一个**入度为 0** 的顶点输出 → 删除它及其所有出边 → 重复直到全部输出
 - 多个入度 0 顶点时任选其一 ⇒ 拓扑序列一般**不唯一**
+
+图示：拓扑排序 = 反复"选入度 0 的点输出、删点删边"，有环就永远删不完。
+
+```d
+<svg viewBox="0 0 640 175" width="640" height="175" xmlns="http://www.w3.org/2000/svg">
+  <circle class="dg-fill" cx="70" cy="80" r="21"/>
+  <line class="dg-flow" x1="84" y1="72" x2="166" y2="46"/>
+  <path class="dg-headf" transform="translate(168 45) rotate(-17.6)" d="M0 0l-9-4.5v9z"/>
+  <line class="dg-flow" x1="84" y1="88" x2="166" y2="114"/>
+  <path class="dg-headf" transform="translate(168 115) rotate(17.6)" d="M0 0l-9-4.5v9z"/>
+  <line class="dg-flow" x1="196" y1="44" x2="288" y2="74"/>
+  <path class="dg-headf" transform="translate(290 75) rotate(18.1)" d="M0 0l-9-4.5v9z"/>
+  <line class="dg-flow" x1="196" y1="116" x2="288" y2="86"/>
+  <path class="dg-headf" transform="translate(290 85) rotate(-18.1)" d="M0 0l-9-4.5v9z"/>
+  <line class="dg-flow" x1="316" y1="80" x2="392" y2="80"/>
+  <path class="dg-headf" d="M392 80l-9-4.5v9z"/>
+  <circle class="dg-circ" cx="70" cy="80" r="16"/>
+  <text x="70" y="80" class="dg-t" text-anchor="middle" dominant-baseline="central">v1</text>
+  <circle class="dg-circ" cx="180" cy="40" r="16"/>
+  <text x="180" y="40" class="dg-t" text-anchor="middle" dominant-baseline="central">v2</text>
+  <circle class="dg-circ" cx="180" cy="120" r="16"/>
+  <text x="180" y="120" class="dg-t" text-anchor="middle" dominant-baseline="central">v3</text>
+  <circle class="dg-circ" cx="300" cy="80" r="16"/>
+  <text x="300" y="80" class="dg-t" text-anchor="middle" dominant-baseline="central">v4</text>
+  <circle class="dg-circ" cx="410" cy="80" r="16"/>
+  <text x="410" y="80" class="dg-t" text-anchor="middle" dominant-baseline="central">v5</text>
+  <text x="70" y="118" class="dg-lab" text-anchor="middle" dominant-baseline="central">入度 0</text>
+  <text x="445" y="45" text-anchor="start" dominant-baseline="central"><tspan class="dg-hl">①</tspan><tspan class="dg-s"> 输出 v1（入度为 0）</tspan></text>
+  <text x="445" y="72" text-anchor="start" dominant-baseline="central"><tspan class="dg-hl">②</tspan><tspan class="dg-s"> 删 v1 及其出边</tspan></text>
+  <text x="445" y="94" text-anchor="start" dominant-baseline="central"><tspan class="dg-s">　　v2、v3 入度变 0</tspan></text>
+  <text x="445" y="120" text-anchor="start" dominant-baseline="central"><tspan class="dg-hl">③</tspan><tspan class="dg-s"> 重复直到全部输出</tspan></text>
+  <text x="445" y="150" text-anchor="start" dominant-baseline="central"><tspan class="dg-lab">序列不唯一（如 v1 v2 v3 v4 v5）</tspan></text>
+</svg>
+```
 
 #### 42.3 复杂度
 
@@ -2220,6 +2907,51 @@ meta: level=A; freq=2024.10、2025.10
 【信号】"一趟后某元素左边全小右边全大"→快排划分；双指针原地划分大题就是快排的 partition。
 ```
 
+图示：快排的一次划分——基准 49 一趟后落在最终位置，左边全小、右边全大。
+
+```d
+<svg viewBox="0 0 490 170" width="490" height="170" xmlns="http://www.w3.org/2000/svg">
+  <text x="245" y="16" class="dg-lab" text-anchor="middle" dominant-baseline="central">快速排序的一次划分（以 49 为基准/枢轴）</text>
+  <text x="45" y="55" class="dg-lab" text-anchor="middle" dominant-baseline="central">初始</text>
+  <rect class="dg-box" x="80" y="40" width="44" height="30" rx="4"/>
+  <text x="102" y="55" class="dg-t" text-anchor="middle" dominant-baseline="central">49</text>
+  <rect class="dg-box" x="124" y="40" width="44" height="30" rx="4"/>
+  <text x="146" y="55" class="dg-t" text-anchor="middle" dominant-baseline="central">38</text>
+  <rect class="dg-box" x="168" y="40" width="44" height="30" rx="4"/>
+  <text x="190" y="55" class="dg-t" text-anchor="middle" dominant-baseline="central">65</text>
+  <rect class="dg-box" x="212" y="40" width="44" height="30" rx="4"/>
+  <text x="234" y="55" class="dg-t" text-anchor="middle" dominant-baseline="central">97</text>
+  <rect class="dg-box" x="256" y="40" width="44" height="30" rx="4"/>
+  <text x="278" y="55" class="dg-t" text-anchor="middle" dominant-baseline="central">76</text>
+  <rect class="dg-box" x="300" y="40" width="44" height="30" rx="4"/>
+  <text x="322" y="55" class="dg-t" text-anchor="middle" dominant-baseline="central">13</text>
+  <rect class="dg-box" x="344" y="40" width="44" height="30" rx="4"/>
+  <text x="366" y="55" class="dg-t" text-anchor="middle" dominant-baseline="central">27</text>
+  <text x="45" y="125" class="dg-lab" text-anchor="middle" dominant-baseline="central">一趟后</text>
+  <rect class="dg-box" x="80" y="110" width="44" height="30" rx="4"/>
+  <text x="102" y="125" class="dg-t" text-anchor="middle" dominant-baseline="central">27</text>
+  <rect class="dg-box" x="124" y="110" width="44" height="30" rx="4"/>
+  <text x="146" y="125" class="dg-t" text-anchor="middle" dominant-baseline="central">38</text>
+  <rect class="dg-box" x="168" y="110" width="44" height="30" rx="4"/>
+  <text x="190" y="125" class="dg-t" text-anchor="middle" dominant-baseline="central">13</text>
+  <rect class="dg-fill" x="212" y="110" width="44" height="30" rx="4"/>
+  <rect class="dg-box" x="212" y="110" width="44" height="30" rx="4"/>
+  <text x="234" y="125" class="dg-hl" text-anchor="middle" dominant-baseline="central">49</text>
+  <rect class="dg-box" x="256" y="110" width="44" height="30" rx="4"/>
+  <text x="278" y="125" class="dg-t" text-anchor="middle" dominant-baseline="central">76</text>
+  <rect class="dg-box" x="300" y="110" width="44" height="30" rx="4"/>
+  <text x="322" y="125" class="dg-t" text-anchor="middle" dominant-baseline="central">97</text>
+  <rect class="dg-box" x="344" y="110" width="44" height="30" rx="4"/>
+  <text x="366" y="125" class="dg-t" text-anchor="middle" dominant-baseline="central">65</text>
+  <line class="dg-flow" x1="102" y1="70" x2="232" y2="108"/>
+  <path class="dg-headf" transform="translate(234 110) rotate(16.9)" d="M0 0l-9-4.5v9z"/>
+  <line class="dg-edge" x1="84" y1="146" x2="246" y2="146"/>
+  <text x="166" y="161" class="dg-lab" text-anchor="middle" dominant-baseline="central">都比 49 小</text>
+  <line class="dg-edge" x1="260" y1="146" x2="386" y2="146"/>
+  <text x="323" y="161" class="dg-lab" text-anchor="middle" dominant-baseline="central">都比 49 大</text>
+</svg>
+```
+
 #### 46.3 真题
 
 **【2024.10·第24题·填空】** 若用起泡排序方法对序列 11，15，27，29，42，53 进行降序排序，则需要进行比较操作的次数是＿＿。
@@ -2280,6 +3012,89 @@ meta: level=A; freq=2025.04、2026.04
 - **稳定**；时间 O(n log₂n)（最好最坏相同）；**空间 O(n)**
 - 属于**分治**算法
 - 比较次数手算：8 个元素的逆序序列二路归并 → 3 趟 × 每趟 4 次 = 12 次
+
+图示：8 个元素的二路归并——每趟相邻有序段两两合并，段长 2 → 4 → 8，共 ⌈log₂8⌉ = 3 趟。
+
+```d
+<svg viewBox="0 0 560 238" width="560" height="238" xmlns="http://www.w3.org/2000/svg">
+  <text x="270" y="14" class="dg-lab" text-anchor="middle" dominant-baseline="central">二路归并：相邻有序段两两合并（合并前各段必须已有序）</text>
+  <rect class="dg-box" x="60" y="30" width="38" height="26" rx="4"/>
+  <text x="79" y="43" class="dg-t" text-anchor="middle" dominant-baseline="central">49</text>
+  <rect class="dg-box" x="102" y="30" width="38" height="26" rx="4"/>
+  <text x="121" y="43" class="dg-t" text-anchor="middle" dominant-baseline="central">38</text>
+  <rect class="dg-box" x="156" y="30" width="38" height="26" rx="4"/>
+  <text x="175" y="43" class="dg-t" text-anchor="middle" dominant-baseline="central">65</text>
+  <rect class="dg-box" x="198" y="30" width="38" height="26" rx="4"/>
+  <text x="217" y="43" class="dg-t" text-anchor="middle" dominant-baseline="central">97</text>
+  <rect class="dg-box" x="252" y="30" width="38" height="26" rx="4"/>
+  <text x="271" y="43" class="dg-t" text-anchor="middle" dominant-baseline="central">76</text>
+  <rect class="dg-box" x="294" y="30" width="38" height="26" rx="4"/>
+  <text x="313" y="43" class="dg-t" text-anchor="middle" dominant-baseline="central">13</text>
+  <rect class="dg-box" x="348" y="30" width="38" height="26" rx="4"/>
+  <text x="367" y="43" class="dg-t" text-anchor="middle" dominant-baseline="central">27</text>
+  <rect class="dg-box" x="390" y="30" width="38" height="26" rx="4"/>
+  <text x="409" y="43" class="dg-t" text-anchor="middle" dominant-baseline="central">50</text>
+  <rect class="dg-box" x="60" y="85" width="38" height="26" rx="4"/>
+  <text x="79" y="98" class="dg-t" text-anchor="middle" dominant-baseline="central">38</text>
+  <rect class="dg-box" x="102" y="85" width="38" height="26" rx="4"/>
+  <text x="121" y="98" class="dg-t" text-anchor="middle" dominant-baseline="central">49</text>
+  <rect class="dg-box" x="156" y="85" width="38" height="26" rx="4"/>
+  <text x="175" y="98" class="dg-t" text-anchor="middle" dominant-baseline="central">65</text>
+  <rect class="dg-box" x="198" y="85" width="38" height="26" rx="4"/>
+  <text x="217" y="98" class="dg-t" text-anchor="middle" dominant-baseline="central">97</text>
+  <rect class="dg-box" x="252" y="85" width="38" height="26" rx="4"/>
+  <text x="271" y="98" class="dg-t" text-anchor="middle" dominant-baseline="central">13</text>
+  <rect class="dg-box" x="294" y="85" width="38" height="26" rx="4"/>
+  <text x="313" y="98" class="dg-t" text-anchor="middle" dominant-baseline="central">76</text>
+  <rect class="dg-box" x="348" y="85" width="38" height="26" rx="4"/>
+  <text x="367" y="98" class="dg-t" text-anchor="middle" dominant-baseline="central">27</text>
+  <rect class="dg-box" x="390" y="85" width="38" height="26" rx="4"/>
+  <text x="409" y="98" class="dg-t" text-anchor="middle" dominant-baseline="central">50</text>
+  <rect class="dg-flow" x="56" y="81" width="88" height="34" rx="6"/>
+  <rect class="dg-flow" x="152" y="81" width="88" height="34" rx="6"/>
+  <rect class="dg-flow" x="248" y="81" width="88" height="34" rx="6"/>
+  <rect class="dg-flow" x="344" y="81" width="88" height="34" rx="6"/>
+  <rect class="dg-box" x="60" y="140" width="38" height="26" rx="4"/>
+  <text x="79" y="153" class="dg-t" text-anchor="middle" dominant-baseline="central">38</text>
+  <rect class="dg-box" x="102" y="140" width="38" height="26" rx="4"/>
+  <text x="121" y="153" class="dg-t" text-anchor="middle" dominant-baseline="central">49</text>
+  <rect class="dg-box" x="144" y="140" width="38" height="26" rx="4"/>
+  <text x="163" y="153" class="dg-t" text-anchor="middle" dominant-baseline="central">65</text>
+  <rect class="dg-box" x="186" y="140" width="38" height="26" rx="4"/>
+  <text x="205" y="153" class="dg-t" text-anchor="middle" dominant-baseline="central">97</text>
+  <rect class="dg-box" x="252" y="140" width="38" height="26" rx="4"/>
+  <text x="271" y="153" class="dg-t" text-anchor="middle" dominant-baseline="central">13</text>
+  <rect class="dg-box" x="294" y="140" width="38" height="26" rx="4"/>
+  <text x="313" y="153" class="dg-t" text-anchor="middle" dominant-baseline="central">27</text>
+  <rect class="dg-box" x="336" y="140" width="38" height="26" rx="4"/>
+  <text x="355" y="153" class="dg-t" text-anchor="middle" dominant-baseline="central">50</text>
+  <rect class="dg-box" x="378" y="140" width="38" height="26" rx="4"/>
+  <text x="397" y="153" class="dg-t" text-anchor="middle" dominant-baseline="central">76</text>
+  <rect class="dg-flow" x="56" y="136" width="172" height="34" rx="6"/>
+  <rect class="dg-flow" x="248" y="136" width="172" height="34" rx="6"/>
+  <rect class="dg-box" x="60" y="195" width="38" height="26" rx="4"/>
+  <text x="79" y="208" class="dg-t" text-anchor="middle" dominant-baseline="central">13</text>
+  <rect class="dg-box" x="102" y="195" width="38" height="26" rx="4"/>
+  <text x="121" y="208" class="dg-t" text-anchor="middle" dominant-baseline="central">27</text>
+  <rect class="dg-box" x="144" y="195" width="38" height="26" rx="4"/>
+  <text x="163" y="208" class="dg-t" text-anchor="middle" dominant-baseline="central">38</text>
+  <rect class="dg-box" x="186" y="195" width="38" height="26" rx="4"/>
+  <text x="205" y="208" class="dg-t" text-anchor="middle" dominant-baseline="central">49</text>
+  <rect class="dg-box" x="228" y="195" width="38" height="26" rx="4"/>
+  <text x="247" y="208" class="dg-t" text-anchor="middle" dominant-baseline="central">50</text>
+  <rect class="dg-box" x="270" y="195" width="38" height="26" rx="4"/>
+  <text x="289" y="208" class="dg-t" text-anchor="middle" dominant-baseline="central">65</text>
+  <rect class="dg-box" x="312" y="195" width="38" height="26" rx="4"/>
+  <text x="331" y="208" class="dg-t" text-anchor="middle" dominant-baseline="central">76</text>
+  <rect class="dg-box" x="354" y="195" width="38" height="26" rx="4"/>
+  <text x="373" y="208" class="dg-t" text-anchor="middle" dominant-baseline="central">97</text>
+  <rect class="dg-flow" x="56" y="191" width="340" height="34" rx="6"/>
+  <text x="480" y="43" class="dg-lab" text-anchor="middle" dominant-baseline="central">初始</text>
+  <text x="480" y="98" class="dg-lab" text-anchor="middle" dominant-baseline="central">第 1 趟</text>
+  <text x="480" y="153" class="dg-lab" text-anchor="middle" dominant-baseline="central">第 2 趟</text>
+  <text x="480" y="208" class="dg-lab" text-anchor="middle" dominant-baseline="central">第 3 趟</text>
+</svg>
+```
 
 #### 48.2 真题
 
@@ -2436,6 +3251,57 @@ ASL = (1×1 + 2×2 + 4×3 + 6×4) / 13 = 41/13
 100 个元素不成功最多比较 ⌊log₂100⌋+1 = 7 次
 ```
 
+图示：13 个元素的折半判定树——圈里的数字 = 该元素的比较次数（层数 + 1）。
+
+```d
+<svg viewBox="0 0 680 240" width="680" height="240" xmlns="http://www.w3.org/2000/svg">
+  <line class="dg-edge" x1="270" y1="30" x2="187" y2="85"/>
+  <line class="dg-edge" x1="270" y1="30" x2="352" y2="85"/>
+  <line class="dg-edge" x1="187" y1="85" x2="132" y2="140"/>
+  <line class="dg-edge" x1="187" y1="85" x2="242" y2="140"/>
+  <line class="dg-edge" x1="352" y1="85" x2="325" y2="140"/>
+  <line class="dg-edge" x1="352" y1="85" x2="380" y2="140"/>
+  <line class="dg-edge" x1="132" y1="140" x2="105" y2="195"/>
+  <line class="dg-edge" x1="132" y1="140" x2="160" y2="195"/>
+  <line class="dg-edge" x1="242" y1="140" x2="215" y2="195"/>
+  <line class="dg-edge" x1="242" y1="140" x2="270" y2="195"/>
+  <line class="dg-edge" x1="325" y1="140" x2="325" y2="195"/>
+  <line class="dg-edge" x1="380" y1="140" x2="380" y2="195"/>
+  <circle class="dg-circ" cx="270" cy="30" r="14"/>
+  <text x="270" y="30" class="dg-t" text-anchor="middle" dominant-baseline="central">1</text>
+  <circle class="dg-circ" cx="187" cy="85" r="14"/>
+  <text x="187" y="85" class="dg-t" text-anchor="middle" dominant-baseline="central">2</text>
+  <circle class="dg-circ" cx="352" cy="85" r="14"/>
+  <text x="352" y="85" class="dg-t" text-anchor="middle" dominant-baseline="central">2</text>
+  <circle class="dg-circ" cx="132" cy="140" r="14"/>
+  <text x="132" y="140" class="dg-t" text-anchor="middle" dominant-baseline="central">3</text>
+  <circle class="dg-circ" cx="242" cy="140" r="14"/>
+  <text x="242" y="140" class="dg-t" text-anchor="middle" dominant-baseline="central">3</text>
+  <circle class="dg-circ" cx="325" cy="140" r="14"/>
+  <text x="325" y="140" class="dg-t" text-anchor="middle" dominant-baseline="central">3</text>
+  <circle class="dg-circ" cx="380" cy="140" r="14"/>
+  <text x="380" y="140" class="dg-t" text-anchor="middle" dominant-baseline="central">3</text>
+  <circle class="dg-circ" cx="105" cy="195" r="14"/>
+  <text x="105" y="195" class="dg-t" text-anchor="middle" dominant-baseline="central">4</text>
+  <circle class="dg-circ" cx="160" cy="195" r="14"/>
+  <text x="160" y="195" class="dg-t" text-anchor="middle" dominant-baseline="central">4</text>
+  <circle class="dg-circ" cx="215" cy="195" r="14"/>
+  <text x="215" y="195" class="dg-t" text-anchor="middle" dominant-baseline="central">4</text>
+  <circle class="dg-circ" cx="270" cy="195" r="14"/>
+  <text x="270" y="195" class="dg-t" text-anchor="middle" dominant-baseline="central">4</text>
+  <circle class="dg-circ" cx="325" cy="195" r="14"/>
+  <text x="325" y="195" class="dg-t" text-anchor="middle" dominant-baseline="central">4</text>
+  <circle class="dg-circ" cx="380" cy="195" r="14"/>
+  <text x="380" y="195" class="dg-t" text-anchor="middle" dominant-baseline="central">4</text>
+  <text x="445" y="60" text-anchor="start" dominant-baseline="central"><tspan class="dg-s">圈内数字 = 比较次数（层数+1）</tspan></text>
+  <text x="445" y="90" text-anchor="start" dominant-baseline="central"><tspan class="dg-s">ASL = (1×1+2×2+4×3+6×4) ÷ 13</tspan></text>
+  <text x="445" y="115" text-anchor="start" dominant-baseline="central"><tspan class="dg-hl">　 = 41/13</tspan></text>
+  <text x="445" y="145" text-anchor="start" dominant-baseline="central"><tspan class="dg-s">最多比较 = ⌊log₂13⌋+1 = 4 次</tspan></text>
+  <text x="445" y="175" text-anchor="start" dominant-baseline="central"><tspan class="dg-lab">4 层：1+2+4+6 = 13 个元素</tspan></text>
+  <text x="242" y="232" class="dg-lab" text-anchor="middle" dominant-baseline="central">13 个元素的折半判定树</text>
+</svg>
+```
+
 #### 53.4 真题
 
 **【2024.10·第14题·单选】** 对线性表进行二分查找时，要求线性表必须（　）
@@ -2524,6 +3390,55 @@ meta: level=B; freq=2025.04、2026.04
 - 存储：线性表必须采用**索引**方法存储
 - 别名：索引顺序查找 = 分块查找（同一概念）
 
+图示：分块查找 = 索引表折半定位块 + 块内顺序查找，前提是"块间有序"。
+
+```d
+<svg viewBox="0 0 520 195" width="520" height="195" xmlns="http://www.w3.org/2000/svg">
+  <text x="215" y="16" class="dg-lab" text-anchor="middle" dominant-baseline="central">索引表（存各块最大关键字）</text>
+  <rect class="dg-box" x="120" y="30" width="50" height="28" rx="4"/>
+  <text x="145" y="44" class="dg-t" text-anchor="middle" dominant-baseline="central">14</text>
+  <rect class="dg-fill" x="190" y="30" width="50" height="28" rx="4"/>
+  <rect class="dg-box" x="190" y="30" width="50" height="28" rx="4"/>
+  <text x="215" y="44" class="dg-hl" text-anchor="middle" dominant-baseline="central">48</text>
+  <rect class="dg-box" x="260" y="30" width="50" height="28" rx="4"/>
+  <text x="285" y="44" class="dg-t" text-anchor="middle" dominant-baseline="central">85</text>
+  <line class="dg-flow" x1="145" y1="58" x2="60" y2="96"/>
+  <path class="dg-headf" transform="translate(56 98) rotate(156.4)" d="M0 0l-9-4.5v9z"/>
+  <line class="dg-flow" x1="215" y1="58" x2="218" y2="94"/>
+  <path class="dg-headf" transform="translate(218 98) rotate(88)" d="M0 0l-9-4.5v9z"/>
+  <line class="dg-flow" x1="285" y1="58" x2="378" y2="96"/>
+  <path class="dg-headf" transform="translate(380 98) rotate(22.2)" d="M0 0l-9-4.5v9z"/>
+  <rect class="dg-box" x="40" y="100" width="36" height="26" rx="4"/>
+  <text x="58" y="113" class="dg-t" text-anchor="middle" dominant-baseline="central">8</text>
+  <rect class="dg-box" x="78" y="100" width="36" height="26" rx="4"/>
+  <text x="96" y="113" class="dg-t" text-anchor="middle" dominant-baseline="central">14</text>
+  <rect class="dg-box" x="116" y="100" width="36" height="26" rx="4"/>
+  <text x="134" y="113" class="dg-t" text-anchor="middle" dominant-baseline="central">2</text>
+  <rect class="dg-box" x="154" y="100" width="36" height="26" rx="4"/>
+  <text x="172" y="113" class="dg-t" text-anchor="middle" dominant-baseline="central">10</text>
+  <rect class="dg-box" x="200" y="100" width="36" height="26" rx="4"/>
+  <text x="218" y="113" class="dg-t" text-anchor="middle" dominant-baseline="central">23</text>
+  <rect class="dg-fill" x="238" y="100" width="36" height="26" rx="4"/>
+  <rect class="dg-box" x="238" y="100" width="36" height="26" rx="4"/>
+  <text x="256" y="113" class="dg-hl" text-anchor="middle" dominant-baseline="central">34</text>
+  <rect class="dg-box" x="276" y="100" width="36" height="26" rx="4"/>
+  <text x="294" y="113" class="dg-t" text-anchor="middle" dominant-baseline="central">48</text>
+  <rect class="dg-box" x="314" y="100" width="36" height="26" rx="4"/>
+  <text x="332" y="113" class="dg-t" text-anchor="middle" dominant-baseline="central">15</text>
+  <rect class="dg-box" x="360" y="100" width="36" height="26" rx="4"/>
+  <text x="378" y="113" class="dg-t" text-anchor="middle" dominant-baseline="central">62</text>
+  <rect class="dg-box" x="398" y="100" width="36" height="26" rx="4"/>
+  <text x="416" y="113" class="dg-t" text-anchor="middle" dominant-baseline="central">85</text>
+  <rect class="dg-box" x="436" y="100" width="36" height="26" rx="4"/>
+  <text x="454" y="113" class="dg-t" text-anchor="middle" dominant-baseline="central">71</text>
+  <text x="97" y="143" class="dg-lab" text-anchor="middle" dominant-baseline="central">块 1（无序）</text>
+  <text x="257" y="143" class="dg-lab" text-anchor="middle" dominant-baseline="central">块 2（无序）</text>
+  <text x="416" y="143" class="dg-lab" text-anchor="middle" dominant-baseline="central">块 3（无序）</text>
+  <text x="240" y="164" class="dg-lab" text-anchor="middle" dominant-baseline="central">块间有序：前一块的最大关键字 &lt; 后一块的最小关键字</text>
+  <text x="240" y="186" class="dg-hl" text-anchor="middle" dominant-baseline="central">查 34：索引表折半定位块 2 → 块内顺序查找</text>
+</svg>
+```
+
 #### 54.2 真题
 
 **【2025.04·第14题·单选】** 分块查找方法将表分为多块，并要求（　）
@@ -2550,6 +3465,39 @@ meta: level=A; freq=2025.10
 
 ```err
 只检查"每个结点与直接孩子"的大小关系不够——左子树里不能藏比根大的数，必须整棵子树都满足。
+```
+
+图示：BST 的"左小右大"——任一结点都成立，所以中序遍历天然得到升序序列。
+
+```d
+<svg viewBox="0 0 660 200" width="660" height="200" xmlns="http://www.w3.org/2000/svg">
+  <line class="dg-edge" x1="140" y1="40" x2="90" y2="95"/>
+  <line class="dg-edge" x1="140" y1="40" x2="190" y2="95"/>
+  <line class="dg-edge" x1="90" y1="95" x2="60" y2="150"/>
+  <line class="dg-edge" x1="90" y1="95" x2="120" y2="150"/>
+  <line class="dg-edge" x1="190" y1="95" x2="160" y2="150"/>
+  <line class="dg-edge" x1="190" y1="95" x2="220" y2="150"/>
+  <circle class="dg-circ" cx="140" cy="40" r="15"/>
+  <text x="140" y="40" class="dg-t" text-anchor="middle" dominant-baseline="central">50</text>
+  <circle class="dg-circ" cx="90" cy="95" r="15"/>
+  <text x="90" y="95" class="dg-t" text-anchor="middle" dominant-baseline="central">30</text>
+  <circle class="dg-circ" cx="190" cy="95" r="15"/>
+  <text x="190" y="95" class="dg-t" text-anchor="middle" dominant-baseline="central">70</text>
+  <circle class="dg-circ" cx="60" cy="150" r="15"/>
+  <text x="60" y="150" class="dg-t" text-anchor="middle" dominant-baseline="central">20</text>
+  <circle class="dg-circ" cx="120" cy="150" r="15"/>
+  <text x="120" y="150" class="dg-t" text-anchor="middle" dominant-baseline="central">40</text>
+  <circle class="dg-circ" cx="160" cy="150" r="15"/>
+  <text x="160" y="150" class="dg-t" text-anchor="middle" dominant-baseline="central">60</text>
+  <circle class="dg-circ" cx="220" cy="150" r="15"/>
+  <text x="220" y="150" class="dg-t" text-anchor="middle" dominant-baseline="central">80</text>
+  <text x="140" y="190" class="dg-lab" text-anchor="middle" dominant-baseline="central">二叉查找树 BST（左小右大，递归成立）</text>
+  <text x="330" y="55" text-anchor="start" dominant-baseline="central"><tspan class="dg-s">任一结点：左子树所有结点 &lt; 根</tspan></text>
+  <text x="330" y="78" text-anchor="start" dominant-baseline="central"><tspan class="dg-s">　　　　右子树所有结点 &gt; 根</tspan></text>
+  <text x="330" y="105" text-anchor="start" dominant-baseline="central"><tspan class="dg-s">例：70 的左子树 {60}，右子树 {80}</tspan></text>
+  <text x="330" y="140" text-anchor="start" dominant-baseline="central"><tspan class="dg-lab">中序遍历必升序：</tspan><tspan class="dg-hl">20 30 40 50 60 70 80</tspan></text>
+  <text x="330" y="168" text-anchor="start" dominant-baseline="central"><tspan class="dg-lab">查 45：50←左→30→右→40→右→空，不成功</tspan></text>
+</svg>
 ```
 
 #### 55.2 关键性质与操作
@@ -2656,10 +3604,96 @@ meta: level=S; freq=2024.10、2025.04、2026.04
 - 二次探测法：+1²、−1²、+2²、−2²、… 平方跳跃探测
 - 链地址法（拉链法）：同义词挂同一地址的**单链表**，不另找地址
 
+图示：链地址法——冲突的同义词挂到同一地址的单链表上，不另找新地址。
+
+```d
+<svg viewBox="0 0 560 215" width="560" height="215" xmlns="http://www.w3.org/2000/svg">
+  <rect class="dg-box" x="70" y="30" width="34" height="26" rx="4"/>
+  <text x="87" y="43" class="dg-s" text-anchor="middle" dominant-baseline="central">0</text>
+  <text x="137" y="43" class="dg-lab" text-anchor="middle" dominant-baseline="central">∧</text>
+  <rect class="dg-box" x="70" y="64" width="34" height="26" rx="4"/>
+  <text x="87" y="77" class="dg-s" text-anchor="middle" dominant-baseline="central">1</text>
+  <line class="dg-flow" x1="104" y1="77" x2="111" y2="77"/>
+  <path class="dg-headf" d="M118 77l-9-4.5v9z"/>
+  <rect class="dg-box2" x="120" y="64" width="34" height="26" rx="4"/>
+  <text x="137" y="77" class="dg-t" text-anchor="middle" dominant-baseline="central">26</text>
+  <text x="166" y="77" class="dg-lab" text-anchor="middle" dominant-baseline="central">∧</text>
+  <rect class="dg-box" x="70" y="98" width="34" height="26" rx="4"/>
+  <text x="87" y="111" class="dg-s" text-anchor="middle" dominant-baseline="central">2</text>
+  <line class="dg-flow" x1="104" y1="111" x2="111" y2="111"/>
+  <path class="dg-headf" d="M118 111l-9-4.5v9z"/>
+  <rect class="dg-box2" x="120" y="98" width="34" height="26" rx="4"/>
+  <text x="137" y="111" class="dg-t" text-anchor="middle" dominant-baseline="central">7</text>
+  <line class="dg-flow" x1="154" y1="111" x2="161" y2="111"/>
+  <path class="dg-headf" d="M168 111l-9-4.5v9z"/>
+  <rect class="dg-box2" x="168" y="98" width="34" height="26" rx="4"/>
+  <text x="185" y="111" class="dg-t" text-anchor="middle" dominant-baseline="central">32</text>
+  <text x="214" y="111" class="dg-lab" text-anchor="middle" dominant-baseline="central">∧</text>
+  <rect class="dg-box" x="70" y="132" width="34" height="26" rx="4"/>
+  <text x="87" y="145" class="dg-s" text-anchor="middle" dominant-baseline="central">3</text>
+  <text x="137" y="145" class="dg-lab" text-anchor="middle" dominant-baseline="central">∧</text>
+  <rect class="dg-fill" x="120" y="166" width="34" height="26" rx="4"/>
+  <rect class="dg-box" x="70" y="166" width="34" height="26" rx="4"/>
+  <text x="87" y="179" class="dg-s" text-anchor="middle" dominant-baseline="central">4</text>
+  <line class="dg-flow" x1="104" y1="179" x2="111" y2="179"/>
+  <path class="dg-headf" d="M118 179l-9-4.5v9z"/>
+  <rect class="dg-box2" x="120" y="166" width="34" height="26" rx="4"/>
+  <text x="137" y="179" class="dg-t" text-anchor="middle" dominant-baseline="central">14</text>
+  <line class="dg-flow" x1="154" y1="179" x2="161" y2="179"/>
+  <path class="dg-headf" d="M168 179l-9-4.5v9z"/>
+  <rect class="dg-box2" x="168" y="166" width="34" height="26" rx="4"/>
+  <text x="185" y="179" class="dg-t" text-anchor="middle" dominant-baseline="central">19</text>
+  <line class="dg-flow" x1="202" y1="179" x2="209" y2="179"/>
+  <path class="dg-headf" d="M216 179l-9-4.5v9z"/>
+  <rect class="dg-box2" x="216" y="166" width="34" height="26" rx="4"/>
+  <text x="233" y="179" class="dg-t" text-anchor="middle" dominant-baseline="central">9</text>
+  <text x="262" y="179" class="dg-lab" text-anchor="middle" dominant-baseline="central">∧</text>
+  <text x="340" y="60" text-anchor="start" dominant-baseline="central"><tspan class="dg-s">链地址法：同义词互挂同一条单链表</tspan></text>
+  <text x="340" y="88" text-anchor="start" dominant-baseline="central"><tspan class="dg-s">例：h(key) = key mod 5，插 7、26、14、19、32、9</tspan></text>
+  <text x="340" y="116" text-anchor="start" dominant-baseline="central"><tspan class="dg-hl">14、19、9 同映射到 4 → 顺次拉链</tspan></text>
+  <text x="340" y="152" text-anchor="start" dominant-baseline="central"><tspan class="dg-lab">查找：先算地址，再顺链逐个比较</tspan></text>
+  <text x="87" y="207" class="dg-lab" text-anchor="middle" dominant-baseline="central">哈希表地址 0~4</text>
+</svg>
+```
+
 #### 58.4 手算流程
 
 算 h(key) → 冲突？→ 按探测序列逐个试 → 记录第几次探测落入空位。
 例：表长 7、h=key mod 7，插入 14：mod 7=0 被占 → 地址 1 被占 → 地址 2 空 → 放入 2（探测 3 次）。
+
+图示：线性探测——冲突就 +1 顺次找空位，14 探测 3 次落入地址 2（与上面手算例一致）。
+
+```d
+<svg viewBox="0 0 490 140" width="490" height="140" xmlns="http://www.w3.org/2000/svg">
+  <text x="470" y="16" text-anchor="end" dominant-baseline="central"><tspan class="dg-lab">h(key) = key mod 7，依次插入 7、21、14</tspan></text>
+  <path class="dg-flow" d="M84 50Q104 18 124 50"/>
+  <path class="dg-headf" transform="translate(126 50) rotate(58)" d="M0 0l-9-4.5v9z"/>
+  <path class="dg-flow" d="M132 50Q152 18 172 50"/>
+  <path class="dg-headf" transform="translate(174 50) rotate(58)" d="M0 0l-9-4.5v9z"/>
+  <text x="104" y="14" class="dg-hl" text-anchor="middle" dominant-baseline="central">①</text>
+  <text x="152" y="14" class="dg-hl" text-anchor="middle" dominant-baseline="central">②</text>
+  <rect class="dg-box" x="60" y="55" width="44" height="30" rx="4"/>
+  <text x="82" y="70" class="dg-t" text-anchor="middle" dominant-baseline="central">7</text>
+  <rect class="dg-box" x="108" y="55" width="44" height="30" rx="4"/>
+  <text x="130" y="70" class="dg-t" text-anchor="middle" dominant-baseline="central">21</text>
+  <rect class="dg-fill" x="156" y="55" width="44" height="30" rx="4"/>
+  <rect class="dg-box" x="156" y="55" width="44" height="30" rx="4"/>
+  <text x="178" y="70" class="dg-hl" text-anchor="middle" dominant-baseline="central">14</text>
+  <rect class="dg-box2" x="204" y="55" width="44" height="30" rx="4"/>
+  <rect class="dg-box2" x="252" y="55" width="44" height="30" rx="4"/>
+  <rect class="dg-box2" x="300" y="55" width="44" height="30" rx="4"/>
+  <rect class="dg-box2" x="348" y="55" width="44" height="30" rx="4"/>
+  <text x="82" y="100" class="dg-lab" text-anchor="middle" dominant-baseline="central">0</text>
+  <text x="130" y="100" class="dg-lab" text-anchor="middle" dominant-baseline="central">1</text>
+  <text x="178" y="100" class="dg-lab" text-anchor="middle" dominant-baseline="central">2</text>
+  <text x="226" y="100" class="dg-lab" text-anchor="middle" dominant-baseline="central">3</text>
+  <text x="274" y="100" class="dg-lab" text-anchor="middle" dominant-baseline="central">4</text>
+  <text x="322" y="100" class="dg-lab" text-anchor="middle" dominant-baseline="central">5</text>
+  <text x="370" y="100" class="dg-lab" text-anchor="middle" dominant-baseline="central">6</text>
+  <text x="245" y="112" class="dg-lab" text-anchor="middle" dominant-baseline="central">14：h=0 被占 → 1 被占 → 2 空，探测 3 次放入</text>
+  <text x="245" y="132" class="dg-lab" text-anchor="middle" dominant-baseline="central">线性探测：+(1)、+(2)… 顺次向后；二次探测 ±i²</text>
+</svg>
+```
 
 #### 58.5 真题
 
