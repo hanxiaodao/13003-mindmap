@@ -65,6 +65,11 @@ def render_blocks(lines):
                 # SVG 栅格化、Markdown 导出与搜索高亮都会跳过 SVG 子树）。
                 out.append('<figure class="diagram">' + '\n'.join(buf) + '</figure>')
                 continue
+            if kind == 'tree':
+                # 树状速记块：缩进（2 空格一级）定义层级，渲染为带树线的速记图；
+                # 行内沿用 **加粗**、==强调==，【S】【A】…自动转为重要度徽章。
+                out.append(build_tree(buf))
+                continue
             body = '\n'.join(html.escape(l, quote=False) for l in buf)
             if kind in ('err', 'tip', 'ok'):
                 out.append(f'<span class="callout {kind}">{body}</span>')
@@ -95,6 +100,58 @@ def render_blocks(lines):
         out.append(inline(stripped) + '<br>')
         i += 1
     return '\n'.join(out)
+
+def build_tree(lines):
+    """缩进树文本 → 带树线的速记图（.tree）。
+
+    层级 = 前导空格数 // 2；根 = 第一个 0 层行（应只有一行）。
+    "易错"开头的节点标红、"口诀/【记忆】"开头标黄，便于扫读。
+    """
+    items = []
+    for ln in lines:
+        s = ln.rstrip()
+        if not s.strip():
+            continue
+        indent = len(s) - len(s.lstrip(' '))
+        items.append((indent // 2, s.strip()))
+
+    def parse(i, level):
+        nodes = []
+        while i < len(items):
+            lv, txt = items[i]
+            if lv < level:
+                break
+            if lv > level:  # 容错：跳级按当前层处理
+                lv = level
+            i += 1
+            kids, i = parse(i, level + 1)
+            nodes.append((txt, kids))
+        return nodes, i
+
+    def li_html(txt, kids):
+        cls = 'tnode'
+        if txt.startswith('易错'):
+            cls += ' terr'
+        elif txt.startswith('口诀') or txt.startswith('【记忆】'):
+            cls += ' ttip'
+        body = html.escape(txt, quote=False)
+        body = re.sub(r'【([SABCD])】', r'<span class="kp-level lv-\1">\1</span>', body)
+        body = re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', body)
+        # 注意：树里常出现 C 判等符 ==（如 front==rear），故不解析 ==强调== 语法
+        s = f'<li><span class="{cls}">{body}</span>'
+        if kids:
+            s += '<ul>' + ''.join(li_html(t, k) for t, k in kids) + '</ul>'
+        return s + '</li>'
+
+    nodes, _ = parse(0, 0)
+    if not nodes:
+        return ''
+    root_txt, root_kids = nodes[0]
+    inner = ''.join(li_html(t, k) for t, k in root_kids)
+    return ('<div class="tree"><ul class="troot">'
+            f'<li><span class="tnode troot-l">{inline(root_txt)}</span>'
+            + (f'<ul>{inner}</ul>' if inner else '')
+            + '</li></ul></div>')
 
 def parse_notes(path):
     text = open(path, encoding='utf-8').read()
