@@ -119,6 +119,13 @@ header .sub { font-size:12.5px; color:var(--muted); letter-spacing:.5px; }
 .q { font-size:14.5px; font-weight:500; color:var(--heading); margin-bottom:6px; }
 .opts { margin:2px 0 6px; }
 .opt { font-size:13.5px; padding:1px 0 1px 12px; color:var(--text); }
+.code {
+  margin:2px 0 8px; padding:9px 12px; border-radius:8px;
+  background:var(--tag-bg); border:1px solid var(--border);
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Courier New',monospace;
+  font-size:12.5px; line-height:1.55; color:var(--text);
+  overflow-x:auto; white-space:pre;
+}
 .wrow { font-size:13.5px; }
 .wrow b { color:var(--err); font-weight:600; margin-right:4px; }
 .reveal {
@@ -263,6 +270,7 @@ function renderAll(){
       if(x.no) html += '<span class="tag">'+esc(x.no)+'</span>';
       html += '<span class="tag '+(x.done?'dtag':'wtag')+'">'+(x.done?'已掌握':'未掌握')+'</span>';
       html += '</div><div class="q">'+esc(x.q)+'</div>';
+      if(x.code) html += '<pre class="code">'+esc(x.code)+'</pre>';
       if(x.opts && x.opts.length){
         html += '<div class="opts">'+x.opts.map(function(o){ return '<div class="opt">'+esc(o)+'</div>'; }).join('')+'</div>';
       }
