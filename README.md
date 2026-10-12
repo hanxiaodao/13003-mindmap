@@ -15,7 +15,7 @@
 |---|---|
 | `index.html` / `mistakes.html` | 笔记页与错题集（单文件自包含） |
 | `exam-notes.md` | 笔记唯一内容源，改动后重跑渲染脚本即可更新页面 |
-| `distill/` | 真题逐题拆解（papers-*.md）、考点登记表（topics.md）、真题回测覆盖矩阵（coverage.md） |
+| `distill/` | 真题逐题拆解（papers-*.md）、纯题目卷（questions-*.md，仅题面无答案，可打印自测）、原题清洗稿（originals/orig-*.md，题面+答案）、考点登记表（topics.md）、真题回测覆盖矩阵（coverage.md） |
 | `教材/`、`真题/`、`考点笔记/` | 原始学习资料 PDF |
 | `materials/parsed/` | 上述资料经 MinerU 解析出的 Markdown 与图片 |
 | `.agents/` | 渲染脚本所在工具目录 |
