@@ -126,6 +126,7 @@ header .sub { font-size:12.5px; color:var(--muted); letter-spacing:.5px; }
   font-size:12.5px; line-height:1.55; color:var(--text);
   overflow-x:auto; white-space:pre;
 }
+.frow .code { margin-top:8px; background:var(--surface); }
 .wrow { font-size:13.5px; }
 .wrow b { color:var(--err); font-weight:600; margin-right:4px; }
 .reveal {
@@ -276,7 +277,9 @@ function renderAll(){
       }
       if(x.wrong) html += '<div class="wrow"><b>✗ 错因</b>'+esc(x.wrong)+'</div>';
       html += '<button class="reveal" onclick="toggleFix(this)">看正确思路</button>'
-           +  '<div class="frow" hidden><b>✓ 思路</b>'+esc(x.fix)+'</div></div>';
+           +  '<div class="frow" hidden><b>✓ 思路</b>'+esc(x.fix)
+           +  (x.fixcode ? '<pre class="code">'+esc(x.fixcode)+'</pre>' : '')
+           +  '</div></div>';
     });
     html += '</div></div>';
   });
