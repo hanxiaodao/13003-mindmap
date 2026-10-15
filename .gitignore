@@ -15,3 +15,7 @@ materials/split/
 # 系统杂项
 Thumbs.db
 Desktop.ini
+
+# Python 字节码缓存
+__pycache__/
+*.pyc
