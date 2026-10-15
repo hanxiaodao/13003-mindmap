@@ -12,6 +12,8 @@ exam-notes.md 是唯一内容源；内容修改后重跑本脚本即可，不要
    onclick="toggleCh(this)"/"toggleKp(this)" 属性，漏了就只能键盘操作。
 5. 右上角胶囊入口（quiz:/mistakes:）用 position:fixed 悬浮，坐标要避开
    模板自身的导出/主题/GitHub 按钮（见 build_corner 内 CSS 注释）。
+6. 正文里的 C 代码（判等符 ==、指针、表达式）一律用反引号 `…` 包住：
+   inline() 会把行内成对的 ==x== 解析成强调样式，裸写两个判等符等号会被吃掉。
 
 用法：
   python render_notes.py [exam-notes.md] [-t 模板.html] [-o index.html]
@@ -37,11 +39,29 @@ def chapter_color(idx):
     hue = (217 + n * 137.5) % 360
     return (f'hsl({hue:.0f},70%,62%)', f'hsl({hue:.0f},78%,38%)')
 
+def _stash_inline_code(s):
+    """行内 `代码` 提取为占位符。先于 **/== 解析执行，码内内容不再被二次解析——
+    否则一行里出现两个判等符（如 head->next==head 且 head->prior==head）会被
+    配对成一个 ==强调==，等号凭空丢失。"""
+    stash = []
+
+    def _stash(m):
+        stash.append(m.group(1))
+        return '\x00%d\x00' % (len(stash) - 1)
+
+    return re.sub(r'`([^`\n]+)`', _stash, s), stash
+
+def _restore_inline_code(s, stash):
+    for i, c in enumerate(stash):
+        s = s.replace('\x00%d\x00' % i, '<code>' + c + '</code>')
+    return s
+
 def inline(s):
     s = html.escape(s, quote=False)
+    s, stash = _stash_inline_code(s)
     s = re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', s)
     s = re.sub(r'==(.+?)==', r'<span class="em">\1</span>', s)
-    return s
+    return _restore_inline_code(s, stash)
 
 def render_blocks(lines):
     """内容行列表 → HTML 片段（公式/提示块/表格/列表/普通行）。"""
@@ -135,8 +155,10 @@ def build_tree(lines):
         elif txt.startswith('口诀') or txt.startswith('【记忆】'):
             cls += ' ttip'
         body = html.escape(txt, quote=False)
+        body, stash = _stash_inline_code(body)
         body = re.sub(r'【([SABCD])】', r'<span class="kp-level lv-\1">\1</span>', body)
         body = re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', body)
+        body = _restore_inline_code(body, stash)
         # 注意：树里常出现 C 判等符 ==（如 front==rear），故不解析 ==强调== 语法
         s = f'<li><span class="{cls}">{body}</span>'
         if kids:

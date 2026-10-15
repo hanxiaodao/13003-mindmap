@@ -792,7 +792,7 @@ p 是尾结点 ⇔ p->next == head
 p = p->prior->next = p->next->prior
 ```
 
-双向循环链表：头结点 prior 指向尾结点、尾结点 next 指向头结点；判空：head->next==head 且 head->prior==head。
+双向循环链表：头结点 prior 指向尾结点、尾结点 next 指向头结点；判空：`head->next==head` 且 `head->prior==head`。
 
 #### 11.3 真题
 
@@ -4213,7 +4213,7 @@ n0 = n2 + 1 与 n1 无关——题目给 n1 多半是干扰条件；"二叉树�
 - 四种逻辑结构：集合、线性、树、图；四种存储：顺序、链式、索引、散列
 - 算法五特性：输入(≥0)、输出(≥1)、有穷、确定、可行
 - 出栈序列数 = 卡特兰数 C(2n,n)/(n+1)；p₁=n ⇒ 第 i 个出栈 = n−i+1
-- 单链表插入：先接后断；判空：带头 head->next==NULL，不带头 head==NULL
+- 单链表插入：先接后断；判空：带头 `head->next==NULL`，不带头 `head==NULL`
 - 循环队列：个数 (rear−front+m)%m，判满 (rear+1)%m==front
 - 二维数组：行主序 (i×n+j)×d，列主序 (j×m+i)×d；子串数 n(n+1)/2+1
 - 广义表：表尾是表要套括号；长度看最外层，深度看括号层数
